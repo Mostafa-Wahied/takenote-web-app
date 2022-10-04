@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
+          rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <script th:src="@{/static/script.js}" defer></script>
+    <title>TakeNote</title>
+</head>
+
+<body>
+<div class="main-container">
+    <!-- NavBar -->
+    <div class="d-flex mx-md-5 mx-sm-5 px-md-5 my-nav">
+        <div class="d-flex mx-md-5 px-md-4">
+            <nav id="navbar" class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" th:href="@{/}"><span class="take-span">Take</span><span
+                            class="note-span">Note</span></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" th:href="@{/about}">About</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    NoteTaker
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" th:href="@{/notetaker/reading}">Reading</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/notetaker/writing}">Writing</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    NoteBook
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" th:href ="@{/notebook/students}">My Students</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/notebook/reading}">Reading</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/notebook/writing}">Writing</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- End of Navbar -->
+    <!-- Hero -->
+    <div class="d-flex my-5 py-5 mx-md-5 mx-sm-5 px-md-5">
+        <div class="d-flex mx-md-5 px-md-4">
+
+            <div class="col-6 col-md-5 mt-md-5 landing-left">
+                <div class="container">
+                    <p class="title-text">Notes at your fingertips</p>
+                    <!-- </div> -->
+                    <hr>
+                    <!-- <div> -->
+                    <p class="desc-text">All your notes, all in one place. Elevate student
+                        learning
+                        with features to capture and analyze observational data in a snap.</p>
+                    <button class="btn-bd-primary">Start now</button>
+                </div>
+            </div>
+
+            <div class="col-sm-auto col-md-7 landing-right">
+                <div>
+                    <img id="home-img" th:src="@{/image/home.jpg}" alt="Homepage Picture" class="img-fluid">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of Hero -->
+
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
+</div>
+</body>
+
+</html>

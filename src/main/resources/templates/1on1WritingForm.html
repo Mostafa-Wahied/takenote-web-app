@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
+          rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <!--  jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+    <script th:src="@{/js/script.js}" defer></script>
+    <title>NoteTaker Writing 1:1</title>
+</head>
+<body>
+<!-- NavBar -->
+<div class="d-flex mx-md-5 mx-sm-5 px-md-5 my-nav">
+    <div class="d-flex mx-md-5 px-md-4">
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/}"><span class="take-span">Take</span><span
+                        class="note-span">Note</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" th:href="@{/about}">About</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                NoteTaker
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/notetaker/reading}">Reading</a></li>
+                                <li><a class="dropdown-item" th:href="@{/notetaker/writing}">Writing</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                NoteBook
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href ="@{/notebook/students}">My Students</a></li>
+                                <li><a class="dropdown-item" th:href="@{/notebook/reading}">Reading</a></li>
+                                <li><a class="dropdown-item" th:href="@{/notebook/writing}">Writing</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- End of Navbar -->
+
+<div class="container">
+    <br>
+    <p class="display-6 text-center">1:1 Writing Conference</p>
+
+    <div class="card mx-5 col-5 mx-auto p-3">
+
+        <form action="#" th:action="@{/saveMeeting}" th:object="${meeting}" method="POST">
+<!--            <div th:object="${meeting}">-->
+                <label for="dropDownList" class="col-sm-2 col-form-label">Name</label>
+                <select class="form-control" id="dropDownList">
+                    <option value="0">select student</option>
+                    <option th:each="student : ${students}" th:value="${student.id}"
+                            th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
+                </select>
+                <div class="form-group"> <!-- Date input -->
+                    <label class="control-label" for="date">Date</label>
+                    <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label" for="letter">Reading Level</label>
+                    <select class="form-control" id="letter"></select>
+                    <option></option>
+                </div>
+                <div class="form-group ">
+                    <label class="control-label" for="textarea">Strength </label>
+                    <textarea class="form-control" cols="40" id="textarea" name="textarea" rows="3"
+                              th:value="${student}"></textarea>
+                </div>
+                <div class="form-group ">
+                    <label class="control-label" for="textarea1">Teaching Point</label>
+                    <textarea class="form-control" cols="40" id="textarea1" name="textarea1" rows="3"
+                              th:value="${student}"></textarea>
+                </div>
+                <div class="form-group ">
+                    <label class="control-label" for="textarea2">Next Step</label>
+                    <textarea class="form-control" cols="40" id="textarea2" name="textarea2" rows="3"
+                              th:value="${student}"></textarea>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-info col-2">Save Student</button>
+<!--            </div>-->
+        </form>
+
+    </div>
+</div>
+<hr>
+<a th:href="@{/notebook/students}">Back to Students</a>
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</body>
+</html>
