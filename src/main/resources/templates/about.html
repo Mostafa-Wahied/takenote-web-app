@@ -71,13 +71,32 @@
     <!-- End of Navbar -->
 
     <!-- Hero -->
-    <div class="container">
-        <div class="row  flex-column mx-auto justify-content-center">
+    <div class="container pt-5 my-auto">
+        <div class="row mx-auto justify-content-center my-auto">
             <br>
             <br>
 
-            <p class="display-6 text-center">About</p>
-
+            <p class="display-6 text-center">About <span class="about-takenote-title">TakeNote</span></p>
+            <div class="col-sm-auto col-md-6 landing-right">
+                <div>
+                    <img id="home-img" th:src="@{/image/about.jpg}" alt="Homepage Picture" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-6 col-md-6 mt-md-5 landing-left">
+                <p class="about-p"><span class="about-takenote-title">TakeNote</span> is designed by teachers for
+                    teachers
+                    to easily capture, store and analyze formative data all in one place. No more binders, no more
+                    sticky
+                    notes... more of doing what you do best - providing high-quality, tailored instruction that meets
+                    your
+                    students where they are at.</p>
+                <br>
+                <p class="about-p">Capture your observational notes and conduct ongoing formative assessment by
+                    recording...</p>
+                <p class="about-p"><img class="fa-solid fa-circle-plus" th:src="@{/image/circle-plus-solid.svg}">
+                    Strengths: What students are doing well.
+                </p>
+            </div>
         </div>
     </div>
     <!-- End of Hero -->

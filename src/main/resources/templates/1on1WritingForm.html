@@ -66,7 +66,7 @@
                                 NoteBook
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href ="@{/notebook/students}">My Students</a></li>
+                                <li><a class="dropdown-item" th:href="@{/notebook/students}">My Students</a></li>
                                 <li><a class="dropdown-item" th:href="@{/notebook/reading}">Reading</a></li>
                                 <li><a class="dropdown-item" th:href="@{/notebook/writing}">Writing</a></li>
                             </ul>
@@ -86,47 +86,48 @@
     <div class="card mx-5 col-5 mx-auto p-3">
 
         <form action="#" th:action="@{/saveMeeting}" th:object="${meeting}" method="POST">
-<!--            <div th:object="${meeting}">-->
-                <label for="dropDownList" class="col-sm-2 col-form-label">Name</label>
-                <select class="form-control" id="dropDownList">
-                    <option value="0">select student</option>
-                    <option th:each="student : ${students}" th:value="${student.id}"
-                            th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
-                </select>
-                <div class="form-group"> <!-- Date input -->
-                    <label class="control-label" for="date">Date</label>
-                    <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-                </div>
+            <!--            <div th:object="${meeting}">-->
+            <label for="dropDownList" class="col-sm-2 col-form-label">Name</label>
+            <select class="form-control" id="dropDownList">
+                <option value="0">select student</option>
+                <option th:each="student : ${students}" th:value="${student.id}"
+                        th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
+            </select>
+            <div class="form-group"> <!-- Date input -->
+                <label class="control-label" for="date">Date</label>
+                <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+            </div>
 
-                <div class="form-group ">
-                    <label class="control-label" for="letter">Reading Level</label>
-                    <select class="form-control" id="letter"></select>
-                    <option></option>
-                </div>
-                <div class="form-group ">
-                    <label class="control-label" for="textarea">Strength </label>
-                    <textarea class="form-control" cols="40" id="textarea" name="textarea" rows="3"
-                              th:value="${student}"></textarea>
-                </div>
-                <div class="form-group ">
-                    <label class="control-label" for="textarea1">Teaching Point</label>
-                    <textarea class="form-control" cols="40" id="textarea1" name="textarea1" rows="3"
-                              th:value="${student}"></textarea>
-                </div>
-                <div class="form-group ">
-                    <label class="control-label" for="textarea2">Next Step</label>
-                    <textarea class="form-control" cols="40" id="textarea2" name="textarea2" rows="3"
-                              th:value="${student}"></textarea>
-                </div>
-                <br>
-                <button type="submit" class="btn btn-info col-2">Save Student</button>
-<!--            </div>-->
+            <div class="form-group ">
+                <label class="control-label" for="letter">Reading Level</label>
+                <select class="form-control" id="letter"></select>
+                <option></option>
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="textarea">Strength </label>
+                <textarea class="form-control" cols="40" id="textarea" name="textarea" rows="3"
+                          th:value="${student}"></textarea>
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="textarea1">Teaching Point</label>
+                <textarea class="form-control" cols="40" id="textarea1" name="textarea1" rows="3"
+                          th:value="${student}"></textarea>
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="textarea2">Next Step</label>
+                <textarea class="form-control" cols="40" id="textarea2" name="textarea2" rows="3"
+                          th:value="${student}"></textarea>
+            </div>
+            <br>
+            <button type="submit" class="btn confer-btn btn-primary">Save Student</button>
+            <!--            </div>-->
         </form>
 
+        <hr>
+        <a th:href="@{/notebook/students}">Back to Students</a>
     </div>
 </div>
-<hr>
-<a th:href="@{/notebook/students}">Back to Students</a>
+
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"

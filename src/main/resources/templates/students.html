@@ -73,7 +73,7 @@
 
 <!--Students table-->
 <div class="container">
-    <a th:href="@{/showNewStudentForm}" class="btn btn-primary btn-sm mb-3">Add Student</a>
+    <a th:href="@{/showNewStudentForm}" class="btn btn-primary add-btn btn-sm mb-3">Add Student</a>
     <div class="row">
         <table class="table table-striped table-hover">
             <thead>
@@ -97,8 +97,8 @@
                         <td th:text="${meeting.date}" th:if="${meeting.subject=='writing'}"></td>
                         <td text="N/A" th:unless="${meeting.subject=='writing'}"></td>
                         <td>
-                            <a th:href="@{/showUpdateForm/{id}(id=${student.id})}" class="btn btn-primary">Update</a>
-                            <a th:href="@{/deleteStudent/{id}(id=${student.id})}" class="btn btn-danger">Delete</a>
+                            <a th:href="@{/showUpdateForm/{id}(id=${student.id})}" class="btn btn-primary update-btn">Update</a>
+                            <a th:href="@{/deleteStudent/{id}(id=${student.id})}" class="btn btn-danger delete-btn">Delete</a>
                         </td>
                     </tr>
                 </tr>

@@ -89,6 +89,7 @@ hr {
 .btn-bd-primary:hover {
     background-color: #fc5036;
 }
+
 .confer-btn:hover {
     background-color: #fc5036 !important;
 }
@@ -103,4 +104,45 @@ hr {
     padding: 10px 30px;
     cursor: pointer;
     transition: 0.2s ease-in-out;
+}
+
+.update-btn {
+    background-color: #406672a9 !important;
+    border: none !important;
+}
+.update-btn:hover {
+    background-color: #406672 !important;
+    border: none !important;
+}
+
+.delete-btn {
+    background-color: #ff725ce2 !important;
+    border: none !important;
+}
+
+.delete-btn:hover {
+    background-color: #ff725c !important;
+    border: none !important;
+}
+
+.add-btn {
+    background-color: #ff725c !important;
+    border: none !important;
+}
+
+.add-btn:hover {
+    background-color: #fc5036 !important;
+    border: none !important;
+}
+
+.about-takenote-title {
+    color: #fd6048;
+}
+
+.about-p {
+    font-size: large;
+}
+
+.fa-circle-plus {
+    height: 1vw;
 }
