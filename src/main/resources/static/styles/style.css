@@ -1,3 +1,20 @@
+/*google icons*/
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
+}
+
+.material-symbols-outlined {
+    color: #1ba959;
+    font-size: 1.5vw;
+}
+
+.right_arrow {
+    color: #737373;
+}
+
 /* Navbar */
 .navbar-brand {
     font-size: 1.75rem;
@@ -110,6 +127,7 @@ hr {
     background-color: #406672a9 !important;
     border: none !important;
 }
+
 .update-btn:hover {
     background-color: #406672 !important;
     border: none !important;
@@ -145,4 +163,9 @@ hr {
 
 .fa-circle-plus {
     height: 1vw;
+}
+
+#about-img {
+    height: 65vh;
+    width: 65vw;
 }
