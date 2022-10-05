@@ -22,4 +22,4 @@ TakeNote allows teachers to:
 
 ## Technology Used
 
-* Java | Spring Boot | Thymeleaf | MySQL | HTML | CSS | JavaScript | Bootstrap
+* Java | Spring Boot | Thymeleaf | MySQL | Bootstrap | HTML | CSS | JavaScript
