@@ -13,6 +13,7 @@
 
 .students-symbol {
     color: white;
+    font-size: 0.7vw;
 }
 .right_arrow {
     color: #737373;
@@ -139,16 +140,18 @@ hr {
 }
 
 .delete-btn:hover {
-    background-color: #ff725c !important;
+    background-color: #fc5036 !important;
     border: none !important;
 }
 
-.add-btn {
+.add-student-btn {
     background-color: #ff725c !important;
     border: none !important;
+    width: 5.5vw !important;
+    padding: 0.5vw !important;
 }
 
-.add-btn:hover {
+.add-student-btn:hover {
     background-color: #fc5036 !important;
     border: none !important;
 }
