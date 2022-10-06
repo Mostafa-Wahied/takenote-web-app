@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,59 +18,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
-    <script th:src="@{/static/script.js}" defer></script>
+    <script th:src="@{/js/script.js}" defer></script>
     <title>TakeNote</title>
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
 <div class="main-container">
     <!-- NavBar -->
-    <div class="d-flex mx-md-5 mx-sm-5 px-md-5 my-nav">
-        <div class="d-flex mx-md-5 px-md-4">
-            <nav id="navbar" class="navbar navbar-expand-lg navbar-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" th:href="@{/}"><span class="take-span">Take</span><span
-                            class="note-span">Note</span></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" th:href="@{/about}">About</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    NoteTaker
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" th:href="@{/notetaker/reading}">Reading</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/notetaker/writing}">Writing</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    NoteBook
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" th:href="@{/notebook/students}">My Students</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/notebook/reading}">Reading</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/notebook/writing}">Writing</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
+    <div th:replace="~{fragments/navigation :: navigation}"></div>
     <!-- End of Navbar -->
 
     <!-- Hero -->
@@ -85,7 +40,7 @@
                     <img id="about-img" th:src="@{/image/about.jpg}" alt="Homepage Picture" class="img-fluid">
                 </div>
             </div>
-            <div class="col-6 col-md-6 mt-md-5 landing-left">
+            <div class="col-6 col-md-6 mt-md-4 landing-left">
                 <p class="about-p"><span class="about-takenote-title">TakeNote</span> is designed by teachers for
                     teachers
                     to easily capture, store and analyze formative data all in one place. No more binders, no more
@@ -95,34 +50,34 @@
                     students where they're at.</p>
                 <p class="about-p">Capture observational notes and conduct ongoing formative assessment. TakeNote records:</p>
                 <div class="d-flex pt-3">
-                    <span class="material-symbols-outlined">add_circle</span>
+                    <span class="about-symbol material-symbols-outlined">add_circle</span>
                     <p class="about-p ms-2"><strong>Strengths:</strong> What students are doing well. The skills and
                         strategies that they
                         know how to do independently.</p>
                 </div>
                 <br>
                 <div class="d-flex">
-                    <span class="material-symbols-outlined">check_circle</span>
+                    <span class="about-symbol material-symbols-outlined">check_circle</span>
                     <p class="about-p ms-2"><strong>Teaching Points:</strong> Morsels of individualized instruction
                         that take place
                         during conferences, designed to teach the skills to level up.</p>
                 </div>
                 <br>
                 <div class="d-flex">
-                    <span class="material-symbols-outlined">arrow_circle_up</span>
+                    <span class="about-symbol material-symbols-outlined">arrow_circle_up</span>
                     <p class="about-p ms-2"><strong>Next Steps:</strong> Make plans for what you and your student can do
                         to keep growing their skills.</p>
                 </div>
                 <br>
                 <div class="ms-4">
                     <div class="d-flex">
-                        <span class="right_arrow material-symbols-outlined">chevron_right</span>
-                        <p class="about-p">With <span class="about-takenote-title">NoteTaker</span>, easily capture data while
+                        <span class="right_arrow material-symbols-outlined">label</span>
+                        <p class="about-p ms-2">With <span class="about-takenote-title">NoteTaker</span>, easily capture data while
                             conferencing.</p>
                     </div>
                     <div class="d-flex">
-                        <span class="right_arrow material-symbols-outlined">chevron_right</span>
-                        <p class="about-p">With <span class="about-takenote-title">NoteBook</span>, store and analyze data with
+                        <span class="right_arrow material-symbols-outlined">label</span>
+                        <p class="about-p ms-2">With <span class="about-takenote-title">NoteBook</span>, store and analyze data with
                             dashboards that show conferring records and help you plan for future instruction.</p>
                     </div>
 
@@ -132,9 +87,11 @@
         </div>
     </div>
     <!-- End of Hero -->
-
 </div>
 
+<!--footer-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+<!--end of footer-->
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"

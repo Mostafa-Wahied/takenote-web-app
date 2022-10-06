@@ -26,7 +26,9 @@ public class StudentController {
 
     //    viewHomePage
     @GetMapping("/")
-    public String homePage() {
+    public String homePage(Model model) {
+        //        for navigation active state
+        model.addAttribute("activePage", "home");
         return "index";
     }
 
@@ -34,6 +36,8 @@ public class StudentController {
     @GetMapping("/notebook/students")
     public String viewAllStudentsPage(Model model, Student student) {
         model.addAttribute("listStudents", studentService.getAllStudents());
+        //        for navigation active state
+        model.addAttribute("activePage", "studentsPage");
         return "students";
     }
 
@@ -41,6 +45,8 @@ public class StudentController {
     @GetMapping("/notebook/reading")
     public String viewReadingStudentsPage(Model model) {
         model.addAttribute("students", studentService.getAllStudents());
+        //        for navigation active state
+        model.addAttribute("activePage", "notebookReadingPage");
         return "notebook_reading";
     }
 
@@ -48,6 +54,8 @@ public class StudentController {
     @GetMapping("/notebook/writing")
     public String viewWritingStudentsPage(Model model) {
         model.addAttribute("students", studentService.getAllStudents());
+        //        for navigation active state
+        model.addAttribute("activePage", "notebookWritingPage");
         return "notebook_writing";
     }
 
@@ -84,7 +92,10 @@ public class StudentController {
     }
 
     @GetMapping("/deleteStudent/{id}")
-    public String deleteStudent(@PathVariable(value = "id") long id) {
+    public String deleteStudent(@PathVariable(value = "id") long id, Model model) {
+//        for navigation active state
+        model.addAttribute("activePage", "studentsPage");
+
 //        call delete student method
         studentService.deleteStudentById(id);
         return "redirect:/notebook/students";
@@ -92,13 +103,17 @@ public class StudentController {
 
     //    view reading conference
     @GetMapping("/notetaker/reading")
-    public String viewNotetakerReadingPage() {
+    public String viewNotetakerReadingPage(Model model) {
+        //        for navigation active state
+        model.addAttribute("activePage", "notetakerReading");
         return "notetaker_reading";
     }
 
     //    view writing conference
     @GetMapping("/notetaker/writing")
-    public String viewNotetakerWritingPage() {
+    public String viewNotetakerWritingPage(Model model) {
+        //        for navigation active state
+        model.addAttribute("activePage", "notetakerWriting");
         return "notetaker_writing";
     }
 
@@ -128,7 +143,9 @@ public class StudentController {
 
     //    view about page
     @GetMapping("/about")
-    public String viewAboutPage() {
+    public String viewAboutPage(Model model) {
+//        for navigation active state
+        model.addAttribute("activePage", "about");
         return "about";
     }
 
