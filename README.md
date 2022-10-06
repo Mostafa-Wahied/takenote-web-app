@@ -15,11 +15,11 @@ TakeNote allows teachers to:
 - Next steps
 
 #### Retreive data easily and view an overview of students by reading or writing groups
-* [Next Version Feature] Generate reports for students based on their strengths and progress
+#### [Next Version Feature] Generate reports for students based on their strengths and progress
 
 
 
 
 ## Technology Used
 
-* Java | Spring Boot | Thymeleaf | MySQL | HTML | CSS | JavaScript | Bootstrap
+* Java | Spring Boot | Thymeleaf | MySQL | Bootstrap | HTML | CSS | JavaScript
