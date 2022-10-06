@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class StudentController {
@@ -76,7 +73,25 @@ public class StudentController {
     }
 
     @PostMapping("/saveMeeting")
-    public String saveMeeting(@ModelAttribute("meeting") Meeting meeting) {
+    public String saveMeeting(@ModelAttribute("meetingObject") Meeting meeting,
+                              @RequestParam(name = "id") String id,
+                              @RequestParam(name = "readingLevelValue") Character readingLevel,
+                              @RequestParam(name = "strengthValue") String strength,
+                              @RequestParam(name="teachingPointValue") String teachingPoint,
+                              @RequestParam(name="nextStepValue") String nextStep) {
+        System.out.println("*********************** name of student is: " + id);
+
+        Integer theId = Integer.parseInt(id);
+        Student student = studentService.getStudentById(theId);
+        System.out.println("This is the student object " + student);
+
+        meeting.setStudent(student);
+        meeting.setSubject("reading");
+        meeting.setType("1:1");
+        meeting.setSubjectLevel(readingLevel);
+        meeting.setStrength(strength);
+        meeting.setTeachingPoint(teachingPoint);
+        meeting.setNextStep(nextStep);
         meetingService.saveMeeting(meeting);
         return "redirect:/notebook/students";
     }

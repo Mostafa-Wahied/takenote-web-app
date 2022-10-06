@@ -176,3 +176,7 @@ hr {
 .footer {
     background-color: #f5f5f5;
 }
+
+td {
+    text-transform: capitalize;
+}
