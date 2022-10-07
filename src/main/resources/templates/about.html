@@ -23,72 +23,79 @@
 </head>
 
 <body class="d-flex flex-column h-100">
-<div class="main-container">
-    <!-- NavBar -->
-    <div th:replace="~{fragments/navigation :: navigation}"></div>
-    <!-- End of Navbar -->
+<main>
+    <section class="main-container">
+        <!-- NavBar -->
+        <div th:replace="~{fragments/navigation :: navigation}"></div>
+        <!-- End of Navbar -->
 
-    <!-- Hero -->
-    <div class="container pt-5 my-auto">
-        <div class="row mx-auto justify-content-center my-auto">
-            <br>
-            <br>
+        <!-- Hero -->
+        <div class="container pt-5 my-auto">
+            <div class="row mx-auto justify-content-center my-auto">
+                <br>
+                <br>
+                <p class="display-6 text-center">About <span class="about-takenote-title">TakeNote</span></p>
 
-            <p class="display-6 text-center">About <span class="about-takenote-title">TakeNote</span></p>
-            <div class="col-sm-auto col-md-6 landing-right">
-                <div>
-                    <img id="about-img" th:src="@{/image/about.jpg}" alt="Homepage Picture" class="img-fluid">
-                </div>
-            </div>
-            <div class="col-6 col-md-6 mt-md-4 landing-left">
-                <p class="about-p"><span class="about-takenote-title">TakeNote</span> is designed by teachers for
-                    teachers
-                    to easily capture, store and analyze formative data all in one place. No more binders, no more
-                    sticky
-                    notes. More of doing what you do best — providing high-quality, tailored instruction that meets
-                    your
-                    students where they're at.</p>
-                <p class="about-p">Capture observational notes and conduct ongoing formative assessment. TakeNote records:</p>
-                <div class="d-flex pt-3">
-                    <span class="about-symbol material-symbols-outlined">add_circle</span>
-                    <p class="about-p ms-2"><strong>Strengths:</strong> What students are doing well. The skills and
-                        strategies that they
-                        know how to do independently.</p>
-                </div>
-                <br>
-                <div class="d-flex">
-                    <span class="about-symbol material-symbols-outlined">check_circle</span>
-                    <p class="about-p ms-2"><strong>Teaching Points:</strong> Morsels of individualized instruction
-                        that take place
-                        during conferences, designed to teach the skills to level up.</p>
-                </div>
-                <br>
-                <div class="d-flex">
-                    <span class="about-symbol material-symbols-outlined">arrow_circle_up</span>
-                    <p class="about-p ms-2"><strong>Next Steps:</strong> Make plans for what you and your student can do
-                        to keep growing their skills.</p>
-                </div>
-                <br>
-                <div class="ms-4">
-                    <div class="d-flex">
-                        <span class="right_arrow material-symbols-outlined">label</span>
-                        <p class="about-p ms-2">With <span class="about-takenote-title">NoteTaker</span>, easily capture data while
-                            conferencing.</p>
+                <div class="col-sm-auto col-md-5 m-3 m-md-0">
+                    <div>
+                        <img id="about-img" th:src="@{/image/about.jpg}" alt="Homepage Picture" class="img-fluid"
+                             src="">
                     </div>
+                </div>
+                <div class="col-12 col-md-7 mt-md-5 pt-md-2">
+                    <p class="about-p"><span class="about-takenote-title">TakeNote</span> is designed by teachers for
+                        teachers
+                        to easily capture, store and analyze formative data all in one place. No more binders, no more
+                        sticky
+                        notes. More of doing what you do best — providing high-quality, tailored instruction that meets
+                        your
+                        students where they're at.</p>
+                    <p class="about-p">Capture observational notes and conduct ongoing formative assessment. TakeNote
+                        records:</p>
+                    <div class="d-flex pt-3">
+                        <span class="about-symbol material-symbols-outlined">add_circle</span>
+                        <p class="about-p ms-2"><strong>Strengths:</strong> What students are doing well. The skills and
+                            strategies that they
+                            know how to do independently.</p>
+                    </div>
+                    <br>
                     <div class="d-flex">
-                        <span class="right_arrow material-symbols-outlined">label</span>
-                        <p class="about-p ms-2">With <span class="about-takenote-title">NoteBook</span>, store and analyze data with
-                            dashboards that show conferring records and help you plan for future instruction.</p>
+                        <span class="about-symbol material-symbols-outlined">check_circle</span>
+                        <p class="about-p ms-2"><strong>Teaching Points:</strong> Morsels of individualized instruction
+                            that take place
+                            during conferences, designed to teach the skills to level up.</p>
+                    </div>
+                    <br>
+                    <div class="d-flex">
+                        <span class="about-symbol material-symbols-outlined">arrow_circle_up</span>
+                        <p class="about-p ms-2"><strong>Next Steps:</strong> Make plans for what you and your student
+                            can do
+                            to keep growing their skills.</p>
+                    </div>
+                    <br>
+                    <div class="ms-4">
+                        <div class="d-flex">
+                            <span class="label material-symbols-outlined">label</span>
+                            <p class="about-p ms-2">With <span class="about-takenote-title">NoteTaker</span>, easily
+                                capture data while
+                                conferencing.</p>
+                        </div>
+                        <div class="d-flex">
+                            <span class="label material-symbols-outlined">label</span>
+                            <p class="about-p ms-2">With <span class="about-takenote-title">NoteBook</span>, store and
+                                analyze data with
+                                dashboards that show conferring records and help you plan for future instruction.</p>
+                        </div>
+
                     </div>
 
                 </div>
-
             </div>
         </div>
-    </div>
-    <!-- End of Hero -->
-</div>
+        <!-- End of Hero -->
+    </section>
 
+</main>
 <!--footer-->
 <div th:replace="~{fragments/footer :: footer}"></div>
 <!--end of footer-->

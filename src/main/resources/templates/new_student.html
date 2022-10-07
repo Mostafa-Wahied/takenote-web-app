@@ -22,23 +22,27 @@
 <div th:replace="~{fragments/navigation :: navigation}"></div>
 <!-- End of Navbar -->
 
-<div class="container">
-    <br>
-    <p class="display-6 text-center">Add New Student</p>
+<main>
+    <div class="container">
+        <br>
+        <p class="display-6 text-center">Add New Student</p>
 
-    <div>
-        <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
-            <input type="text" th:field="*{firstName}" placeholder="Student First Name" class="form-control mb-4 col-4">
-            <input type="text" th:field="*{lastName}" placeholder="Student Last Name" class="form-control mb-4 col-4">
+        <div>
+            <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
+                <input type="text" th:field="*{firstName}" placeholder="Student First Name"
+                       class="form-control mb-4 col-4">
+                <input type="text" th:field="*{lastName}" placeholder="Student Last Name"
+                       class="form-control mb-4 col-4">
 
-            <button type="submit" class="btn btn-info col-2">Save Student</button>
-        </form>
+                <button type="submit" class="btn btn-info col-2">Save Student</button>
+            </form>
 
-        <hr>
-        <a th:href="@{/notebook/students}">Back to Students</a>
+            <hr>
+            <a th:href="@{/notebook/students}">Back to Students</a>
 
+        </div>
     </div>
-</div>
+</main>
 
 <!--footer-->
 <div th:replace="~{fragments/footer :: footer}"></div>

@@ -6,6 +6,12 @@
     'opsz' 48
 }
 
+.label {
+    font-variation-settings: 'FILL' 1;
+    color: #6ba7ba;
+    font-size: 1.3vw;
+    font-weight: lighter;
+}
 .about-symbol {
     color: #1ba959;
     font-size: 1.5vw;
@@ -14,9 +20,6 @@
 .students-symbol {
     color: white;
     font-size: 0.7vw;
-}
-.right_arrow {
-    color: #737373;
 }
 
 /* Navbar */
@@ -71,6 +74,7 @@
 
 #home-img {
     margin-top: -20px;
+    height: auto;
 }
 
 .title-text {
@@ -169,8 +173,7 @@ hr {
 }
 
 #about-img {
-    height: 75vh;
-    /*width: 65vw;*/
+    height: auto;
 }
 
 .footer {

@@ -22,59 +22,61 @@
 <div th:replace="~{fragments/navigation :: navigation}"></div>
 <!-- End of Navbar -->
 
-<div class="container">
-    <br>
-    <p class="display-6 text-center">Choose Conference Type</p>
+<main>
+    <div class="container">
+        <br>
+        <p class="display-6 text-center">Choose Conference Type</p>
 
-    <div class="container row px-5">
-        <div class="row  flex-column mx-auto justify-content-center">
-            <div class="col">
-                <div class="card h-100">
-                    <!--          <img src="..." class="card-img-top" alt="...">-->
-                    <div class="card-body">
-                        <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
-                        <br>
-                        <div class="row mx-auto text-center">
-                            <p class="card-text"><a th:href="@{/notetaker/reading/1on1}"
-                                                    class="btn btn-primary">Choose</a></p>
+        <div class="container row px-5">
+            <div class="row  flex-column mx-auto justify-content-center">
+                <div class="col">
+                    <div class="card h-100">
+                        <!--          <img src="..." class="card-img-top" alt="...">-->
+                        <div class="card-body">
+                            <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
+                            <br>
+                            <div class="row mx-auto text-center">
+                                <p class="card-text"><a th:href="@{/notetaker/reading/1on1}"
+                                                        class="btn btn-primary">Choose</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            <div class="col">
-                <div class="card h-100">
-                    <!--          <img src="..." class="card-img-top" alt="...">-->
-                    <div class="card-body">
-                        <h5 class="card-title mx-auto text-center">Guided Reading</h5>
-                        <br>
-                        <div class="row mx-auto text-center">
-                            <p class="card-text"><a class="btn btn-primary">Choose</a></p>
+                <br>
+                <div class="col">
+                    <div class="card h-100">
+                        <!--          <img src="..." class="card-img-top" alt="...">-->
+                        <div class="card-body">
+                            <h5 class="card-title mx-auto text-center">Guided Reading</h5>
+                            <br>
+                            <div class="row mx-auto text-center">
+                                <p class="card-text"><a class="btn btn-primary">Choose</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            <div class="col">
-                <div class="card h-100">
-                    <!--          <img src="..." class="card-img-top" alt="...">-->
-                    <div class="card-body">
-                        <h5 class="card-title mx-auto text-center">Strategy Group</h5>
-                        <br>
-                        <div class="row mx-auto text-center">
-                            <p class="card-text"><a class="btn btn-primary">Choose</a></p>
+                <br>
+                <div class="col">
+                    <div class="card h-100">
+                        <!--          <img src="..." class="card-img-top" alt="...">-->
+                        <div class="card-body">
+                            <h5 class="card-title mx-auto text-center">Strategy Group</h5>
+                            <br>
+                            <div class="row mx-auto text-center">
+                                <p class="card-text"><a class="btn btn-primary">Choose</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
             <br>
+            <hr>
+            <br>
+            <a th:href="@{/notebook/students}">Back to Students</a>
         </div>
-        <br>
-        <hr>
-        <br>
-        <a th:href="@{/notebook/students}">Back to Students</a>
     </div>
-</div>
+</main>
 
 <!--footer-->
 <div th:replace="~{fragments/footer :: footer}"></div>
