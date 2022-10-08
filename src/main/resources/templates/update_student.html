@@ -18,26 +18,30 @@
     <title>TakeNote - Update Student</title>
 </head>
 <body class="d-flex flex-column h-100">
-<!-- NavBar -->
-<div th:replace="~{fragments/navigation :: navigation}"></div>
-<!-- End of Navbar -->
-
 <main>
+    <!-- NavBar -->
+    <div th:replace="~{fragments/navigation :: navigation}"></div>
+    <!-- End of Navbar -->
+
     <div class="container">
         <br>
         <p class="display-6 text-center">Update Student</p>
-
-        <div>
+        <div class="m-5 p-5 text-center">
             <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
                 <!--      Add hidden form field to handle update-->
                 <input type="hidden" th:field="*{id}">
-                <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4">
-                <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4">
+                <label>
+                    <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4">
+                </label>
 
+                <label>
+                    <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4">
+                </label>
+                <br>
                 <button type="submit" class="btn btn-info col-2">Update Student</button>
             </form>
 
-            <hr>
+            <hr class="mx-auto">
             <a th:href="@{/notebook/students}">Back to Students</a>
 
         </div>

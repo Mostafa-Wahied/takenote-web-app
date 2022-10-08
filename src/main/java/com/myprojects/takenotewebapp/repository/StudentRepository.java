@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-Student findStudentByFirstNameEquals(String firstName);
-
+    Student findStudentByFirstNameEquals(String firstName);
 }

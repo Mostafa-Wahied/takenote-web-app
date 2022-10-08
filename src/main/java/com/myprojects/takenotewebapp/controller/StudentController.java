@@ -38,6 +38,15 @@ public class StudentController {
         return "students";
     }
 
+    @GetMapping("/notebook/student/{id}")
+    public String viewStudentById(@PathVariable(value = "id") long id, Model model) {
+        Student student = studentService.getStudentById(id);
+        model.addAttribute("student", student);
+
+        model.addAttribute("meetings", student.getMeetings());
+        return "student";
+    }
+
     //    display all students for reading
     @GetMapping("/notebook/reading")
     public String viewReadingStudentsPage(Model model) {
@@ -72,30 +81,6 @@ public class StudentController {
         return "redirect:/notebook/students";
     }
 
-    @PostMapping("/saveMeeting")
-    public String saveMeeting(@ModelAttribute("meetingObject") Meeting meeting,
-                              @RequestParam(name = "id") String id,
-                              @RequestParam(name = "readingLevelValue") Character readingLevel,
-                              @RequestParam(name = "strengthValue") String strength,
-                              @RequestParam(name="teachingPointValue") String teachingPoint,
-                              @RequestParam(name="nextStepValue") String nextStep) {
-        System.out.println("*********************** name of student is: " + id);
-
-        Integer theId = Integer.parseInt(id);
-        Student student = studentService.getStudentById(theId);
-        System.out.println("This is the student object " + student);
-
-        meeting.setStudent(student);
-        meeting.setSubject("reading");
-        meeting.setType("1:1");
-        meeting.setSubjectLevel(readingLevel);
-        meeting.setStrength(strength);
-        meeting.setTeachingPoint(teachingPoint);
-        meeting.setNextStep(nextStep);
-        meetingService.saveMeeting(meeting);
-        return "redirect:/notebook/students";
-    }
-
     //    update student info
     @GetMapping("/showUpdateForm/{id}")
     public String showUpdateForm(@PathVariable(value = "id") long id, Model model) {
@@ -110,7 +95,6 @@ public class StudentController {
     public String deleteStudent(@PathVariable(value = "id") long id, Model model) {
 //        for navigation active state
         model.addAttribute("activePage", "studentsPage");
-
 //        call delete student method
         studentService.deleteStudentById(id);
         return "redirect:/notebook/students";
@@ -146,15 +130,16 @@ public class StudentController {
     @GetMapping("/notetaker/writing/1on1")
     public String show1on1WritingForm(Model model) {
 //        get all students
-        model.addAttribute("students", studentService.getAllStudents());
+        model.addAttribute("listStudents", studentService.getAllStudents());
+        model.addAttribute("meetings", meetingService.getAllMeetings());
         return "1on1WritingForm";
     }
 
-    @GetMapping
-    public String findStudentByName(Model model, String firstName) {
-        model.addAttribute("student", studentService.getStudentByFirstName(firstName));
-        return "redirect:/notebook/students";
-    }
+//    @GetMapping
+//    public String findStudentByName(Model model, String firstName) {
+//        model.addAttribute("student", studentService.getStudentByFirstName(firstName));
+//        return "redirect:/notebook/students";
+//    }
 
     //    view about page
     @GetMapping("/about")

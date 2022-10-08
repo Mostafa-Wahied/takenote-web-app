@@ -22,4 +22,9 @@ public class MeetingServiceImpl implements MeetingService{
         meetingRepository.save(meeting);
     }
 
+    @Override
+    public List<Meeting> findMeetingsBySubject(String subject) {
+        return findMeetingsBySubject(subject);
+    }
+
 }

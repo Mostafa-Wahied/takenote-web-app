@@ -11,5 +11,4 @@ public interface StudentService {
     Student getStudentById(long id);
     void deleteStudentById(long id);
     Student getStudentByFirstName(String firstName);
-
 }

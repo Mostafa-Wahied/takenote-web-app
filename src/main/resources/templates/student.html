@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
+
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,9 +18,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
-    <script th:src="@{/static/script.js}" defer></script>
-    <title>TakeNote - My Students</title>
+    <script th:src="@{/js/script.js}" defer></script>
+    <title>TakeNote</title>
 </head>
+
 <body class="d-flex flex-column h-100">
 <!-- NavBar -->
 <div th:replace="~{fragments/navigation :: navigation}"></div>
@@ -39,46 +41,33 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
+                    <th scope="col">Date</th>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Reading Level</th>
+                    <th scope="col">Conference Type</th>
                     <th scope="col">Reading<br>Date Last Met</th>
                     <th scope="col">Writing<br>Date Last Met</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <th:block th:each="student : ${listStudents}">
-                    <tr th:each="meeting : ${student.meetings}">
-
-                        <td>
-                            <a th:text="${student.firstName}" th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
-                        </td>
-                        <td>
-                            <a th:text="${student.lastName}" th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
-                        </td>
+                <tr th:each="meeting : ${meetings}">
+                        <td th:text="${meeting.date}"></td>
+                        <td th:text="${student.firstName}"></td>
+                        <td th:text="${student.lastName}"></td>
                         <td th:text="${meeting.subjectLevel}"></td>
-                        <td th:text="${meeting.date}" th:if="${meeting.subject=='reading'}"></td>
-                        <td th:unless="${meeting.subject=='reading'}"></td>
-                        <td th:text="${meeting.date}" th:if="${meeting.subject=='writing'}"></td>
-                        <td th:unless="${meeting.subject=='writing'}"></td>
-                        <td>
-                            <a th:href="@{/showUpdateForm/{id}(id=${student.id})}"
-                               class="btn btn-primary update-btn"><span
-                                    class="students-symbol material-symbols-outlined">edit_square</span></a>
-                            <a th:href="@{/deleteStudent/{id}(id=${student.id})}"
-                               class="btn btn-danger delete-btn"><span
-                                    class="students-symbol material-symbols-outlined">delete</span></a>
-                        </td>
+                        <td th:text="${meeting.type}"></td>
+                        <td th:text="${meeting.date}"></td>
+
                     </tr>
-                </th:block>
+<!--                </th:block>-->
                 </tbody>
             </table>
         </div>
     </section>
-<!--    End of students table-->
+    <!--    End of students table-->
 </main>
-
 <!--footer-->
 <div th:replace="~{fragments/footer :: footer}"></div>
 <!--end of footer-->
@@ -87,4 +76,5 @@
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
