@@ -1,4 +1,5 @@
-/*google icons*/
+/* buttons */
+/* google icons */
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0,
     'wght' 400,
@@ -12,14 +13,86 @@
     font-size: 1.3vw;
     font-weight: lighter;
 }
+
 .about-symbol {
     color: #1ba959;
     font-size: 1.5vw;
 }
 
 .students-symbol {
+    color: black;
+    font-size: 1.3vw;
+    font-variation-settings: 'wght' 300,
+    'FILL' 1;
+
+}
+
+.btn-bd-primary-index {
+    font-family: 'Montserrat', sans-serif;
+    font-size: x-large;
+    color: #fff;
+    background-color: #fd6048;
+    border-radius: 20px;
+    border: none;
+    padding: 0.9vw 1.8vw;
+    margin-top: 14%;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-bd-primary:hover {
+    background-color: #fc5036;
+}
+
+.confer-btn:hover {
+    background-color: #fc5036 !important;
+}
+
+.confer-btn {
+    font-family: 'Montserrat', sans-serif;
+    font-size: x-large;
+    color: #fff;
+    background-color: #fd6048 !important;
+    border-radius: 20px;
+    border: none !important;
+    padding: 10px 30px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.update-btn {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.update-btn:hover {
+    /*border: 1px solid #6ba7ba !important;*/
+}
+
+.delete-btn {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.delete-btn:hover {
+    /*border: 1px solid #ff725ce2 !important;*/
+}
+
+#add-student-btn {
+    background-color: #ff725c !important;
+    border: none !important;
+    width: 7vw !important;
+    /*height: 5.3vh;*/
+    font-size: 0.8vw;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.5vw;
+}
+
+#add-student-btn:hover {
+    background-color: #fc5036 !important;
+    border: none !important;
     color: white;
-    font-size: 0.7vw;
 }
 
 /* Navbar */
@@ -70,6 +143,7 @@
     padding-bottom: 5%;
     border-bottom: 2px solid #ff725ce2;
 }
+
 /* End of navbar */
 
 #home-img {
@@ -93,71 +167,6 @@ hr {
 .desc-text {
     font-family: 'Montserrat', sans-serif;
     margin-top: 3%;
-}
-
-.btn-bd-primary {
-    font-family: 'Montserrat', sans-serif;
-    font-size: x-large;
-    color: #fff;
-    background-color: #fd6048;
-    border-radius: 20px;
-    border: none;
-    padding: 10px 30px;
-    margin-top: 14%;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-}
-
-.btn-bd-primary:hover {
-    background-color: #fc5036;
-}
-
-.confer-btn:hover {
-    background-color: #fc5036 !important;
-}
-
-.confer-btn {
-    font-family: 'Montserrat', sans-serif;
-    font-size: x-large;
-    color: #fff;
-    background-color: #fd6048 !important;
-    border-radius: 20px;
-    border: none !important;
-    padding: 10px 30px;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-}
-
-.update-btn {
-    background-color: #406672a9 !important;
-    border: none !important;
-}
-
-.update-btn:hover {
-    background-color: #406672 !important;
-    border: none !important;
-}
-
-.delete-btn {
-    background-color: #ff725ce2 !important;
-    border: none !important;
-}
-
-.delete-btn:hover {
-    background-color: #fc5036 !important;
-    border: none !important;
-}
-
-.add-student-btn {
-    background-color: #ff725c !important;
-    border: none !important;
-    width: 5.5vw !important;
-    padding: 0.5vw !important;
-}
-
-.add-student-btn:hover {
-    background-color: #fc5036 !important;
-    border: none !important;
 }
 
 .about-takenote-title {

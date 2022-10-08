@@ -28,37 +28,32 @@
 <!-- End of Navbar -->
 
 <main>
-    <figure class="text-center">
-        <p class="display-4 text-center">My Students</p>
+    <figure class="text-center mt-5">
+        <p class="display-6 text-center" th:text="${student.firstName + ' ' + student.lastName}"></p>
     </figure>
-
-    <!--Students table-->
+    <br>
+    <!--Student table-->
     <section class="container">
-        <div class="container row justify-content-end mx-auto">
-            <a th:href="@{/showNewStudentForm}" class="add-student-btn btn btn-primary btn-sm mb-3 me-5">Add Student</a>
-        </div>
         <div class="row">
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th scope="col">Date</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
                     <th scope="col">Reading Level</th>
                     <th scope="col">Conference Type</th>
-                    <th scope="col">Reading<br>Date Last Met</th>
-                    <th scope="col">Writing<br>Date Last Met</th>
-                    <th>Actions</th>
+                    <th scope="col">Strength</th>
+                    <th scope="col">Teaching Point</th>
+                    <th scope="col">Next Step</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="meeting : ${meetings}">
                         <td th:text="${meeting.date}"></td>
-                        <td th:text="${student.firstName}"></td>
-                        <td th:text="${student.lastName}"></td>
                         <td th:text="${meeting.subjectLevel}"></td>
                         <td th:text="${meeting.type}"></td>
-                        <td th:text="${meeting.date}"></td>
+                        <td th:text="${meeting.strength}"></td>
+                        <td th:text="${meeting.teachingPoint}"></td>
+                        <td th:text="${meeting.nextStep}"></td>
 
                     </tr>
 <!--                </th:block>-->
