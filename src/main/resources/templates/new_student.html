@@ -26,19 +26,22 @@
     <div class="container">
         <br>
         <p class="display-6 text-center">Add New Student</p>
-
-        <div>
+        <div class="m-5 p-5 text-center">
             <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
-                <input type="text" th:field="*{firstName}" placeholder="Student First Name"
-                       class="form-control mb-4 col-4">
-                <input type="text" th:field="*{lastName}" placeholder="Student Last Name"
-                       class="form-control mb-4 col-4">
-
-                <button type="submit" class="btn btn-info col-2">Save Student</button>
+                <label>
+                    <input type="text" th:field="*{firstName}" placeholder="First Name"
+                           class="form-control mb-4 col-4">
+                </label>
+                <label>
+                    <input type="text" th:field="*{lastName}" placeholder="Last Name"
+                           class="form-control mb-4 col-4">
+                </label>
+                <br>
+                <button type="submit" class="btn-bd-primary-index">Save Student</button>
             </form>
 
-            <hr>
-            <a th:href="@{/notebook/students}">Back to Students</a>
+            <hr class="mx-auto">
+            <a class="btn btn-light" th:href="@{/notebook/students}">Back to Students</a>
 
         </div>
     </div>

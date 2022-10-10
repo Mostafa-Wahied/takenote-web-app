@@ -33,7 +33,7 @@
     <!--Students table-->
     <section class="container px-5">
         <div class="container row justify-content-end mx-auto">
-            <a th:href="@{/showNewStudentForm}" id="add-student-btn" class=" btn-bd-primary-index btn-sm mb-3">Add
+            <a th:href="@{/showNewStudentForm}" id="add-student-btn" class="btn-bd-primary-index btn-sm mb-3">Add
                 Student</a>
         </div>
         <div class="row">
@@ -49,16 +49,16 @@
                 </thead>
                 <tbody>
                 <th:block th:each="student : ${listStudents}">
-                    <tr th:each="meeting : ${student.meetings}">
+                    <tr th:each="meeting, iterStat : ${student.meetings}" th:if="${iterStat.last}">
                         <td>
-                            <a th:text="${student.firstName + ' ' + student.lastName}"
+                            <a class="btn btn-light" th:text="${student.firstName + ' ' + student.lastName}"
                                th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
                         </td>
                         <td th:text="${meeting.subjectLevel}"></td>
-                        <td th:text="${meeting.date}" th:if="${meeting.subject=='reading'}"></td>
-                        <td th:unless="${meeting.subject=='reading'}"></td>
-                        <td th:text="${meeting.date}" th:if="${meeting.subject=='writing'}"></td>
-                        <td th:unless="${meeting.subject=='writing'}"></td>
+                        <td th:text="${meeting.date}" th:if="${meeting.subject=='Reading'}"></td>
+                        <td th:unless="${meeting.subject=='Reading'}"></td>
+                        <td th:text="${meeting.date}" th:if="${meeting.subject=='Writing'}"></td>
+                        <td th:unless="${meeting.subject=='Writing'}"></td>
                         <td>
                             <div class="">
                                 <a th:href="@{/showUpdateForm/{id}(id=${student.id})}"

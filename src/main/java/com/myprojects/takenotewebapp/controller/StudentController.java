@@ -1,7 +1,6 @@
 package com.myprojects.takenotewebapp.controller;
 
 import com.myprojects.takenotewebapp.model.Meeting;
-import com.myprojects.takenotewebapp.model.MeetingId;
 import com.myprojects.takenotewebapp.model.Student;
 import com.myprojects.takenotewebapp.repository.MeetingRepository;
 import com.myprojects.takenotewebapp.repository.StudentRepository;
@@ -13,6 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Controller
 public class StudentController {
 
@@ -20,6 +23,8 @@ public class StudentController {
     private StudentService studentService;
     @Autowired
     private MeetingService meetingService;
+    @Autowired
+    private MeetingRepository meetingRepository;
 
     //    viewHomePage
     @GetMapping("/")
@@ -50,16 +55,33 @@ public class StudentController {
     //    display all students for reading
     @GetMapping("/notebook/reading")
     public String viewReadingStudentsPage(Model model) {
-        model.addAttribute("students", studentService.getAllStudents());
+        model.addAttribute("listStudents", studentService.getAllStudents());
         //        for navigation active state
         model.addAttribute("activePage", "notebookReadingPage");
         return "notebook_reading";
     }
 
+        //        ------------------- experimental - trying to get unique latest meetings ---------------------------
+    @GetMapping("/notebook/reading/latestmeetings")
+    @ResponseBody
+    public Object[] getLatestMeetings() {
+        List<Student> allStudents = studentService.getAllStudents();
+        List<Meeting> allMeetings = meetingService.getAllMeetings();
+        System.out.println("------------------&&&&&&&&&&&&&&&&&**************************------------------------");
+//        System.out.println(allMeetings);
+        System.out.println(Arrays.toString(meetingService.findLatestMeetings()));
+        List<String> latestMeetings = Stream.of(meetingService.findLatestMeetings()).map(Object::toString).collect(Collectors.toList());
+        System.out.println(latestMeetings);
+        System.out.println("------------------&&&&&&&&&&&&&&&&&**************************------------------------");
+// --------------- end of experimental --------------
+        return meetingService.findLatestMeetings();
+    }
+
+
     //    display all students for writing
     @GetMapping("/notebook/writing")
     public String viewWritingStudentsPage(Model model) {
-        model.addAttribute("students", studentService.getAllStudents());
+        model.addAttribute("listStudents", studentService.getAllStudents());
         //        for navigation active state
         model.addAttribute("activePage", "notebookWritingPage");
         return "notebook_writing";
@@ -134,12 +156,6 @@ public class StudentController {
         model.addAttribute("meetings", meetingService.getAllMeetings());
         return "1on1WritingForm";
     }
-
-//    @GetMapping
-//    public String findStudentByName(Model model, String firstName) {
-//        model.addAttribute("student", studentService.getStudentByFirstName(firstName));
-//        return "redirect:/notebook/students";
-//    }
 
     //    view about page
     @GetMapping("/about")

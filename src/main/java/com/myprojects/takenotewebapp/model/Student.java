@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
+//@ToString
 //@RequiredArgsConstructor
 @NoArgsConstructor
 //@AllArgsConstructor
@@ -25,7 +25,7 @@ public class Student {
     @Column(name = "last_name")
     private String lastName;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    @ToString.Exclude
+//    @ToString.Exclude
     private List<Meeting> meetings = new ArrayList<Meeting>();
 
     public Student(String firstName, String lastName) {
@@ -45,4 +45,23 @@ public class Student {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", meetings=" + meetings +
+                '}';
+    }
+
+    //    @Override
+//    public String toString() {
+//        return "Student{" +
+//                "id=" + id +
+//                ", firstName='" + firstName + '\'' +
+//                ", lastName='" + lastName + '\'' +
+//                '}';
+//    }
 }

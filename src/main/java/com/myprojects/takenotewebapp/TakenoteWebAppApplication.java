@@ -1,7 +1,6 @@
 package com.myprojects.takenotewebapp;
 
 import com.myprojects.takenotewebapp.model.Meeting;
-import com.myprojects.takenotewebapp.model.MeetingId;
 import com.myprojects.takenotewebapp.model.Student;
 import com.myprojects.takenotewebapp.repository.MeetingRepository;
 import com.myprojects.takenotewebapp.repository.StudentRepository;

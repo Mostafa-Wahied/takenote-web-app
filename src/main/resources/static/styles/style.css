@@ -21,24 +21,53 @@
 
 .students-symbol {
     color: black;
-    font-size: 1.3vw;
+    font-size: 1.2vw;
     font-variation-settings: 'wght' 300,
     'FILL' 1;
+}
+
+.btn-light {
+    /*background-color: #e5e3e3 !important;*/
+    background-color: #f8e5e1 !important;
+    /*background-color: rgba(187, 210, 217, 0.53) !important;*/
+}
+
+#btn-index {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6vw;
+    color: #fff;
+    background-color: #fc5a41;
+    border: none !important;
+    padding: 0.9vw 0.9vw !important;
+    margin-top: 14%;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+#btn-index:hover {
+    background-color: #fa3e21 !important;
 
 }
 
 .btn-bd-primary-index {
     font-family: 'Montserrat', sans-serif;
-    font-size: x-large;
+    font-size: 0.8vw;
     color: #fff;
-    background-color: #fd6048;
+    background-color: #ff725c;
     border-radius: 20px;
-    border: none;
-    padding: 0.9vw 1.8vw;
-    margin-top: 14%;
+    border: none !important;
+    padding: 0.5vw 0.5vw;
     cursor: pointer;
     transition: 0.2s ease-in-out;
+    text-decoration: none;
 }
+
+.btn-bd-primary-index:hover {
+    color: white;
+    background-color: #fc5036 !important;
+}
+
 
 .btn-bd-primary:hover {
     background-color: #fc5036;
@@ -82,7 +111,6 @@
     background-color: #ff725c !important;
     border: none !important;
     width: 7vw !important;
-    /*height: 5.3vh;*/
     font-size: 0.8vw;
     text-align: center;
     text-decoration: none;
@@ -191,4 +219,8 @@ hr {
 
 td {
     text-transform: capitalize;
+}
+
+.confer-main-container {
+    max-width: 40vw !important;
 }

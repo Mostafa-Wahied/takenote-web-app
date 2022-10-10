@@ -5,6 +5,7 @@ import com.myprojects.takenotewebapp.repository.MeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -23,8 +24,9 @@ public class MeetingServiceImpl implements MeetingService{
     }
 
     @Override
-    public List<Meeting> findMeetingsBySubject(String subject) {
-        return findMeetingsBySubject(subject);
+    public Object[] findLatestMeetings() {
+        return meetingRepository.findLatestMeetings();
     }
+
 
 }

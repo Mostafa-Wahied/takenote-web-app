@@ -1,7 +1,6 @@
 package com.myprojects.takenotewebapp.controller;
 
 import com.myprojects.takenotewebapp.model.Meeting;
-import com.myprojects.takenotewebapp.model.MeetingId;
 import com.myprojects.takenotewebapp.model.Student;
 import com.myprojects.takenotewebapp.repository.MeetingRepository;
 import com.myprojects.takenotewebapp.repository.StudentRepository;
@@ -29,14 +28,14 @@ public class MeetingController {
                                          @RequestParam(name = "strengthValue") String strength,
                                          @RequestParam(name = "teachingPointValue") String teachingPoint,
                                          @RequestParam(name = "nextStepValue") String nextStep) {
-        System.out.println("*********************** name of student is: " + id);
+        System.out.println("*********************** id of student is: " + id);
 
         Integer theId = Integer.parseInt(id);
         Student student = studentService.getStudentById(theId);
         System.out.println("This is the student object " + student);
 
         meeting.setStudent(student);
-        meeting.setSubject("reading");
+        meeting.setSubject("Reading");
         meeting.setType("1:1");
         meeting.setSubjectLevel(readingLevel);
         meeting.setStrength(strength);
@@ -61,7 +60,7 @@ public class MeetingController {
         System.out.println("This is the student object " + student);
 
         meeting.setStudent(student);
-        meeting.setSubject("reading");
+        meeting.setSubject("Reading");
         meeting.setType("guided reading");
         meeting.setSubjectLevel(readingLevel);
         meeting.setStrength(strength);
@@ -100,7 +99,6 @@ public class MeetingController {
     @PostMapping("/save1on1WritingMeeting")
     public String saveWriting1on1Meeting(@ModelAttribute("meetingObject") Meeting meeting,
                                          @RequestParam(name = "id") String id,
-                                         @RequestParam(name = "readingLevelValue") Character readingLevel,
                                          @RequestParam(name = "strengthValue") String strength,
                                          @RequestParam(name = "teachingPointValue") String teachingPoint,
                                          @RequestParam(name = "nextStepValue") String nextStep) {
@@ -111,9 +109,8 @@ public class MeetingController {
         System.out.println("This is the student object " + student);
 
         meeting.setStudent(student);
-        meeting.setSubject("writing");
+        meeting.setSubject("Writing");
         meeting.setType("1:1");
-        meeting.setSubjectLevel(readingLevel);
         meeting.setStrength(strength);
         meeting.setTeachingPoint(teachingPoint);
         meeting.setNextStep(nextStep);
