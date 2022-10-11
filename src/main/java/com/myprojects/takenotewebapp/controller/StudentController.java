@@ -35,7 +35,9 @@ public class StudentController {
     }
 
     //    display all students
-    @GetMapping("/notebook/students")
+    final String notebookStudentsURL = "/notebook/students";
+
+    @GetMapping(notebookStudentsURL)
     public String viewAllStudentsPage(Model model, Student student) {
         model.addAttribute("listStudents", studentService.getAllStudents());
         //        for navigation active state
@@ -43,7 +45,10 @@ public class StudentController {
         return "students";
     }
 
-    @GetMapping("/notebook/student/{id}")
+    //display student by ID using a path variable
+    final String notebookStudentByIdURL = "/notebook/student/{id}";
+
+    @GetMapping(notebookStudentByIdURL)
     public String viewStudentById(@PathVariable(value = "id") long id, Model model) {
         Student student = studentService.getStudentById(id);
         model.addAttribute("student", student);
@@ -58,23 +63,26 @@ public class StudentController {
         model.addAttribute("listStudents", studentService.getAllStudents());
         //        for navigation active state
         model.addAttribute("activePage", "notebookReadingPage");
-        return "notebook_reading";
-    }
 
-        //        ------------------- experimental - trying to get unique latest meetings ---------------------------
-    @GetMapping("/notebook/reading/latestmeetings")
-    @ResponseBody
-    public Object[] getLatestMeetings() {
-        List<Student> allStudents = studentService.getAllStudents();
-        List<Meeting> allMeetings = meetingService.getAllMeetings();
-        System.out.println("------------------&&&&&&&&&&&&&&&&&**************************------------------------");
-//        System.out.println(allMeetings);
-        System.out.println(Arrays.toString(meetingService.findLatestMeetings()));
-        List<String> latestMeetings = Stream.of(meetingService.findLatestMeetings()).map(Object::toString).collect(Collectors.toList());
-        System.out.println(latestMeetings);
-        System.out.println("------------------&&&&&&&&&&&&&&&&&**************************------------------------");
-// --------------- end of experimental --------------
-        return meetingService.findLatestMeetings();
+//        Trying to get the latest meetings only--------------------- (HANEI's)
+        List<Student> listOfStudents = studentService.getAllStudents();
+        List<Student> studentWithMeetings = listOfStudents.stream().filter(s -> !s.getMeetings().isEmpty()).toList();
+        List<Meeting> meetingsToDisplay = new ArrayList<>();
+        for (Student student : studentWithMeetings) {
+            Meeting result = student.getMeetings().stream().sorted((o1, o2) -> o2.getDate().
+                    compareTo(o1.getDate())).findFirst().orElse(new Meeting());
+            meetingsToDisplay.add(result);
+        }
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("MEETINGS TO DISPLAY:");
+        System.out.println(meetingsToDisplay);
+        System.out.println("END OF MEETINGS TO DISPLAY.");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        model.addAttribute("studentsWithMeetings", studentWithMeetings);
+        model.addAttribute("meetingsToDisplay", meetingsToDisplay);
+//        End of trying--------------------------------------
+
+        return "notebook_reading";
     }
 
 
@@ -165,4 +173,19 @@ public class StudentController {
         return "about";
     }
 
+
+    //        ------------------- experimental - trying to get unique latest meetings ---------------------------
+//    @GetMapping("/notebook/reading/latestmeetings")
+//    @ResponseBody
+//    public List<Meeting> getLatestMeetings() {
+//        List<Student> allStudents = studentService.getAllStudents();
+//        List<Meeting> allMeetings = meetingService.getAllMeetings();
+//        System.out.println("------------------&&&&&&&&&&&&&&&&&**************************------------------------");
+////        System.out.println(allMeetings);
+//        System.out.println(meetingService.findLatestMeetings());
+//        System.out.println("------------------&&&&&&&&&&&&&&&&&**************************------------------------");
+//
+//// --------------- end of experimental --------------
+//        return meetingService.findLatestMeetings();
+//    }
 }

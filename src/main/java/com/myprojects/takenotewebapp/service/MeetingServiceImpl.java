@@ -24,7 +24,7 @@ public class MeetingServiceImpl implements MeetingService{
     }
 
     @Override
-    public Object[] findLatestMeetings() {
+    public List<Meeting> findLatestMeetings() {
         return meetingRepository.findLatestMeetings();
     }
 

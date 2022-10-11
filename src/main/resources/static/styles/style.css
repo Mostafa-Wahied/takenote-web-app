@@ -32,20 +32,19 @@
     /*background-color: rgba(187, 210, 217, 0.53) !important;*/
 }
 
-#btn-index {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.6vw;
-    color: #fff;
-    background-color: #fc5a41;
+.btn-index {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 1vw !important;
+    color: #fff !important;
+    background-color: #fc5a41 !important;
     border: none !important;
-    padding: 0.9vw 0.9vw !important;
-    margin-top: 14%;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-    text-decoration: none;
+    padding: 1vw 1vw !important;
+    cursor: pointer !important;
+    transition: 0.2s ease-in-out !important;
+    text-decoration: none !important;
 }
 
-#btn-index:hover {
+.btn-index:hover {
     background-color: #fa3e21 !important;
 
 }
