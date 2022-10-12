@@ -31,48 +31,53 @@
     </figure>
 
     <!--Students table-->
-    <section class="container px-5">
-        <div class="container row justify-content-end mx-auto">
-            <a th:href="@{/showNewStudentForm}" id="add-student-btn" class="btn-bd-primary-index btn-sm mb-3">Add
-                Student</a>
-        </div>
-        <div class="row">
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Reading Level</th>
-                    <th scope="col">Reading<br>Date Last Met</th>
-                    <th scope="col">Writing<br>Date Last Met</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="student : ${listStudents}">
-                    <tr th:each="meeting, iterStat : ${student.meetings}" th:if="${iterStat.last}">
-                        <td>
-                            <a class="btn btn-light" th:text="${student.firstName + ' ' + student.lastName}"
-                               th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
-                        </td>
-                        <td th:text="${meeting.subjectLevel}"></td>
-                        <td th:text="${meeting.date}" th:if="${meeting.subject=='Reading'}"></td>
-                        <td th:unless="${meeting.subject=='Reading'}"></td>
-                        <td th:text="${meeting.date}" th:if="${meeting.subject=='Writing'}"></td>
-                        <td th:unless="${meeting.subject=='Writing'}"></td>
-                        <td>
-                            <div class="">
-                                <a th:href="@{/showUpdateForm/{id}(id=${student.id})}"
-                                   class="rounded update-btn p-1 px-2"><span
-                                        class="students-symbol material-symbols-outlined">edit_square</span></a>
-                                <a th:href="@{/deleteStudent/{id}(id=${student.id})}"
-                                   class="rounded delete-btn p-1 px-2"><span
-                                        class="students-symbol material-symbols-outlined">delete</span></a>
-                            </div>
-                        </td>
+    <section class="container row m-2 p-2 pt-3 mx-md-4 px-md-5">
+        <div class="container row mx-auto justify-content-center my-auto mx-md-5 px-md-4">
+
+            <div class="container row justify-content-end mx-auto">
+                <a th:href="@{/showNewStudentForm}" id="add-student-btn"
+                   class="btn-bd-primary-index btn-sm mb-3 btn-general">Add
+                    Student</a>
+            </div>
+
+            <div class="container row">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Reading Level</th>
+                        <th scope="col">Reading<br>Date Last Met</th>
+                        <th scope="col">Writing<br>Date Last Met</th>
+                        <th>Actions</th>
                     </tr>
-                </th:block>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="student : ${listStudents}">
+                        <tr th:each="meeting, iterStat : ${student.meetings}" th:if="${iterStat.last}">
+                            <td>
+                                <a class="btn btn-light" th:text="${student.firstName + ' ' + student.lastName}"
+                                   th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
+                            </td>
+                            <td th:text="${meeting.subjectLevel}"></td>
+                            <td th:text="${meeting.date}" th:if="${meeting.subject=='Reading'}"></td>
+                            <td th:unless="${meeting.subject=='Reading'}"></td>
+                            <td th:text="${meeting.date}" th:if="${meeting.subject=='Writing'}"></td>
+                            <td th:unless="${meeting.subject=='Writing'}"></td>
+                            <td>
+                                <div class="">
+                                    <a th:href="@{/showUpdateForm/{id}(id=${student.id})}"
+                                       class="rounded update-btn p-1 px-2"><span
+                                            class="students-symbol material-symbols-outlined btn-general">edit_square</span></a>
+                                    <a th:href="@{/deleteStudent/{id}(id=${student.id})}"
+                                       class="rounded delete-btn p-1 px-2"><span
+                                            class="students-symbol material-symbols-outlined btn-general">delete</span></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
     <!--    End of students table-->

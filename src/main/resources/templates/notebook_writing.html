@@ -23,42 +23,48 @@
 <!-- End of Navbar -->
 
 <main>
-    <figure class="text-center">
-        <p class="display-6 text-center pt-5">My Students<br>Writing</p>
-    </figure>
+    <section class="container row pt-3 mx-md-4 px-md-5">
+        <div class="container row mx-auto justify-content-center my-auto mx-md-5 px-md-4">
 
-    <!--Students table-->
-    <div class="container px-5">
-        <div class="row px-5">
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Writing<br>Date Last Met</th>
-                    <th scope="col">Next Step</th>
-                </tr>
-                </thead>
-                <tbody>
+            <figure class="text-center">
+                <p class="display-6 text-center pt-5">My Students<br>Writing</p>
+            </figure>
 
-                <th:block th:each="student : ${listStudents}">
-                    <tr th:each="meeting, iterStat : ${student.meetings}">
-                        <th:block th:if="${meeting.subject=='Writing'}">
-                            <td>
-                                <a class="btn btn-light" th:text="${student.firstName + ' ' + student.lastName}"
-                                   th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
-                            </td>
-                            <td th:text="${meeting.date}"></td>
-                            <td th:unless="${meeting.subject=='Writing'}"></td>
-                            <td th:text="${meeting.nextStep}"></td>
-                            <td th:unless="${meeting.subject=='Writing'}"></td>
+            <!--Students table-->
+            <div class="container px-5">
+                <div class="row px-5">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Writing<br>Date Last Met</th>
+                            <th scope="col">Next Step</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <th:block th:each="student : ${listStudents}">
+                            <tr th:each="meeting, iterStat : ${student.meetings}">
+                                <th:block th:if="${meeting.subject=='Writing'}">
+                                    <td>
+                                        <a class="btn btn-light" th:text="${student.firstName + ' ' + student.lastName}"
+                                           th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
+                                    </td>
+                                    <td th:text="${meeting.date}"></td>
+                                    <td th:unless="${meeting.subject=='Writing'}"></td>
+                                    <td th:text="${meeting.nextStep}"></td>
+                                    <td th:unless="${meeting.subject=='Writing'}"></td>
+                                </th:block>
+                            </tr>
                         </th:block>
-                    </tr>
-                </th:block>
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
-    </div>
+    </section>
 </main>
 
 <!--footer-->
