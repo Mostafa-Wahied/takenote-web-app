@@ -23,49 +23,55 @@
 <!-- End of Navbar -->
 
 <main>
-    <div class="container confer-main-container">
-        <br>
-        <p class="display-6 text-center">Choose Conference Type</p>
-
-        <div class="container row px-5">
-            <div class="row mx-auto justify-content-center">
-                <div class="col">
-                    <div class="card h-100">
-                        <!--          <img src="..." class="card-img-top" alt="...">-->
-                        <div class="card-body">
-                            <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
-                            <div class="row mx-auto text-center mt-4">
-                                <p class="card-text"><a th:href="@{/notetaker/writing/1on1}"
-                                                        class="universal-btn btn-bd-primary-index">Choose</a></p>
+    <section>
+        <section>
+            <br>
+            <div class="container confer-main-container">
+                <p class="display-6 text-center">Choose Conference Type</p>
+                <br>
+                <div class="container row px-5">
+                <div class="row mx-auto justify-content-center">
+                    <div class="col">
+                        <div class="card h-100">
+                            <!--          <img src="..." class="card-img-top" alt="...">-->
+                            <div class="card-body">
+                                <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
+                                <div class="row mx-auto text-center mt-4">
+                                    <p class="card-text"><a th:href="@{/notetaker/writing/1on1}"
+                                                            class="universal-btn btn-bd-primary-index">Choose</a></p>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="col">
+                        <div class="card h-100">
+                            <!--          <img src="..." class="card-img-top" alt="...">-->
+                            <div class="card-body">
+                                <h5 class="card-title mx-auto text-center">Strategy Group</h5>
+                                <div class="row mx-auto text-center mt-4">
+                                    <p class="card-text"><a th:href="@{/notetaker/writing/strategy_group}"
+                                                            class="universal-btn btn-bd-primary-index">Choose</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                 </div>
                 <br>
-                <div class="col">
-                    <div class="card h-100">
-                        <!--          <img src="..." class="card-img-top" alt="...">-->
-                        <div class="card-body">
-                            <h5 class="card-title mx-auto text-center">Strategy Group</h5>
-                            <div class="row mx-auto text-center mt-4">
-                                <p class="card-text"><a class="universal-btn btn-bd-primary-index">Choose</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <hr>
                 <br>
             </div>
-            <br>
-            <hr>
-            <br>
+
+            <div class="container d-flex justify-content-center">
+                <a id="btn-light" class="btn btn-light justify-content-center" th:href="@{/notebook/students}">Back to
+                    Students</a>
+            </div>
+
         </div>
 
-        <div class="container d-flex justify-content-center">
-            <a class="btn btn-light justify-content-center" th:href="@{/notebook/students}">Back to Students</a>
-        </div>
 
-    </div>
-
+    </section>
 </main>
 <!--footer-->
 <div th:replace="~{fragments/footer :: footer}"></div>

@@ -45,7 +45,7 @@
     }
 }
 
-.btn-light {
+#btn-light {
     /*background-color: #e5e3e3 !important;*/
     background-color: #f8e5e1 !important;
     /*background-color: rgba(187, 210, 217, 0.53) !important;*/
@@ -244,4 +244,8 @@ td {
 
 .confer-main-container {
     /*max-width: 40vw !important;*/
+}
+
+.selectpicker {
+    background-color: white !important;
 }

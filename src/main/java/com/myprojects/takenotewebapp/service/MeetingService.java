@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface MeetingService {
     List<Meeting> getAllMeetings();
+
     void saveMeeting(Meeting meeting);
+
     List<Meeting> findLatestMeetings();
+
 
 }

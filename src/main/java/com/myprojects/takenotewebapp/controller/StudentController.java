@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -65,21 +66,21 @@ public class StudentController {
         model.addAttribute("activePage", "notebookReadingPage");
 
 //        Trying to get the latest meetings only--------------------- (HANEI's)
-        List<Student> listOfStudents = studentService.getAllStudents();
-        List<Student> studentWithMeetings = listOfStudents.stream().filter(s -> !s.getMeetings().isEmpty()).toList();
-        List<Meeting> meetingsToDisplay = new ArrayList<>();
-        for (Student student : studentWithMeetings) {
-            Meeting result = student.getMeetings().stream().sorted((o1, o2) -> o2.getDate().
-                    compareTo(o1.getDate())).findFirst().orElse(new Meeting());
-            meetingsToDisplay.add(result);
-        }
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        System.out.println("MEETINGS TO DISPLAY:");
-        System.out.println(meetingsToDisplay);
-        System.out.println("END OF MEETINGS TO DISPLAY.");
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        model.addAttribute("studentsWithMeetings", studentWithMeetings);
-        model.addAttribute("meetingsToDisplay", meetingsToDisplay);
+//        List<Student> listOfStudents = studentService.getAllStudents();
+//        List<Student> studentWithMeetings = listOfStudents.stream().filter(s -> !s.getMeetings().isEmpty()).toList();
+//        List<Meeting> meetingsToDisplay = new ArrayList<>();
+//        for (Student student : studentWithMeetings) {
+//            Meeting result = student.getMeetings().stream().sorted((o1, o2) -> o2.getDate().
+//                    compareTo(o1.getDate())).findFirst().orElse(new Meeting());
+//            meetingsToDisplay.add(result);
+//        }
+//        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+//        System.out.println("MEETINGS TO DISPLAY:");
+//        System.out.println(meetingsToDisplay);
+//        System.out.println("END OF MEETINGS TO DISPLAY.");
+//        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+//        model.addAttribute("studentsWithMeetings", studentWithMeetings);
+//        model.addAttribute("meetingsToDisplay", meetingsToDisplay);
 //        End of trying--------------------------------------
 
         return "notebook_reading";
@@ -147,23 +148,7 @@ public class StudentController {
     }
 
 
-    //    view 1:1 reading form
-    @GetMapping("/notetaker/reading/1on1")
-    public String show1on1ReadingForm(Model model) {
-//        get all students
-        model.addAttribute("listStudents", studentService.getAllStudents());
-        model.addAttribute("meetings", meetingService.getAllMeetings());
-        return "1on1ReadingForm";
-    }
 
-    //    view 1:1 reading form
-    @GetMapping("/notetaker/writing/1on1")
-    public String show1on1WritingForm(Model model) {
-//        get all students
-        model.addAttribute("listStudents", studentService.getAllStudents());
-        model.addAttribute("meetings", meetingService.getAllMeetings());
-        return "1on1WritingForm";
-    }
 
     //    view about page
     @GetMapping("/about")

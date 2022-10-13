@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <!--    for selectpicker-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <!--end selectpicker-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
+          rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <!--  jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+    <script th:src="@{/js/script.js}" defer></script>
+    <title>NoteTaker - Writing Strategy Group</title>
+</head>
+<body class="d-flex flex-column h-100">
+<!-- NavBar -->
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+<!-- End of Navbar -->
+
+<main>
+    <div class="container">
+        <br>
+        <p class="display-6 text-center">Writing Strategy Group Conference</p>
+
+        <div class="card mx-5 col-5 mx-auto p-3">
+
+            <form action="#" th:action="@{/saveStrategyGroupWritingMeeting}" th:object="${meetingObject}" method="POST">
+
+                <label th:for="${meeting_number}" class="control-label">Student Name</label>
+                <select class="selectpicker form-control" data-live-search="true" th:id="${meeting_number}" name="id" multiple>
+                    <option th:each="student : ${listStudents}" th:value="${student.id}"
+                            th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
+                </select>
+
+                <!-- Date input -->
+                <div class="form-group">
+                    <label class="control-label" for="date">Date</label>
+                    <input class="form-control" id="date" name="date" placeholder="yyyy-mm-dd" type="text"/>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label" for="letter">Reading Level</label>
+                    <select class="form-control" id="letter" name="readingLevelValue"></select>
+                    <option></option>
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label" for="textarea1">Teaching Point</label>
+                    <textarea class="form-control" cols="40" id="textarea1" name="teachingPointValue"
+                              rows="3"></textarea>
+                </div>
+
+                <br>
+                <button type="submit" class="btn confer-btn btn-primary">Save Student</button>
+                <!--            </div>-->
+            </form>
+
+            <hr>
+            <a id="btn-light" class="btn btn-light" th:href="@{/notebook/students}">Back to Students</a>
+        </div>
+    </div>
+</main>
+
+<!--footer-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+<!--end of footer-->
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+<!--    for selectpicker-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<!--end selectpicker-->
+</body>
+</html>

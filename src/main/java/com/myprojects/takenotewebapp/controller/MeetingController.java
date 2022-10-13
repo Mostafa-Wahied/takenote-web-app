@@ -2,15 +2,14 @@ package com.myprojects.takenotewebapp.controller;
 
 import com.myprojects.takenotewebapp.model.Meeting;
 import com.myprojects.takenotewebapp.model.Student;
-import com.myprojects.takenotewebapp.repository.MeetingRepository;
-import com.myprojects.takenotewebapp.repository.StudentRepository;
 import com.myprojects.takenotewebapp.service.MeetingService;
 import com.myprojects.takenotewebapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
 
 @Controller
 public class MeetingController {
@@ -19,6 +18,16 @@ public class MeetingController {
     private StudentService studentService;
     @Autowired
     private MeetingService meetingService;
+
+
+    //    view 1:1 reading form
+    @GetMapping("/notetaker/reading/1on1")
+    public String show1on1ReadingForm(Model model) {
+//        get all students
+        model.addAttribute("listStudents", studentService.getAllStudents());
+        model.addAttribute("meetings", meetingService.getAllMeetings());
+        return "1on1_reading_form";
+    }
 
     // save 1:1 reading conference
     @PostMapping("/save1on1ReadingMeeting")
@@ -45,54 +54,55 @@ public class MeetingController {
         return "redirect:/notebook/students";
     }
 
-    // save guided reading conference
+    //    view guided reading form
+    @GetMapping("/notetaker/reading/guided_reading")
+    public String showGuidedReadingForm(Model model) {
+//        get all students
+        model.addAttribute("listStudents", studentService.getAllStudents());
+        model.addAttribute("meetings", meetingService.getAllMeetings());
+        return "guided_reading_form";
+    }
+
+    // save multiple students - guided reading conference
     @PostMapping("/saveGuidedReadingMeeting")
-    public String saveGuidedReadingMeeting(@ModelAttribute("meetingObject") Meeting meeting,
-                                           @RequestParam(name = "id") String id,
-                                           @RequestParam(name = "readingLevelValue") Character readingLevel,
-                                           @RequestParam(name = "strengthValue") String strength,
-                                           @RequestParam(name = "teachingPointValue") String teachingPoint,
-                                           @RequestParam(name = "nextStepValue") String nextStep) {
+    public String saveMultipleGuidedReadingMeeting(@ModelAttribute("meetingObject") Meeting meeting,
+                                                   @RequestParam(name = "id") String id,
+                                                   @RequestParam(name = "date") Date date,
+                                                   @RequestParam(name = "readingLevelValue") Character readingLevel,
+                                                   @RequestParam(name = "teachingPointValue") String teachingPoint) {
         System.out.println("*********************** name of student is: " + id);
-
-        Integer theId = Integer.parseInt(id);
-        Student student = studentService.getStudentById(theId);
-        System.out.println("This is the student object " + student);
-
-        meeting.setStudent(student);
-        meeting.setSubject("Reading");
-        meeting.setType("guided reading");
-        meeting.setSubjectLevel(readingLevel);
-        meeting.setStrength(strength);
-        meeting.setTeachingPoint(teachingPoint);
-        meeting.setNextStep(nextStep);
-        meetingService.saveMeeting(meeting);
+        studentService.saveMultipleGuidedReadingStudents(meeting, id, date, readingLevel, teachingPoint);
         return "redirect:/notebook/students";
     }
 
-    // save strategy group reading conference
-    @PostMapping("/saveStrategyGroupReadingMeeting")
-    public String saveStrategyGroupReadingMeeting(@ModelAttribute("meetingObject") Meeting meeting,
-                                           @RequestParam(name = "id") String id,
-                                           @RequestParam(name = "readingLevelValue") Character readingLevel,
-                                           @RequestParam(name = "strengthValue") String strength,
-                                           @RequestParam(name = "teachingPointValue") String teachingPoint,
-                                           @RequestParam(name = "nextStepValue") String nextStep) {
+    //    view reading strategy group form
+    @GetMapping("/notetaker/reading/strategy_group")
+    public String showStrategyGroupReadingForm(Model model) {
+//        get all students
+        model.addAttribute("listStudents", studentService.getAllStudents());
+        model.addAttribute("meetings", meetingService.getAllMeetings());
+        return "strategy_group_reading_form";
+    }
+
+    // save multiple students - reading strategy group conference
+    @PostMapping("/saveStrategyReadingMeeting")
+    public String saveMultipleStrategyReadingMeeting(@ModelAttribute("meetingObject") Meeting meeting,
+                                                     @RequestParam(name = "id") String id,
+                                                     @RequestParam(name = "date") Date date,
+                                                     @RequestParam(name = "readingLevelValue") Character readingLevel,
+                                                     @RequestParam(name = "teachingPointValue") String teachingPoint) {
         System.out.println("*********************** name of student is: " + id);
-
-        Integer theId = Integer.parseInt(id);
-        Student student = studentService.getStudentById(theId);
-        System.out.println("This is the student object " + student);
-
-        meeting.setStudent(student);
-        meeting.setSubject("reading");
-        meeting.setType("strategy group");
-        meeting.setSubjectLevel(readingLevel);
-        meeting.setStrength(strength);
-        meeting.setTeachingPoint(teachingPoint);
-        meeting.setNextStep(nextStep);
-        meetingService.saveMeeting(meeting);
+        studentService.saveMultipleStrategyReadingStudents(meeting, id, date, readingLevel, teachingPoint);
         return "redirect:/notebook/students";
+    }
+
+    //    view 1:1 writing form
+    @GetMapping("/notetaker/writing/1on1")
+    public String show1on1WritingForm(Model model) {
+//        get all students
+        model.addAttribute("listStudents", studentService.getAllStudents());
+        model.addAttribute("meetings", meetingService.getAllMeetings());
+        return "1on1_writing_form";
     }
 
     // save 1:1 Writing conference
@@ -103,11 +113,9 @@ public class MeetingController {
                                          @RequestParam(name = "teachingPointValue") String teachingPoint,
                                          @RequestParam(name = "nextStepValue") String nextStep) {
         System.out.println("*********************** name of student is: " + id);
-
         Integer theId = Integer.parseInt(id);
         Student student = studentService.getStudentById(theId);
         System.out.println("This is the student object " + student);
-
         meeting.setStudent(student);
         meeting.setSubject("Writing");
         meeting.setType("1:1");
@@ -118,29 +126,24 @@ public class MeetingController {
         return "redirect:/notebook/students";
     }
 
+    //    view writing strategy group form
+    @GetMapping("/notetaker/writing/strategy_group")
+    public String showStrategyGroupWritingForm(Model model) {
+//        get all students
+        model.addAttribute("listStudents", studentService.getAllStudents());
+        model.addAttribute("meetings", meetingService.getAllMeetings());
+        return "strategy_group_writing_form";
+    }
+
     // save strategy group writing conference
     @PostMapping("/saveStrategyGroupWritingMeeting")
     public String saveStrategyGroupWritingMeeting(@ModelAttribute("meetingObject") Meeting meeting,
                                                   @RequestParam(name = "id") String id,
+                                                  @RequestParam(name = "date") Date date,
                                                   @RequestParam(name = "readingLevelValue") Character readingLevel,
-                                                  @RequestParam(name = "strengthValue") String strength,
-                                                  @RequestParam(name = "teachingPointValue") String teachingPoint,
-                                                  @RequestParam(name = "nextStepValue") String nextStep) {
+                                                  @RequestParam(name = "teachingPointValue") String teachingPoint) {
         System.out.println("*********************** name of student is: " + id);
-
-        Integer theId = Integer.parseInt(id);
-        Student student = studentService.getStudentById(theId);
-        System.out.println("This is the student object " + student);
-
-        meeting.setStudent(student);
-        meeting.setSubject("writing");
-        meeting.setType("strategy group");
-        meeting.setSubjectLevel(readingLevel);
-        meeting.setStrength(strength);
-        meeting.setTeachingPoint(teachingPoint);
-        meeting.setNextStep(nextStep);
-        meetingService.saveMeeting(meeting);
+        studentService.saveMultipleStrategyWritingStudents(meeting, id, date, readingLevel, teachingPoint);
         return "redirect:/notebook/students";
     }
-
 }

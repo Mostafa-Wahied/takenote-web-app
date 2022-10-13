@@ -23,16 +23,14 @@
 <!-- End of Navbar -->
 
 <main>
-    <section class="container row m-2 p-2 pt-3 mx-md-4 px-md-5">
-        <div class="container row mx-auto justify-content-center my-auto mx-md-5 px-md-4">
+    <figure class="text-center mt-5">
+        <p class="display-6 text-center">My Students<br>Reading</p>
+    </figure>
 
-            <figure class="text-center">
-                <p class="display-6 text-center pt-5">My Students<br>Reading</p>
-            </figure>
+    <!--Students table-->
+    <section class="container px-2">
 
-            <!--Students table-->
-            <div class="container px-5">
-                <div class="row px-5">
+            <div class="container row">
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
@@ -45,10 +43,11 @@
                         <tbody>
 
                         <th:block th:each="student : ${listStudents}">
-                            <tr th:each="meeting, iterStat : ${student.meetings}" th:if="${iterStat.last}">
+                            <tr th:each="meeting, iterStat : ${student.meetings}">
                                 <th:block th:if="${meeting.subject=='Reading'}">
                                     <td>
-                                        <a class="btn btn-light" th:text="${student.firstName + ' ' + student.lastName}"
+                                        <a id="btn-light" class="btn btn-light"
+                                           th:text="${student.firstName + ' ' + student.lastName}"
                                            th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
                                     </td>
                                     <td th:text="${meeting.subjectLevel}"></td>
@@ -64,9 +63,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-        </div>
     </section>
 </main>
 
