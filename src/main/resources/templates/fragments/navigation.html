@@ -62,12 +62,12 @@
                         </li>
 
                         <li sec:authorize="!isAuthenticated()" class="nav-item login-link">
-                            <a class="btn login-btn" href="" th:href="@{/login}">Sign In</a>
+                            <a class="btn log-btn" href="" th:href="@{/login}">Sign In</a>
 
                         </li>
 
                         <li sec:authorize="isAuthenticated()" class="nav-item logout-link">
-                            <a class="btn logout-btn" href="" th:href="@{/logout}">Logout</a>
+                            <a class="btn log-btn" href="" th:href="@{/logout}">Logout</a>
                         </li>
 
 <!--                        <li sec:authorize="isAuthenticated()" class="nav-item">-->

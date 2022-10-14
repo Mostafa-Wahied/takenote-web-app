@@ -38,28 +38,44 @@
         font-size: 6vw !important;
         text-align: center;
         margin-top: 5%;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
     }
 }
 
-.login-btn {
-    width: 100%;
-    margin-left: 100% !important;
+.link-btn {
+    padding: 3px 7px !important;
     color: #fd6048 !important;
     background-color: transparent !important;
     border: 1px solid #fc5a41 !important;
-    font-size: 0.9vw !important;}
+    font-size: 0.9vw;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
 
-.logout-btn {
+.link-btn:hover {
+    background-color: rgba(248, 111, 90, 0.09) !important;
+}
+
+.log-btn {
     width: 100%;
     margin-left: 100% !important;
     color: #fd6048 !important;
     background-color: transparent !important;
     border: 1px solid #fc5a41 !important;
     font-size: 0.9vw !important;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.log-btn:hover {
+    background-color: rgba(248, 111, 90, 0.09) !important;
 }
 
 #btn-light {
     background-color: #f8e5e1 !important;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
 }
 
 .btn-index {
