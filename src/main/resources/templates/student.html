@@ -35,7 +35,7 @@
     <!--Student table-->
     <section class="container">
         <div class="row">
-            <table class="table table-striped table-hover">
+            <table style="width: 100%" class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th scope="col">Date</th>
@@ -48,9 +48,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="meeting : ${meetings}">
-                        <td th:text="${meeting.date}"></td>
+                        <td style="white-space: nowrap;" th:text="${meeting.date}"></td>
                         <td th:text="${meeting.subjectLevel}"></td>
-                        <td th:text="${meeting.type}"></td>
+                        <td style="white-space: nowrap;" th:text="${meeting.type}"></td>
                         <td th:text="${meeting.strength}"></td>
                         <td th:text="${meeting.teachingPoint}"></td>
                         <td th:text="${meeting.nextStep}"></td>

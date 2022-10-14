@@ -26,10 +26,10 @@ for (let letter of alphabet) {
 // Get the container element
 var btnContainer = document.getElementsByClassName("nav-item");
 // Get all buttons with class="btn" inside the container
-var btns = btnContainer.getElementsByClassName("nav-link");
+var btns = document.getElementsByClassName("nav-link");
 // Loop through the buttons and add the active class to the current/clicked button
 for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function() {
+    btns[i].addEventListener("click", function () {
         var current = document.getElementsByClassName("active");
         // If there's no active class
         if (current.length > 0) {

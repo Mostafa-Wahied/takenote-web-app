@@ -41,7 +41,7 @@
 
                                     <!--            logout message-->
                                     <div th:if="${param.logout}">
-                                        <div class="alert alert-info">You have been logged out</div>
+                                        <div class="alert alert-info text-center">You have been logged out</div>
                                     </div>
                                     <!--                            end of logout message-->
 
@@ -49,7 +49,7 @@
 
                                     <!--            error message-->
                                     <div th:if="${param.error}">
-                                        <div class="alert alert-danger">Invalid username or password</div>
+                                        <div class="alert alert-danger text-center">Invalid username or password</div>
                                     </div>
                                     <!--                            end of error message-->
 
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center justify-content-center text-center order-1 order-lg-2">
 
-                                    <img src="" th:src="@{/image/signin.jpg}"
+                                    <img src="" th:src="@{/image/signin2.jpg}"
                                          id="login-img" class="img-fluid" alt="Sample image">
                                 </div>
                             </div>

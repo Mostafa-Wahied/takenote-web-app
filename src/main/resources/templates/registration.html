@@ -41,23 +41,38 @@
 
                                     <!--            success message-->
                                     <div th:if="${param.success}">
-                                        <div class="alert alert-info">You've successfully registered your account</div>
+                                        <div class="alert alert-info text-center">You've successfully registered your
+                                            account
+                                        </div>
                                         <div class="text-center"><a class="btn link-btn btn-general" href="/"
                                                                     th:href="@{/login}">Sign in</a></div>
                                     </div>
                                     <!--                            end of success message-->
 
+                                    <!--            uncaught error message-->
+                                    <div th:if="${param.errors}">
+                                        <div class="alert alert-info text-center">This is an uncaught error</div>
+                                    </div>
+                                    <!--                            end of error message-->
+
                                     <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4">Sign up</p>
+
+                                    <!--            error message-->
+                                    <div th:if="${param.error}">
+                                        <div class="alert alert-info text-center">Username already exists</div>
+                                    </div>
+                                    <!--                            end of error message-->
 
                                     <form th:action="@{/register}" class="mx-1 mx-md-4" method="post"
                                           th:object="${user}">
 
                                         <div class="d-flex flex-row align-items-center">
                                             <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+
                                             <div class="form-outline flex-fill mb-0">
                                                 <input type="text" id="username" class="form-control"
-                                                       th:field="*{username}" placeholder="Username" required
-                                                       autofocus="autofocus"/>
+                                                       th:field="*{username}" placeholder="Username"
+                                                       required autofocus="autofocus"/>
                                                 <label class="form-label" for="username"></label>
                                             </div>
                                         </div>
