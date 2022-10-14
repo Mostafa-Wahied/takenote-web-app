@@ -39,16 +39,27 @@
         text-align: center;
         margin-top: 5%;
     }
+}
 
-    .main {
-        /*display: block;*/
-    }
+.login-btn {
+    width: 100%;
+    margin-left: 100% !important;
+    color: #fd6048 !important;
+    background-color: transparent !important;
+    border: 1px solid #fc5a41 !important;
+    font-size: 0.9vw !important;}
+
+.logout-btn {
+    width: 100%;
+    margin-left: 100% !important;
+    color: #fd6048 !important;
+    background-color: transparent !important;
+    border: 1px solid #fc5a41 !important;
+    font-size: 0.9vw !important;
 }
 
 #btn-light {
-    /*background-color: #e5e3e3 !important;*/
     background-color: #f8e5e1 !important;
-    /*background-color: rgba(187, 210, 217, 0.53) !important;*/
 }
 
 .btn-index {
@@ -71,8 +82,8 @@
 .btn-bd-primary-index {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.8vw;
-    color: #fff;
-    background-color: #ff725c;
+    color: #fff !important;
+    background-color: #ff725c !important;
     border-radius: 20px;
     border: none !important;
     padding: 0.5vw 0.5vw;
@@ -208,7 +219,7 @@ hr {
     width: 20vw;
     border: 3px solid black;
     height: 4px;
-margin-top: 6% !important;
+    margin-top: 6% !important;
 }
 
 .desc-text {
@@ -248,4 +259,14 @@ td {
 
 .selectpicker {
     background-color: white !important;
+}
+
+#login-img {
+    /*height: 80%;*/
+    width: 70%;
+}
+
+#signup-img {
+    /*height: 80%;*/
+    width: 70%;
 }

@@ -5,13 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 //        ------------------- experimental - trying to get unique latest meetings ---------------------------
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {
-    final String latestMeetings = "select MAX(m.date) as \"max date\", subject, meeting_number, type, next_step, strength, subject_level, teaching_point, student_id from meetings m group by student_id;";
+//    final String latestMeetings = "select new SimpleDateFormat(\"dd/MM/yyyy\").parse(max(date)), subject, meeting_number, type, next_step, strength, subject_level, teaching_point, student_id from meetings m group by student_id;";
 
-    @Query(nativeQuery = true, value = latestMeetings)
+//    Date maxdate = new Date(Long.MAX_VALUE);
+    @Query(nativeQuery = true, value = "select max(date), subject, meeting_number, type, next_step, strength, subject_level, teaching_point, student_id from meetings group by student_id")
     List<Meeting> findLatestMeetings();
 
 

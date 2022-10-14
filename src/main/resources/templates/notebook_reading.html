@@ -42,8 +42,8 @@
                         </thead>
                         <tbody>
 
-                        <th:block th:each="student : ${listStudents}">
-                            <tr th:each="meeting, iterStat : ${student.meetings}">
+                        <th:block th:each="student : ${listStudents}" >
+                            <tr th:each="meeting, iterStat : ${student.meetings}" th:if="${iterStat.last}">
                                 <th:block th:if="${meeting.subject=='Reading'}">
                                     <td>
                                         <a id="btn-light" class="btn btn-light"

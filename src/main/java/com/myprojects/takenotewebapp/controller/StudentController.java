@@ -82,6 +82,8 @@ public class StudentController {
 //        model.addAttribute("studentsWithMeetings", studentWithMeetings);
 //        model.addAttribute("meetingsToDisplay", meetingsToDisplay);
 //        End of trying--------------------------------------
+//        System.out.println(meetingRepository.findLatestMeetings());
+//        model.addAttribute("latestMeetings", meetingRepository.findLatestMeetings());
 
         return "notebook_reading";
     }
