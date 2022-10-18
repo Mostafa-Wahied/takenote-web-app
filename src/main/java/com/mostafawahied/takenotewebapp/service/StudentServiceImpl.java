@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
 
     @Autowired
     private StudentRepository studentRepository;
@@ -50,8 +48,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentByFirstName(String firstName) {
-        return studentRepository.findStudentByFirstNameEquals(firstName);
+    public Student getStudentByIdByQuery(long id) {
+        return studentRepository.getStudentByIdByQuery(id);
     }
 
     @Override
@@ -112,6 +110,25 @@ public class StudentServiceImpl implements StudentService {
             meeting.setTeachingPoint(teachingPoint);
             meetingService.saveMeeting(meeting);
         }
+    }
+
+    @Override
+    public List<Student> getStudentsWithLastMeeting() {
+        //from each student in students list retrieved from DB
+        List<Student> studentsList = getAllStudents();
+        List<Student> newStudentsList = new ArrayList<>();
+        for (Student student : studentsList) {
+            Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
+            List<Meeting> meetings = student.getMeetings();
+            Meeting meeting = meetings.stream().max(meetingDateComparator).get();
+            Student newStudent = student;
+            newStudent.setMeetings(List.of(meeting));
+            newStudentsList.add(newStudent);
+            System.out.println("******&&&&&&&&&&*****************");
+            System.out.println(meeting.getDate());
+            System.out.println("******&&&&&&&&&&*****************");
+        }
+        return newStudentsList;
     }
 
 }

@@ -19,6 +19,11 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public User(String username, String password, Collection<Role> roles) {
         this.username = username;
         this.password = password;

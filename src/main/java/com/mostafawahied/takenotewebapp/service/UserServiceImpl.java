@@ -1,6 +1,7 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.dto.UserRegistrationDto;
+import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Role;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,8 +34,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserById(long id) {
+        Optional<User> optional = userRepository.findById(id);
+
+        User user = null;
+        if (optional.isPresent()) {
+            user = optional.get();
+        } else {
+            throw new RuntimeException(("User not found for id: " + id));
+        }
+        return user;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password");
         }

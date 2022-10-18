@@ -9,7 +9,5 @@ public interface MeetingService {
 
     void saveMeeting(Meeting meeting);
 
-    List<Meeting> findLatestMeetings();
-
-
+    Meeting getMeetingById(long id);
 }

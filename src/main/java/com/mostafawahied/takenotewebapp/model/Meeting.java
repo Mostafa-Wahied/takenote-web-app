@@ -39,35 +39,22 @@ public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long meetingNumber;
-//    @Id
-//    @DateTimeFormat(pattern = "dd-MM-yyyy")
-//    @Temporal(TemporalType.DATE)
+
     private Date date;
-//    @Id
     private String subject;
-//    @Id
     private String type;
-    //    @EmbeddedId
-//    private MeetingId meetingId;
     private Character subjectLevel;
     private String strength;
     private String teachingPoint;
     private String nextStep;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Student student;
 
-//    public Meeting(Date date, String subject, String type, Character subjectLevel, String strength, String teachingPoint, String nextStep, Student student) {
-//
-//        this.date = date;
-//        this.subject = subject;
-//        this.type = type;
-//        this.meetingId = new MeetingId();
-//        this.subjectLevel = subjectLevel;
-//        this.strength = strength;
-//        this.teachingPoint = teachingPoint;
-//        this.nextStep = nextStep;
-//        this.student = student;
-//    }
+    public Meeting(long meetingNumber, String subject, Character subjectLevel) {
+        this.meetingNumber = meetingNumber;
+        this.subject = subject;
+        this.subjectLevel = subjectLevel;
+    }
 
     @Override
     public boolean equals(Object o) {

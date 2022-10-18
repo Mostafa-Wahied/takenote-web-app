@@ -1,5 +1,6 @@
 package com.mostafawahied.takenotewebapp.controller;
 
+import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
@@ -18,6 +19,8 @@ public class MeetingController {
     private StudentService studentService;
     @Autowired
     private MeetingService meetingService;
+    @Autowired
+    private MeetingRepository meetingRepository;
 
 
     //    view 1:1 reading form

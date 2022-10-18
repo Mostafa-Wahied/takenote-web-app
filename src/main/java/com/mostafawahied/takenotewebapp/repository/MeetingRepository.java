@@ -8,14 +8,10 @@ import java.util.List;
 
 //        ------------------- experimental - trying to get unique latest meetings ---------------------------
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {
-//    final String latestMeetings = "select new SimpleDateFormat(\"dd/MM/yyyy\").parse(max(date)), subject, meeting_number, type, next_step, strength, subject_level, teaching_point, student_id from meetings m group by student_id;";
+    //    Using custom query to get meetings
+    @Query("SELECT m FROM Meeting m JOIN FETCH m.student")
+    List<Meeting> findAll();
 
-//    Date maxdate = new Date(Long.MAX_VALUE);
-    @Query(nativeQuery = true, value = "select max(date), subject, meeting_number, type, next_step, strength, subject_level, teaching_point, student_id from meetings group by student_id")
-    List<Meeting> findLatestMeetings();
-
-
-    // --------------- end of experimental --------------
 
 
 }

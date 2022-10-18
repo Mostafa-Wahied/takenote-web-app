@@ -77,6 +77,16 @@ public class StudentController {
 //        System.out.println(meetingRepository.findLatestMeetings());
 //        model.addAttribute("latestMeetings", meetingRepository.findLatestMeetings());
 
+//        another try using custom query in meetingrepo
+//        model.addAttribute("queryMeetings", meetingRepository.findAll());
+//        System.out.println("**************");
+//        System.out.println(meetingRepository.findAll());
+//        System.out.println("**************");
+//        end of try
+
+//        one more try
+        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting());
+
         return "notebook_reading";
     }
 

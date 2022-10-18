@@ -1,11 +1,13 @@
 package com.mostafawahied.takenotewebapp.service;
 
+import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MeetingServiceImpl implements MeetingService{
@@ -23,10 +25,15 @@ public class MeetingServiceImpl implements MeetingService{
     }
 
     @Override
-    public List<Meeting> findLatestMeetings() {
-        return meetingRepository.findLatestMeetings();
+    public Meeting getMeetingById(long id) {
+        Optional<Meeting> optional = meetingRepository.findById(id);
+
+        Meeting meeting = null;
+        if (optional.isPresent()) {
+            meeting = optional.get();
+        } else {
+            throw new RuntimeException(("Meeting not found for id: " + id));
+        }
+        return meeting;
     }
-
-
-
 }

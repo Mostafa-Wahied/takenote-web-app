@@ -11,9 +11,15 @@ public interface StudentService {
     void saveStudent(Student student);
     Student getStudentById(long id);
     void deleteStudentById(long id);
-    Student getStudentByFirstName(String firstName);
+    Student getStudentByIdByQuery(long id);
+
     void saveMultipleGuidedReadingStudents(Meeting meeting, String id, Date date, Character readingLevel, String teachingPoint);
     void saveMultipleStrategyReadingStudents(Meeting meeting, String id, Date date, Character readingLevel, String teachingPoint);
 
     void saveMultipleStrategyWritingStudents(Meeting meeting, String id, Date date, Character readingLevel, String teachingPoint);
+
+
+    // get students with last meetings
+    List<Student> getStudentsWithLastMeeting();
+//    List<Student> findAllStudents();
 }

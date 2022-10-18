@@ -11,9 +11,9 @@ import java.util.Objects;
 @Getter
 @Setter
 //@ToString
-//@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
-//@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "students")
 public class Student {
@@ -29,6 +29,12 @@ public class Student {
     private List<Meeting> meetings = new ArrayList<Meeting>();
 
     public Student(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Student(long id, String firstName, String lastName) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }

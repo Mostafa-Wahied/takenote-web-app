@@ -11,7 +11,6 @@ $(document).ready(function () {
     date_input.datepicker(options);
 })
 
-
 // populating the reading level dropdown menu on forms
 const alphabetDropdown = document.querySelector("#letter");
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
