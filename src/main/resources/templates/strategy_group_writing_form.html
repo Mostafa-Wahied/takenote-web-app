@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 <head>
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <!--google icons-->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
     <!--    for selectpicker-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <link rel="stylesheet"
@@ -48,7 +53,7 @@
 
             <form action="#" th:action="@{/saveStrategyGroupWritingMeeting}" th:object="${meetingObject}" method="POST">
 
-                <label th:for="${meeting_number}" class="control-label">Student Name</label>
+                <label th:for="${meeting_number}" class="control-label">Student Name (you can select more than one student)</label>
                 <select class="selectpicker form-control" data-live-search="true" th:id="${meeting_number}" name="id" multiple required>
                     <option th:each="student : ${listStudents}" th:value="${student.id}"
                             th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
@@ -68,13 +73,12 @@
 
                 <div class="form-group ">
                     <label class="control-label" for="textarea1">Teaching Point</label>
+                    <span class="about-symbol material-symbols-outlined" style="font-size: 20px;">check_circle</span>
                     <textarea class="form-control" cols="40" id="textarea1" name="teachingPointValue"
                               rows="3"></textarea>
                 </div>
 
-                <br>
-                <button type="submit" class="btn confer-btn btn-primary">Save Student</button>
-                <!--            </div>-->
+                <button type="submit" class="btn confer-btn btn-primary">Save</button>
             </form>
 
             <hr>

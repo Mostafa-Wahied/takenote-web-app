@@ -171,7 +171,7 @@
 /* Navbar */
 .navbar-brand {
     font-size: 1.75rem;
-    letter-spacing: 3px;
+    letter-spacing: 5px;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
 }
@@ -216,7 +216,6 @@
     padding-bottom: 5%;
     border-bottom: 2px solid #ff725ce2;
 }
-
 /* End of navbar */
 
 #home-img {
@@ -245,6 +244,16 @@ hr {
 
 .about-takenote-title {
     color: #fd6048;
+}
+
+.about-takenote-titles {
+    color: #fd6048;
+    text-decoration: none;
+}
+
+.about-takenote-titles:hover {
+    color: #ff2200;
+    text-decoration: underline;
 }
 
 .about-p {
@@ -285,5 +294,9 @@ td {
 
 #signup-img {
     /*height: 80%;*/
+    width: 70%;
+}
+
+.confer-img {
     width: 70%;
 }

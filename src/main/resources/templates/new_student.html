@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 <head>
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
@@ -27,6 +29,13 @@
         <br>
         <p class="display-6 text-center">Add New Student</p>
         <div class="m-5 p-5 text-center">
+
+            <!--            success message-->
+            <div th:if="${param.success}">
+                <div class="alert alert-info text-center">Your new student have been saved</div>
+            </div>
+            <!--                            end of success message-->
+
             <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
                 <label>
                     <input type="text" th:field="*{firstName}" placeholder="First Name"

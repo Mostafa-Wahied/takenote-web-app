@@ -20,6 +20,6 @@ public interface StudentService {
 
 
     // get students with last meetings
-    List<Student> getStudentsWithLastMeeting();
+    List<Student> getStudentsWithLastMeeting() throws Exception;
 //    List<Student> findAllStudents();
 }

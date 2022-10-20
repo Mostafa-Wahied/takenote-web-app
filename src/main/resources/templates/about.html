@@ -2,6 +2,8 @@
 <html lang="en" class="h-100">
 
 <head>
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
@@ -83,13 +85,16 @@
                     <div class="ms-4">
                         <div class="d-flex">
                             <span class="label material-symbols-outlined">label</span>
-                            <p class="about-p ms-2">With <span class="about-takenote-title">NoteTaker</span>, easily
-                                capture data while
+                            <p class="about-p ms-2">With <span><a class="about-takenote-titles"
+                                                                  th:href="@{/notebook/students}">NoteTaker</a></span>,
+                                easily capture data while
                                 conferencing.</p>
                         </div>
                         <div class="d-flex">
                             <span class="label material-symbols-outlined">label</span>
-                            <p class="about-p ms-2">With <span class="about-takenote-title">NoteBook</span>, store
+                            <p class="about-p ms-2">With <span class="about-takenote-titles"><a
+                                    class="about-takenote-titles" th:href="@{/notetaker/reading}">NoteBook</a></span>,
+                                store
                                 and
                                 analyze data with
                                 dashboards that show conferring records and help you plan for future instruction.

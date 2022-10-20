@@ -113,17 +113,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsWithLastMeeting() {
+    public List<Student> getStudentsWithLastMeeting() throws Exception {
         //from each student in students list retrieved from DB
         List<Student> studentsList = getAllStudents();
         List<Student> newStudentsList = new ArrayList<>();
         for (Student student : studentsList) {
             Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
             List<Meeting> meetings = student.getMeetings();
-            Meeting meeting = meetings.stream().max(meetingDateComparator).get();
-            Student newStudent = student;
-            newStudent.setMeetings(List.of(meeting));
-            newStudentsList.add(newStudent);
+            Meeting meeting = meetings.stream().max(meetingDateComparator).orElseThrow(()
+                    -> new Exception("****Meetings not found****"));
+            student.setMeetings(List.of(meeting));
+            newStudentsList.add(student);
             System.out.println("******&&&&&&&&&&*****************");
             System.out.println(meeting.getDate());
             System.out.println("******&&&&&&&&&&*****************");

@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 <head>
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <!--google icons-->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
@@ -37,14 +42,16 @@
                     <th scope="col">Name</th>
                     <th scope="col">Reading Level</th>
                     <th scope="col">Reading<br>Date Last Met</th>
-                    <th scope="col">Next Step</th>
+                    <th scope="col">Next Step <span class="about-symbol material-symbols-outlined"
+                                                    style="font-size: 20px;">arrow_circle_up</span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
 
                 <tr th:each="student : ${studentsWithLastMeeting}">
-                    <!--                    <th:block th:if="${meetingStat.last}">-->
-                    <th:block th:each="meeting : ${student.meetings}">
+                    <!--                <tr th:each="student : ${listStudents}">-->
+                    <th:block th:each="meeting : ${student.meetings}" th:if="${meeting.subject == 'Reading'}">
                         <td>
                             <a id="btn-light" class="btn btn-light"
                                th:text="${student.firstName + ' ' + student.lastName}"

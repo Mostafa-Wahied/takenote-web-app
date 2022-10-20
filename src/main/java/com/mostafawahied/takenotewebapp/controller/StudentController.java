@@ -31,10 +31,12 @@ public class StudentController {
     final String notebookStudentsURL = "/notebook/students";
 
     @GetMapping(notebookStudentsURL)
-    public String viewAllStudentsPage(Model model, Student student) {
+    public String viewAllStudentsPage(Model model, Student student) throws Exception {
         model.addAttribute("listStudents", studentService.getAllStudents());
         //        for navigation active state
         model.addAttribute("activePage", "studentsPage");
+        //        getting students with last meeting
+        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting());
         return "students";
     }
 
@@ -52,39 +54,11 @@ public class StudentController {
 
     //    display all students for reading
     @GetMapping("/notebook/reading")
-    public String viewReadingStudentsPage(Model model) {
+    public String viewReadingStudentsPage(Model model) throws Exception {
         model.addAttribute("listStudents", studentService.getAllStudents());
         //        for navigation active state
         model.addAttribute("activePage", "notebookReadingPage");
-
-//        Trying to get the latest meetings only--------------------- (HANEI's)
-//        List<Student> listOfStudents = studentService.getAllStudents();
-//        List<Student> studentWithMeetings = listOfStudents.stream().filter(s -> !s.getMeetings().isEmpty()).toList();
-//        List<Meeting> meetingsToDisplay = new ArrayList<>();
-//        for (Student student : studentWithMeetings) {
-//            Meeting result = student.getMeetings().stream().sorted((o1, o2) -> o2.getDate().
-//                    compareTo(o1.getDate())).findFirst().orElse(new Meeting());
-//            meetingsToDisplay.add(result);
-//        }
-//        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-//        System.out.println("MEETINGS TO DISPLAY:");
-//        System.out.println(meetingsToDisplay);
-//        System.out.println("END OF MEETINGS TO DISPLAY.");
-//        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-//        model.addAttribute("studentsWithMeetings", studentWithMeetings);
-//        model.addAttribute("meetingsToDisplay", meetingsToDisplay);
-//        End of trying--------------------------------------
-//        System.out.println(meetingRepository.findLatestMeetings());
-//        model.addAttribute("latestMeetings", meetingRepository.findLatestMeetings());
-
-//        another try using custom query in meetingrepo
-//        model.addAttribute("queryMeetings", meetingRepository.findAll());
-//        System.out.println("**************");
-//        System.out.println(meetingRepository.findAll());
-//        System.out.println("**************");
-//        end of try
-
-//        one more try
+//        getting students with last meeting
         model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting());
 
         return "notebook_reading";
@@ -93,10 +67,12 @@ public class StudentController {
 
     //    display all students for writing
     @GetMapping("/notebook/writing")
-    public String viewWritingStudentsPage(Model model) {
+    public String viewWritingStudentsPage(Model model) throws Exception {
         model.addAttribute("listStudents", studentService.getAllStudents());
         //        for navigation active state
         model.addAttribute("activePage", "notebookWritingPage");
+        //        getting students with last meeting
+        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting());
         return "notebook_writing";
     }
 
@@ -113,7 +89,7 @@ public class StudentController {
     @PostMapping("/saveStudent")
     public String saveStudent(@ModelAttribute("student") Student student) {
         studentService.saveStudent(student);
-        return "redirect:/notebook/students";
+        return "redirect:/showNewStudentForm?success";
     }
 
     //    update student info

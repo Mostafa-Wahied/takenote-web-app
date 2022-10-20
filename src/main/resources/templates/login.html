@@ -2,6 +2,8 @@
 <html lang="en" class="h-100">
 
 <head>
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
@@ -83,7 +85,9 @@
 
                                             <br>
                                             <div class="form-group ">
-                                                <span>Don't have an account?  <a class="btn link-btn" href="/"
+                                                <span>Don't have an account?  <a class=""
+                                                                                 style="text-decoration: none; color: #6ba7ba; font-weight: 500"
+                                                                                 href="/"
                                                                                  th:href="@{/register}">Sign up</a></span>
                                             </div>
                                         </div>
@@ -92,8 +96,14 @@
                                 </div>
                                 <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center justify-content-center text-center order-1 order-lg-2">
 
-                                    <img src="" th:src="@{/image/signin2.jpg}"
-                                         id="login-img" class="img-fluid" alt="Sample image">
+
+                                    <lottie-player
+                                            src="https://lottie.host/c6e565cf-f6d1-43a4-82b4-37336a936fbd/F3103TqUbC.json"
+                                            background="transparent" speed="1" style="width: 400px; height: 400px;"
+                                            autoplay></lottie-player>
+
+                                    <!--                                                                        <img src="" th:src="@{/image/signin2.jpg}"-->
+                                    <!--                                                                             id="login-img" class="img-fluid" alt="Sample image">-->
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 <head>
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
@@ -24,20 +26,24 @@
 
 <main>
     <section>
+        <br>
+        <div class="container confer-main-container">
+            <p class="display-6 text-center">Choose Conference Type</p>
             <br>
-            <div class="container confer-main-container">
-                <p class="display-6 text-center">Choose Conference Type</p>
-                <br>
-                <div class="container row px-5">
+            <div class="container row px-5">
                 <div class="row mx-auto justify-content-center">
                     <div class="col">
                         <div class="card h-100">
-                            <!--          <img src="..." class="card-img-top" alt="...">-->
+                            <div class="text-center">
+                                <img src="" th:src="@{/image/1on12.jpg}"
+                                     class="card-img-top img-fluid" style="width: 200px; height: 200px;"
+                                     alt="Sample image">
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
                                 <div class="row mx-auto text-center mt-4">
                                     <p class="card-text"><a th:href="@{/notetaker/writing/1on1}"
-                                                            class="universal-btn btn-bd-primary-index">Choose</a></p>
+                                                            class="universal-btn btn-bd-primary-index btn-general">Choose</a></p>
                                 </div>
                             </div>
                         </div>
@@ -45,12 +51,16 @@
                     <br>
                     <div class="col">
                         <div class="card h-100">
-                            <!--          <img src="..." class="card-img-top" alt="...">-->
+                            <div class="text-center">
+                                <img src="" th:src="@{/image/group.jpg}"
+                                     class="card-img-top img-fluid" style="width: 300px; height: 200px;"
+                                     alt="Sample image">
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title mx-auto text-center">Strategy Group</h5>
                                 <div class="row mx-auto text-center mt-4">
                                     <p class="card-text"><a th:href="@{/notetaker/writing/strategy_group}"
-                                                            class="universal-btn btn-bd-primary-index">Choose</a></p>
+                                                            class="universal-btn btn-bd-primary-index btn-general">Choose</a></p>
                                 </div>
                             </div>
                         </div>
