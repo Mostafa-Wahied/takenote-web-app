@@ -19,7 +19,7 @@ public class StudentRepositoryTest {
 //    JUnit test for save Student
     @Test
     void saveStudentTest() {
-        Student actual = new Student(15L,"firstNameTest2", "lastNameTest2");
+        Student actual = new Student(35L,"firstNameTest2", "lastNameTest2");
         Student expected = studentRepository.save(actual);
 
         Assertions.assertThat(expected.equals(actual));
@@ -28,7 +28,7 @@ public class StudentRepositoryTest {
 //    JUnit test for find student by firstname
     @Test
     void getStudentByIdTest() {
-        Long actual = 4L;
+        Long actual = 29L;
         Student student = studentRepository.getStudentByIdByQuery(actual);
         Long expected = student.getId();
 

@@ -15,17 +15,10 @@ public class MeetingServiceTest {
     @Autowired
     private MeetingService meetingService;
 
-//    JUnit test for finding all meetings
-//    @Test
-//    public void getListOfMeetingsTest() {
-//        List<Meeting> meetings = meetingService.getAllMeetings();
-//        Assertions.assertThat(meetings.size()).isGreaterThan(0);
-//    }
-
 //    JUnit test for finding a meeting by id
     @Test
     public void findMeetingByIdTest() {
-        Long actual = 13L;
+        Long actual = 33L;
         Meeting meeting = meetingService.getMeetingById(actual);
         Long expected = meeting.getMeetingNumber();
 
