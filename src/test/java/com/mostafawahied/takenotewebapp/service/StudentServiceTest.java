@@ -15,7 +15,7 @@ public class StudentServiceTest {
     //    JUnit test for find student by id
     @Test
     void getStudentByIdTest() {
-        Long actual = 29L;
+        Long actual = 6L;
         Student student = studentService.getStudentById(actual);
         Long expected = student.getId();
 

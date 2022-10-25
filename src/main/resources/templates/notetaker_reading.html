@@ -16,13 +16,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
-    <script th:src="@{/static/script.js}" defer></script>
+    <script th:src="@{/js/script.js}" defer></script>
     <title>TakeNote - NoteTaker Reading</title>
 </head>
 <body class="d-flex flex-column h-100">
 <!-- NavBar -->
 <div th:replace="~{fragments/navigation :: navigation}"></div>
 <!-- End of Navbar -->
+<!-- preloader -->
+<div th:replace="~{fragments/preloader :: preloader}"></div>
+<!-- End of preloader -->
 
 <main>
 
@@ -35,11 +38,11 @@
                 <div class="row mx-auto justify-content-center">
                     <div class="col">
                         <div class="card h-100">
-                                <div class="text-center">
-                                    <img src="" th:src="@{/image/1on12.jpg}"
-                                         class="card-img-top img-fluid" style="width: 200px; height: 200px;"
-                                         alt="Sample image">
-                                </div>
+                            <div class="text-center">
+                                <img src="" th:src="@{/image/1on12.jpg}"
+                                     class="card-img-top img-fluid" style="width: 200px; height: 200px;"
+                                     alt="Sample image">
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
                                 <div class="row mx-auto text-center mt-4">
@@ -108,5 +111,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
+
+<!--<script>-->
+<!--    var loader = document.getElementById("preloader")-->
+
+<!--    window.addEventListener("load", function () {-->
+<!--        loader.style.display = "none";-->
+<!--    })-->
+<!--</script>-->
 </body>
 </html>

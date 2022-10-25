@@ -26,6 +26,9 @@
 <!-- NavBar -->
 <div th:replace="~{fragments/navigation :: navigation}"></div>
 <!-- End of Navbar -->
+<!-- preloader -->
+<div th:replace="~{fragments/preloader :: preloader}"></div>
+<!-- End of preloader -->
 
 <main>
     <figure class="text-center mt-5">
@@ -49,7 +52,7 @@
                 </thead>
                 <tbody>
 
-                <tr th:each="student : ${studentsWithLastMeeting}">
+                <tr th:each="student : ${studentsWithLastMeetingReading}">
                     <!--                <tr th:each="student : ${listStudents}">-->
                     <th:block th:each="meeting : ${student.meetings}" th:if="${meeting.subject == 'Reading'}">
                         <td>

@@ -1,11 +1,14 @@
 package com.mostafawahied.takenotewebapp.service;
 
+import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.StudentRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
+import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.sql.Date;
 import java.util.*;
 
@@ -18,13 +21,22 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private MeetingService meetingService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public List<Student> getAllStudents(Principal principal) {
+        User user = userRepository.findByUsername(principal.getName());
+        return user.getStudents();
     }
 
     @Override
-    public void saveStudent(Student student) {
+//    public void saveStudent(Student student) {
+//        this.studentRepository.save(student);
+//    }
+    public void saveStudent(Student student, Principal principal) {
+        User user = userRepository.findByUsername(principal.getName());
+        student.setUser(user);
         this.studentRepository.save(student);
     }
 
@@ -85,7 +97,7 @@ public class StudentServiceImpl implements StudentService {
             meeting.setStudent(studentById);
             meeting.setDate(date);
             meeting.setSubject("Reading");
-            meeting.setType("Strategy Group");
+            meeting.setType("Strategy Group - Reading");
             meeting.setSubjectLevel(readingLevel);
             meeting.setTeachingPoint(teachingPoint);
             meetingService.saveMeeting(meeting);
@@ -105,7 +117,7 @@ public class StudentServiceImpl implements StudentService {
             meeting.setStudent(studentById);
             meeting.setDate(date);
             meeting.setSubject("Writing");
-            meeting.setType("Strategy Group");
+            meeting.setType("Strategy Group - Writing");
             meeting.setSubjectLevel(readingLevel);
             meeting.setTeachingPoint(teachingPoint);
             meetingService.saveMeeting(meeting);
@@ -113,20 +125,79 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsWithLastMeeting() throws Exception {
+    public List<Student> getStudentsWithLastMeeting(Principal principal) throws Exception {
         //from each student in students list retrieved from DB
-        List<Student> studentsList = getAllStudents();
+        List<Student> studentsList = getAllStudents(principal);
         List<Student> newStudentsList = new ArrayList<>();
         for (Student student : studentsList) {
             Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
             List<Meeting> meetings = student.getMeetings();
-            Meeting meeting = meetings.stream().max(meetingDateComparator).orElseThrow(()
-                    -> new Exception("****Meetings not found****"));
+            Meeting meeting = meetings.stream().max(meetingDateComparator).orElse(new Meeting());
+//            Meeting meeting = meetings.stream().max(meetingDateComparator).orElseThrow(()
+//                    -> new Exception("****Meetings not found****"));
             student.setMeetings(List.of(meeting));
             newStudentsList.add(student);
-            System.out.println("******&&&&&&&&&&*****************");
-            System.out.println(meeting.getDate());
-            System.out.println("******&&&&&&&&&&*****************");
+//            System.out.println("******&&&&&&&&&&*****************");
+//            System.out.println(meeting.getDate());
+//            System.out.println("******&&&&&&&&&&*****************");
+        }
+        return newStudentsList;
+    }
+
+    @Override
+    public List<Student> getStudentsWithLastMeetingReading(Principal principal) throws Exception {
+        //from each student in students list retrieved from DB
+        List<Student> studentsList = getAllStudents(principal);
+        List<Student> newStudentsList = new ArrayList<>();
+        for (Student student : studentsList) {
+
+//            Comparator<Meeting> meetingSubjectComparator = Comparator.comparing(Meeting::getSubject);
+
+            Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
+            List<Meeting> allMeetings = student.getMeetings();
+            List<Meeting> readingMeetings = new ArrayList<>();
+            for ( Meeting readingMeeting : allMeetings ) {
+                if (Objects.equals(readingMeeting.getSubject(), "Reading")) {
+                    readingMeetings.add(readingMeeting);
+                }
+            }
+            Meeting meeting = readingMeetings.stream().max(meetingDateComparator).orElse(new Meeting());
+//            Meeting meeting = meetings.stream().max(meetingDateComparator).orElseThrow(()
+//                    -> new Exception("****Meetings not found****"));
+            student.setMeetings(List.of(meeting));
+            newStudentsList.add(student);
+//            System.out.println("******&&&&&&&&&&*****************");
+//            System.out.println(readingMeetings);
+//            System.out.println("******&&&&&&&&&&*****************");
+        }
+        return newStudentsList;
+    }
+
+    @Override
+    public List<Student> getStudentsWithLastMeetingWriting(Principal principal) throws Exception {
+        //from each student in students list retrieved from DB
+        List<Student> studentsList = getAllStudents(principal);
+        List<Student> newStudentsList = new ArrayList<>();
+        for (Student student : studentsList) {
+
+//            Comparator<Meeting> meetingSubjectComparator = Comparator.comparing(Meeting::getSubject);
+
+            Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
+            List<Meeting> allMeetings = student.getMeetings();
+            List<Meeting> readingMeetings = new ArrayList<>();
+            for ( Meeting readingMeeting : allMeetings ) {
+                if (Objects.equals(readingMeeting.getSubject(), "Writing")) {
+                    readingMeetings.add(readingMeeting);
+                }
+            }
+            Meeting meeting = readingMeetings.stream().max(meetingDateComparator).orElse(new Meeting());
+//            Meeting meeting = meetings.stream().max(meetingDateComparator).orElseThrow(()
+//                    -> new Exception("****Meetings not found****"));
+            student.setMeetings(List.of(meeting));
+            newStudentsList.add(student);
+//            System.out.println("******&&&&&&&&&&*****************");
+//            System.out.println(readingMeetings);
+//            System.out.println("******&&&&&&&&&&*****************");
         }
         return newStudentsList;
     }

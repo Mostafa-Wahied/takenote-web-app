@@ -16,7 +16,7 @@ const alphabetDropdown = document.querySelector("#letter");
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 for (let letter of alphabet) {
     let optionHtmlElement = document.createElement("option");
-    optionHtmlElement.value = letter.toLowerCase();
+    optionHtmlElement.value = letter;
     optionHtmlElement.textContent = letter;
     alphabetDropdown.append(optionHtmlElement);
 }
@@ -41,3 +41,11 @@ for (var i = 0; i < btns.length; i++) {
 
 // for selectpicker dropdown
 $('select').selectpicker();
+
+
+// preloader
+var loader = document.getElementById("preloader")
+
+window.addEventListener("load", function () {
+    loader.style.display = "none";
+})

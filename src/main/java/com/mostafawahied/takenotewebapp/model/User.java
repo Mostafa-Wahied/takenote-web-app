@@ -1,10 +1,20 @@
 package com.mostafawahied.takenotewebapp.model;
 
-import javax.persistence.*;
-import java.util.Collection;
+import lombok.*;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"username"})
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +29,17 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Student> students = new ArrayList<>();
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -28,10 +49,6 @@ public class User {
         this.username = username;
         this.password = password;
         this.roles = roles;
-    }
-
-    public User() {
-
     }
 
     public Long getId() {

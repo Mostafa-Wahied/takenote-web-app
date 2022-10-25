@@ -28,6 +28,10 @@ public class Student {
 //    @ToString.Exclude
     private List<Meeting> meetings = new ArrayList<Meeting>();
 
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -1,11 +1,14 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Student;
+import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
+import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,8 @@ import java.util.Optional;
 public class MeetingServiceImpl implements MeetingService{
     @Autowired
     private MeetingRepository meetingRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Meeting> getAllMeetings() {
@@ -36,4 +41,5 @@ public class MeetingServiceImpl implements MeetingService{
         }
         return meeting;
     }
+
 }

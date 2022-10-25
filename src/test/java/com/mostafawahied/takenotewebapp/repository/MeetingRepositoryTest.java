@@ -17,7 +17,7 @@ public class MeetingRepositoryTest {
     //    JUnit test for find meeting by id
     @Test
     void findMeetingByIdTest() {
-        Long actual = 33L;
+        Long actual = 1L;
         Optional<Meeting> meeting = meetingRepository.findById(actual);
         Long expected = meeting.get().getMeetingNumber();
 

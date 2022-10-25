@@ -2,6 +2,7 @@ package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Meeting;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface MeetingService {

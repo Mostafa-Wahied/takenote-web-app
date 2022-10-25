@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 public class StudentController {
 
@@ -31,12 +33,12 @@ public class StudentController {
     final String notebookStudentsURL = "/notebook/students";
 
     @GetMapping(notebookStudentsURL)
-    public String viewAllStudentsPage(Model model, Student student) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents());
+    public String viewAllStudentsPage(Model model, Student student, Principal principal) throws Exception {
+        model.addAttribute("listStudents", studentService.getAllStudents(principal));
         //        for navigation active state
         model.addAttribute("activePage", "studentsPage");
         //        getting students with last meeting
-        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting());
+        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting(principal));
         return "students";
     }
 
@@ -54,25 +56,24 @@ public class StudentController {
 
     //    display all students for reading
     @GetMapping("/notebook/reading")
-    public String viewReadingStudentsPage(Model model) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents());
+    public String viewReadingStudentsPage(Model model, Principal principal) throws Exception {
+        model.addAttribute("listStudents", studentService.getAllStudents(principal));
         //        for navigation active state
         model.addAttribute("activePage", "notebookReadingPage");
 //        getting students with last meeting
-        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting());
-
+        model.addAttribute("studentsWithLastMeetingReading", studentService.getStudentsWithLastMeetingReading(principal));
         return "notebook_reading";
     }
 
 
     //    display all students for writing
     @GetMapping("/notebook/writing")
-    public String viewWritingStudentsPage(Model model) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents());
+    public String viewWritingStudentsPage(Model model, Principal principal) throws Exception {
+        model.addAttribute("listStudents", studentService.getAllStudents(principal));
         //        for navigation active state
         model.addAttribute("activePage", "notebookWritingPage");
         //        getting students with last meeting
-        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting());
+        model.addAttribute("studentsWithLastMeetingWriting", studentService.getStudentsWithLastMeetingWriting(principal));
         return "notebook_writing";
     }
 
@@ -87,8 +88,8 @@ public class StudentController {
 
     // save student to database
     @PostMapping("/saveStudent")
-    public String saveStudent(@ModelAttribute("student") Student student) {
-        studentService.saveStudent(student);
+    public String saveStudent(@ModelAttribute("student") Student student, Principal principal) {
+        studentService.saveStudent(student, principal);
         return "redirect:/showNewStudentForm?success";
     }
 
@@ -128,8 +129,6 @@ public class StudentController {
     }
 
 
-
-
     //    view about page
     @GetMapping("/about")
     public String viewAboutPage(Model model) {
@@ -137,20 +136,4 @@ public class StudentController {
         model.addAttribute("activePage", "about");
         return "about";
     }
-
-
-    //        ------------------- experimental - trying to get unique latest meetings ---------------------------
-//    @GetMapping("/notebook/reading/latestmeetings")
-//    @ResponseBody
-//    public List<Meeting> getLatestMeetings() {
-//        List<Student> allStudents = studentService.getAllStudents();
-//        List<Meeting> allMeetings = meetingService.getAllMeetings();
-//        System.out.println("------------------&&&&&&&&&&&&&&&&&**************************------------------------");
-////        System.out.println(allMeetings);
-//        System.out.println(meetingService.findLatestMeetings());
-//        System.out.println("------------------&&&&&&&&&&&&&&&&&**************************------------------------");
-//
-//// --------------- end of experimental --------------
-//        return meetingService.findLatestMeetings();
-//    }
 }
