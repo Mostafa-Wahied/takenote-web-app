@@ -25,7 +25,7 @@ public interface StudentService {
     void saveMultipleGuidedReadingStudents(Meeting meeting, String id, Date date, Character readingLevel, String teachingPoint);
     void saveMultipleStrategyReadingStudents(Meeting meeting, String id, Date date, Character readingLevel, String teachingPoint);
 
-    void saveMultipleStrategyWritingStudents(Meeting meeting, String id, Date date, Character readingLevel, String teachingPoint);
+    void saveMultipleStrategyWritingStudents(Meeting meeting, String id, Date date, String teachingPoint);
 
 
     // get students with last meetings

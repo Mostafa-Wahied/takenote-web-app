@@ -144,10 +144,9 @@ public class MeetingController {
     public String saveStrategyGroupWritingMeeting(@ModelAttribute("meetingObject") Meeting meeting,
                                                   @RequestParam(name = "id") String id,
                                                   @RequestParam(name = "date") Date date,
-                                                  @RequestParam(name = "readingLevelValue") Character readingLevel,
                                                   @RequestParam(name = "teachingPointValue") String teachingPoint) {
         System.out.println("*********************** name of student is: " + id);
-        studentService.saveMultipleStrategyWritingStudents(meeting, id, date, readingLevel, teachingPoint);
+        studentService.saveMultipleStrategyWritingStudents(meeting, id, date, teachingPoint);
         return "redirect:/notebook/students";
     }
 }

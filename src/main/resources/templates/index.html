@@ -4,7 +4,10 @@
 <head>
     <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 
-    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <!--    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">-->
+<!--animate.css cdn-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,14 +26,14 @@
     <title>TakeNote</title>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" style="overflow: hidden">
 
-        <!-- NavBar -->
-        <div th:replace="~{fragments/navigation :: navigation}"></div>
-        <!-- End of Navbar -->
-        <!-- preloader -->
-        <div th:replace="~{fragments/preloader :: preloader}"></div>
-        <!-- End of preloader -->
+<!-- NavBar -->
+<div th:replace="~{fragments/navigation :: navigation}"></div>
+<!-- End of Navbar -->
+<!-- preloader -->
+<div th:replace="~{fragments/preloader :: preloader}"></div>
+<!-- End of preloader -->
 <main>
 
     <div class="main-container">
@@ -39,7 +42,7 @@
         <section class="row m-2 p-2 pt-3 mx-md-4 px-md-5">
             <div class="row mx-auto justify-content-center my-auto mx-md-5 px-md-4">
 
-                <div class="order-2 order-sm-1 col-12 col-md-5 mt-md-5 pt-md-2">
+                <div class="animate__animated animate__fadeInLeft order-2 order-sm-1 col-12 col-md-5 mt-md-5 pt-md-2">
                     <div class="container">
                         <p class="title-text">Notes at your fingertips</p>
                         <!-- </div> -->
@@ -55,7 +58,7 @@
                     </div>
                 </div>
 
-                <div class="order-1 order-sm-2 col-12 col-md-7 m-3 m-md-0">
+                <div class="animate__animated animate__fadeInRight order-1 order-sm-2 col-12 col-md-7 m-3 m-md-0">
                     <div>
                         <img id="home-img" th:src="@{/image/home.jpg}" alt="Homepage Picture" class="img-fluid" src="">
                     </div>

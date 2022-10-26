@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="h-100" xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 
@@ -7,6 +7,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
           rel="stylesheet">
+    <!--animate.css cdn-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,62 +31,68 @@
 <!-- End of preloader -->
 
 <main>
-    <section>
-        <br>
-        <div class="container confer-main-container">
-            <p class="display-6 text-center">Choose Conference Type</p>
+    <div class="animate__animated animate__fadeIn container">
+        <section>
+
             <br>
-            <div class="container row px-5">
-                <div class="row mx-auto justify-content-center">
-                    <div class="col">
-                        <div class="card h-100">
-                            <div class="text-center">
-                                <img src="" th:src="@{/image/1on12.jpg}"
-                                     class="card-img-top img-fluid" style="width: 200px; height: 200px;"
-                                     alt="Sample image">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
-                                <div class="row mx-auto text-center mt-4">
-                                    <p class="card-text"><a th:href="@{/notetaker/writing/1on1}"
-                                                            class="universal-btn btn-bd-primary-index btn-general">Choose</a></p>
+            <div class="container confer-main-container">
+                <p class="display-6 text-center">Choose Conference Type</p>
+                <br>
+                <div class="container row px-5">
+                    <div class="row mx-auto justify-content-center">
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="text-center">
+                                    <img src="" th:src="@{/image/1on12.jpg}"
+                                         class="card-img-top img-fluid" style="width: 200px; height: 200px;"
+                                         alt="Sample image">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
+                                    <div class="row mx-auto text-center mt-4">
+                                        <p class="card-text"><a th:href="@{/notetaker/writing/1on1}"
+                                                                class="universal-btn btn-bd-primary-index btn-general">Choose</a>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="text-center">
+                                    <img src="" th:src="@{/image/group.jpg}"
+                                         class="card-img-top img-fluid" style="width: 300px; height: 200px;"
+                                         alt="Sample image">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title mx-auto text-center">Strategy Group</h5>
+                                    <div class="row mx-auto text-center mt-4">
+                                        <p class="card-text"><a th:href="@{/notetaker/writing/strategy_group}"
+                                                                class="universal-btn btn-bd-primary-index btn-general">Choose</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
                     </div>
                     <br>
-                    <div class="col">
-                        <div class="card h-100">
-                            <div class="text-center">
-                                <img src="" th:src="@{/image/group.jpg}"
-                                     class="card-img-top img-fluid" style="width: 300px; height: 200px;"
-                                     alt="Sample image">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title mx-auto text-center">Strategy Group</h5>
-                                <div class="row mx-auto text-center mt-4">
-                                    <p class="card-text"><a th:href="@{/notetaker/writing/strategy_group}"
-                                                            class="universal-btn btn-bd-primary-index btn-general">Choose</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <hr>
                     <br>
                 </div>
-                <br>
-                <hr>
-                <br>
+
+                <div class="container d-flex justify-content-center">
+                    <a id="btn-light" class="btn btn-light justify-content-center" th:href="@{/notebook/students}">Back
+                        to
+                        Students</a>
+                </div>
+
             </div>
 
-            <div class="container d-flex justify-content-center">
-                <a id="btn-light" class="btn btn-light justify-content-center" th:href="@{/notebook/students}">Back to
-                    Students</a>
-            </div>
 
-        </div>
-
-
-    </section>
+        </section>
+    </div>
 </main>
 <!--footer-->
 <div th:replace="~{fragments/footer :: footer}"></div>

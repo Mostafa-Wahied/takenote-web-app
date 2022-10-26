@@ -105,7 +105,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void saveMultipleStrategyWritingStudents(Meeting meeting, String id, Date date, Character readingLevel, String teachingPoint) {
+    public void saveMultipleStrategyWritingStudents(Meeting meeting, String id, Date date, String teachingPoint) {
         List<Integer> listIntegerId = new ArrayList<>();
         List<String> listStringId = Arrays.asList(id.split(","));
         for (String s : listStringId) {
@@ -118,7 +118,6 @@ public class StudentServiceImpl implements StudentService {
             meeting.setDate(date);
             meeting.setSubject("Writing");
             meeting.setType("Strategy Group - Writing");
-            meeting.setSubjectLevel(readingLevel);
             meeting.setTeachingPoint(teachingPoint);
             meetingService.saveMeeting(meeting);
         }

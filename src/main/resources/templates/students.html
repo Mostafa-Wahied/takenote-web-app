@@ -10,6 +10,9 @@
     <!--google icons-->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <!--animate.css cdn-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,12 +34,14 @@
 <!-- End of preloader -->
 
 <main>
-    <figure class="text-center mt-5">
-        <p class="display-6 text-center">My Students</p>
-    </figure>
+    <div class="animate__animated animate__fadeIn container">
 
-    <!--Students table-->
-    <section class="container px-2">
+        <figure class="text-center mt-5">
+            <p class="display-6 text-center">My Students</p>
+        </figure>
+
+        <!--Students table-->
+        <section class="container px-2">
 
             <div class="container row justify-content-end mx-auto">
                 <a th:href="@{/showNewStudentForm}" id="add-student-btn"
@@ -57,8 +62,8 @@
                     </thead>
                     <tbody>
 
-<!--                    <th:block th:each="student : ${listStudents}">-->
-<!--                        <tr th:each="meeting, iterStat : ${student.meetings}" th:if="${iterStat.last}">-->
+                    <!--                    <th:block th:each="student : ${listStudents}">-->
+                    <!--                        <tr th:each="meeting, iterStat : ${student.meetings}" th:if="${iterStat.last}">-->
                     <th:block th:each="student : ${studentsWithLastMeeting}">
                         <tr th:each="meeting, iterStat : ${student.meetings}">
 
@@ -87,9 +92,10 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </section>
-    <!--    End of students table-->
+
+        </section>
+        <!--    End of students table-->
+    </div>
 </main>
 
 <!--footer-->
