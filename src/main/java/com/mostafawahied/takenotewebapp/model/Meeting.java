@@ -47,7 +47,7 @@ public class Meeting {
     private String strength;
     private String teachingPoint;
     private String nextStep;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Student student;
 
     public Meeting(long meetingNumber, String subject, Character subjectLevel) {

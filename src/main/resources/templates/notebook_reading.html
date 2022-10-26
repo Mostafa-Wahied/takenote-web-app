@@ -60,13 +60,13 @@
                     <tr th:each="student : ${studentsWithLastMeetingReading}">
                         <!--                <tr th:each="student : ${listStudents}">-->
                         <th:block th:each="meeting : ${student.meetings}" th:if="${meeting.subject == 'Reading'}">
-                            <td>
+                            <td style="white-space: nowrap; width: 3%">
                                 <a id="btn-light" class="btn btn-light"
                                    th:text="${student.firstName + ' ' + student.lastName}"
                                    th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
                             </td>
-                            <td th:text="${meeting.subjectLevel}"></td>
-                            <td th:text="${meeting.date}"></td>
+                            <td style="white-space: nowrap; width: 3%" th:text="${meeting.subjectLevel}"></td>
+                            <td style="white-space: nowrap; width: 3%" th:text="${meeting.date}"></td>
                             <!-- <td th:unless="${meeting.subject=='Reading'}"></td>-->
                             <td th:text="${meeting.nextStep}"></td>
                             <!-- <td th:unless="${meeting.subject=='Reading'}"></td>-->

@@ -59,8 +59,8 @@
 
             <form action="#" th:action="@{/saveStrategyReadingMeeting}" th:object="${meetingObject}" method="POST">
 
-                <label th:for="${meeting_number}" class="control-label">Student Name (you can select more than one
-                    student)</label>
+                <label th:for="${meeting_number}" class="control-label">Students (Select multiple)</label>
+
                 <select class="selectpicker form-control" data-live-search="true" th:id="${meeting_number}" name="id"
                         multiple required>
                     <option th:each="student : ${listStudents}" th:value="${student.id}"
