@@ -204,7 +204,7 @@ svg.tea #steamR {
 
 .log-btn {
     width: 100%;
-    margin-left: 100% !important;
+    /*margin-left: 100% !important;*/
     color: #fd6048 !important;
     background-color: transparent !important;
     border: 1px solid #fc5a41 !important;
@@ -314,6 +314,15 @@ svg.tea #steamR {
 }
 
 /* Navbar */
+#navbar {
+    width: 100%;
+}
+
+.navbar-collapse {
+    flex-basis: 100%;
+    flex-grow: 0 !important;
+}
+
 .navbar-brand {
     font-size: 1.75rem;
     letter-spacing: 5px;
