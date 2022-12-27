@@ -5,7 +5,7 @@ My Github account: [here](https://github.com/Mostafa-Wahied)
 
 ## Description
 
-A webapp that allows teachers to store and analayze formative student data in one place.
+A webapp that allows teachers to store and analyze formative student data in one place.
 
 TakeNote allows teachers to:
 
