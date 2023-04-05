@@ -14,12 +14,8 @@ import java.util.*;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-
-
     @Autowired
     private StudentRepository studentRepository;
-    @Autowired
-    private MeetingService meetingService;
 
     @Autowired
     private UserRepository userRepository;
@@ -31,9 +27,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-//    public void saveStudent(Student student) {
-//        this.studentRepository.save(student);
-//    }
     public void saveStudent(Student student, Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
         student.setUser(user);
@@ -44,14 +37,13 @@ public class StudentServiceImpl implements StudentService {
     public Student getStudentById(long id) {
         Optional<Student> optional = studentRepository.findById(id);
 
-        Student student = null;
+        Student student;
         if (optional.isPresent()) {
             student = optional.get();
         } else {
             throw new RuntimeException(("Student not found for id: " + id));
         }
         return student;
-
     }
 
     @Override
@@ -59,72 +51,9 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.deleteById(id);
     }
 
+    // Method retrieves all students from the database and returns a new list of students with only their latest meeting
     @Override
-    public Student getStudentByIdByQuery(long id) {
-        return studentRepository.getStudentByIdByQuery(id);
-    }
-
-    @Override
-    public void saveMultipleGuidedReadingStudents(Meeting meeting, String id, java.sql.Date date, Character readingLevel, String teachingPoint) {
-        List<Integer> listIntegerId = new ArrayList<>();
-        List<String> listStringId = Arrays.asList(id.split(","));
-        for (String s : listStringId) {
-            listIntegerId.add(Integer.valueOf(s));
-        }
-        for (Integer integer : listIntegerId) {
-            meeting = new Meeting();
-            Student studentById = getStudentById(integer);
-            meeting.setStudent(studentById);
-            meeting.setDate(date);
-            meeting.setSubject("Reading");
-            meeting.setType("guided reading");
-            meeting.setSubjectLevel(readingLevel);
-            meeting.setTeachingPoint(teachingPoint);
-            meetingService.saveMeeting(meeting);
-        }
-    }
-
-    @Override
-    public void saveMultipleStrategyReadingStudents(Meeting meeting, String id, Date date, Character readingLevel, String teachingPoint) {
-        List<Integer> listIntegerId = new ArrayList<>();
-        List<String> listStringId = Arrays.asList(id.split(","));
-        for (String s : listStringId) {
-            listIntegerId.add(Integer.valueOf(s));
-        }
-        for (Integer integer : listIntegerId) {
-            meeting = new Meeting();
-            Student studentById = getStudentById(integer);
-            meeting.setStudent(studentById);
-            meeting.setDate(date);
-            meeting.setSubject("Reading");
-            meeting.setType("Strategy Group - Reading");
-            meeting.setSubjectLevel(readingLevel);
-            meeting.setTeachingPoint(teachingPoint);
-            meetingService.saveMeeting(meeting);
-        }
-    }
-
-    @Override
-    public void saveMultipleStrategyWritingStudents(Meeting meeting, String id, Date date, String teachingPoint) {
-        List<Integer> listIntegerId = new ArrayList<>();
-        List<String> listStringId = Arrays.asList(id.split(","));
-        for (String s : listStringId) {
-            listIntegerId.add(Integer.valueOf(s));
-        }
-        for (Integer integer : listIntegerId) {
-            meeting = new Meeting();
-            Student studentById = getStudentById(integer);
-            meeting.setStudent(studentById);
-            meeting.setDate(date);
-            meeting.setSubject("Writing");
-            meeting.setType("Strategy Group - Writing");
-            meeting.setTeachingPoint(teachingPoint);
-            meetingService.saveMeeting(meeting);
-        }
-    }
-
-    @Override
-    public List<Student> getStudentsWithLastMeeting(Principal principal) throws Exception {
+    public List<Student> getStudentsWithLastMeeting(Principal principal) {
         //from each student in students list retrieved from DB
         List<Student> studentsList = getAllStudents(principal);
         List<Student> newStudentsList = new ArrayList<>();
@@ -132,73 +61,51 @@ public class StudentServiceImpl implements StudentService {
             Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
             List<Meeting> meetings = student.getMeetings();
             Meeting meeting = meetings.stream().max(meetingDateComparator).orElse(new Meeting());
-//            Meeting meeting = meetings.stream().max(meetingDateComparator).orElseThrow(()
-//                    -> new Exception("****Meetings not found****"));
             student.setMeetings(List.of(meeting));
             newStudentsList.add(student);
-//            System.out.println("******&&&&&&&&&&*****************");
-//            System.out.println(meeting.getDate());
-//            System.out.println("******&&&&&&&&&&*****************");
         }
         return newStudentsList;
     }
 
     @Override
-    public List<Student> getStudentsWithLastMeetingReading(Principal principal) throws Exception {
+    public List<Student> getStudentsWithLastMeetingReading(Principal principal) {
         //from each student in students list retrieved from DB
         List<Student> studentsList = getAllStudents(principal);
         List<Student> newStudentsList = new ArrayList<>();
         for (Student student : studentsList) {
-
-//            Comparator<Meeting> meetingSubjectComparator = Comparator.comparing(Meeting::getSubject);
-
             Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
             List<Meeting> allMeetings = student.getMeetings();
             List<Meeting> readingMeetings = new ArrayList<>();
-            for ( Meeting readingMeeting : allMeetings ) {
+            for (Meeting readingMeeting : allMeetings) {
                 if (Objects.equals(readingMeeting.getSubject(), "Reading")) {
                     readingMeetings.add(readingMeeting);
                 }
             }
             Meeting meeting = readingMeetings.stream().max(meetingDateComparator).orElse(new Meeting());
-//            Meeting meeting = meetings.stream().max(meetingDateComparator).orElseThrow(()
-//                    -> new Exception("****Meetings not found****"));
             student.setMeetings(List.of(meeting));
             newStudentsList.add(student);
-//            System.out.println("******&&&&&&&&&&*****************");
-//            System.out.println(readingMeetings);
-//            System.out.println("******&&&&&&&&&&*****************");
         }
         return newStudentsList;
     }
 
     @Override
-    public List<Student> getStudentsWithLastMeetingWriting(Principal principal) throws Exception {
+    public List<Student> getStudentsWithLastMeetingWriting(Principal principal) {
         //from each student in students list retrieved from DB
         List<Student> studentsList = getAllStudents(principal);
         List<Student> newStudentsList = new ArrayList<>();
         for (Student student : studentsList) {
-
-//            Comparator<Meeting> meetingSubjectComparator = Comparator.comparing(Meeting::getSubject);
-
             Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
             List<Meeting> allMeetings = student.getMeetings();
             List<Meeting> readingMeetings = new ArrayList<>();
-            for ( Meeting readingMeeting : allMeetings ) {
+            for (Meeting readingMeeting : allMeetings) {
                 if (Objects.equals(readingMeeting.getSubject(), "Writing")) {
                     readingMeetings.add(readingMeeting);
                 }
             }
             Meeting meeting = readingMeetings.stream().max(meetingDateComparator).orElse(new Meeting());
-//            Meeting meeting = meetings.stream().max(meetingDateComparator).orElseThrow(()
-//                    -> new Exception("****Meetings not found****"));
             student.setMeetings(List.of(meeting));
             newStudentsList.add(student);
-//            System.out.println("******&&&&&&&&&&*****************");
-//            System.out.println(readingMeetings);
-//            System.out.println("******&&&&&&&&&&*****************");
         }
         return newStudentsList;
     }
-
 }

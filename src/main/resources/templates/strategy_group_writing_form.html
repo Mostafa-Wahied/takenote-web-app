@@ -55,9 +55,9 @@
         <br>
         <p class="display-6 text-center">Writing Strategy Group</p>
 
-        <div class="card mx-5 col-5 mx-auto p-3">
 
-            <form action="#" th:action="@{/saveStrategyGroupWritingMeeting}" th:object="${meetingObject}" method="POST">
+        <form action="#" th:action="@{/saveStrategyGroupWritingMeeting}" th:object="${meetingObject}" method="POST">
+            <div class="card mx-5 col-5 mx-auto p-3">
 
                 <label th:for="${meeting_number}" class="control-label">Students (Select multiple)</label>
 
@@ -74,12 +74,6 @@
                            autocomplete="off"/>
                 </div>
 
-<!--                <div class="form-group ">-->
-<!--                    <label class="control-label" for="letter">Reading Level</label>-->
-<!--                    <select class="form-control" id="letter" name="readingLevelValue"></select>-->
-<!--                    <option></option>-->
-<!--                </div>-->
-
                 <div class="form-group ">
                     <label class="control-label" for="textarea1">Teaching Point</label>
                     <span class="about-symbol material-symbols-outlined" style="font-size: 20px;">check_circle</span>
@@ -87,12 +81,18 @@
                               rows="3"></textarea>
                 </div>
 
-                <button type="submit" class="btn confer-btn btn-primary">Save</button>
-            </form>
+                <button type="submit" class="btn btn-primary rounded-pill mx-auto mt-3" style="width: 5rem;">Next
+                </button>
+            </div>
+    </div>
+    </form>
 
-            <hr>
-            <a id="btn-light" class="btn btn-light" th:href="@{/notebook/students}">Back to Students</a>
-        </div>
+
+    <hr style="width: 80%;" class="mx-auto">
+    <div class="container d-flex justify-content-center">
+        <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
+           th:href="@{/notebook/students}">Back to Students</a>
+    </div>
     </div>
 </main>
 

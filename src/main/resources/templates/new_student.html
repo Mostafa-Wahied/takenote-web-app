@@ -52,12 +52,14 @@
                            class="form-control mb-4 col-4">
                 </label>
                 <br>
-                <button type="submit" class="btn-bd-primary-index">Save Student</button>
+                <button type="submit" class="btn btn-primary rounded-pill">Save Student</button>
             </form>
 
             <hr class="mx-auto">
-            <a class="btn btn-light" th:href="@{/notebook/students}">Back to Students</a>
-
+            <div class="container d-flex justify-content-center">
+                <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
+                   th:href="@{/notebook/students}">Back to Students</a>
+            </div>
         </div>
     </div>
 </main>

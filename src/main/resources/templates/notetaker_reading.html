@@ -20,7 +20,7 @@
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
     <script th:src="@{/js/script.js}" defer></script>
-    <title>TakeNote - NoteTaker Reading</title>
+    <title>NoteTaker - Reading</title>
 </head>
 <body class="d-flex flex-column h-100">
 <!-- NavBar -->
@@ -40,7 +40,7 @@
                 <br>
                 <div class="container row px-5">
                     <div class="row mx-auto justify-content-center">
-                        <div class="col">
+                        <div class="col mb-3">
                             <div class="card h-100">
                                 <div class="text-center">
                                     <img src="" th:src="@{/image/1on12.jpg}"
@@ -51,14 +51,14 @@
                                     <h5 class="card-title mx-auto text-center">1:1 Conference</h5>
                                     <div class="row mx-auto text-center mt-4">
                                         <p class="card-text"><a th:href="@{/notetaker/reading/1on1}"
-                                                                class="universal-btn btn-bd-primary-index btn-general">Choose</a>
+                                                                class="btn btn-primary rounded-pill">Choose</a>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <div class="col">
+                        <div class="col mb-3">
                             <div class="card h-100">
                                 <div class="text-center">
                                     <img src="" th:src="@{/image/guided.jpg}"
@@ -69,14 +69,14 @@
                                     <h5 class="card-title mx-auto text-center">Guided Reading</h5>
                                     <div class="row mx-auto text-center mt-4">
                                         <p class="card-text"><a th:href="@{/notetaker/reading/guided_reading}"
-                                                                class="universal-btn btn-bd-primary-index btn-general">Choose</a>
+                                                                class="btn btn-primary rounded-pill">Choose</a>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <div class="col">
+                        <div class="col mb-3">
                             <div class="card h-100">
                                 <div class="text-center">
                                     <img src="" th:src="@{/image/group.jpg}"
@@ -87,7 +87,7 @@
                                     <h5 class="card-title mx-auto text-center">Strategy Group</h5>
                                     <div class="row mx-auto text-center mt-4">
                                         <p class="card-text"><a th:href="@{/notetaker/reading/strategy_group}"
-                                                                class="btn-bd-primary-index btn-general">Choose</a></p>
+                                                                class="btn btn-primary rounded-pill">Choose</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -100,9 +100,8 @@
                 </div>
 
                 <div class="container d-flex justify-content-center">
-                    <a id="btn-light" class="btn btn-light justify-content-center" th:href="@{/notebook/students}">Back
-                        to
-                        Students</a>
+                    <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
+                       th:href="@{/notebook/students}">Back to Students</a>
                 </div>
 
             </div>

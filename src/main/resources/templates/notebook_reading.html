@@ -23,7 +23,7 @@
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
     <script th:src="@{/static/script.js}" defer></script>
-    <title>TakeNote - NoteBook Reading</title>
+    <title>NoteBook - Reading</title>
 </head>
 <body class="d-flex flex-column h-100">
 <!-- NavBar -->
@@ -76,6 +76,10 @@
 
                     </tbody>
                 </table>
+                <div class="container d-flex justify-content-center">
+                    <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
+                       th:href="@{/notebook/students}">Back to Students</a>
+                </div>
             </div>
 
         </section>

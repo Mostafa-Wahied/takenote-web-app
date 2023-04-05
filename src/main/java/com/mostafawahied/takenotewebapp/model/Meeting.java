@@ -7,25 +7,6 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
-//@SqlResultSetMapping(
-//        name = "MeetingsResult",
-//        classes = {
-//                @ConstructorResult(
-//                        targetClass = com.myprojects.takenotewebapp.model.Meeting.class,
-//                        columns = {
-//                                @ColumnResult(name = "date", type = Date.class),
-//                                @ColumnResult(name = "subject"),
-//                                @ColumnResult(name = "type"),
-//                                @ColumnResult(name = "subject_level"),
-//                                @ColumnResult(name = "strength"),
-//                                @ColumnResult(name = "teaching_point"),
-//                                @ColumnResult(name = "next_step"),
-//                                @ColumnResult(name = "student", type = Student.class)
-//                        }
-//                )
-//        }
-//)
-
 @Getter
 @Setter
 //@ToString

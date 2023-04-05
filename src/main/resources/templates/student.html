@@ -24,7 +24,7 @@
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
     <script th:src="@{/js/script.js}" defer></script>
-    <title>TakeNote</title>
+    <title th:text="${student.firstName + ' ' + student.lastName}">TakeNote</title>
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -74,6 +74,10 @@
                     <!--                </th:block>-->
                     </tbody>
                 </table>
+                <div class="container d-flex justify-content-center">
+                    <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
+                       th:href="@{/notebook/students}">Back to Students</a>
+                </div>
             </div>
         </section>
         <!--    End of students table-->

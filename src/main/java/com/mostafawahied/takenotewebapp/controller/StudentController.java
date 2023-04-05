@@ -103,14 +103,16 @@ public class StudentController {
         return "update_student";
     }
 
-    @GetMapping("/deleteStudent/{id}")
-    public String deleteStudent(@PathVariable(value = "id") long id, Model model) {
-//        for navigation active state
-        model.addAttribute("activePage", "studentsPage");
-//        call delete student method
-        studentService.deleteStudentById(id);
+    @PostMapping("/deleteStudent/{id}")
+    public String deleteStudent(@PathVariable(value = "id") long id,
+                                @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm) {
+        if (confirm) {
+            // call delete student method
+            studentService.deleteStudentById(id);
+        }
         return "redirect:/notebook/students";
     }
+
 
     //    view reading conference
     @GetMapping("/notetaker/reading")

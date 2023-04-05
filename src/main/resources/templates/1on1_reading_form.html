@@ -55,13 +55,14 @@
         <br>
         <p class="display-6 text-center">1:1 Reading</p>
 
-        <div class="card mx-5 col-5 mx-auto p-3">
 
-            <form action="#" th:action="@{/save1on1ReadingMeeting}" th:object="${meetingObject}" method="POST">
+        <form action="#" th:action="@{/save1on1ReadingMeeting}" th:object="${meetingObject}" method="POST">
+            <div class="card mx-5 col-5 mx-auto p-3">
 
                 <label for="dropDownList" class="control-label">Student Name</label>
                 <select class="selectpicker form-control" data-live-search="true" id="dropDownList" name="id" required>
                     <option></option>
+
                     <option th:each="student : ${listStudents}" th:value="${student.id}"
                             th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
                 </select>
@@ -98,11 +99,16 @@
                     <textarea class="form-control" cols="40" id="textarea2" name="nextStepValue" rows="3"></textarea>
                 </div>
 
-                <button type="submit" class="btn confer-btn btn-primary">Save</button>
-            </form>
+                <button type="submit" class="btn btn-primary rounded-pill mx-auto mt-3" style="width: 5rem;">Save
+                </button>
+            </div>
+        </form>
 
-            <hr>
-            <a id="btn-light" class="btn btn-light" th:href="@{/notebook/students}">Back to Students</a>
+
+        <hr style="width: 80%;" class="mx-auto">
+        <div class="container d-flex justify-content-center">
+            <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
+               th:href="@{/notebook/students}">Back to Students</a>
         </div>
     </div>
 </main>

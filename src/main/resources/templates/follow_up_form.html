@@ -40,7 +40,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
     <script th:src="@{/js/script.js}" defer></script>
-    <title>NoteTaker - Guided Reading</title>
+    <title>NoteTaker</title>
 </head>
 <body class="d-flex flex-column h-100">
 <!-- NavBar -->
@@ -52,53 +52,44 @@
 
 <main>
     <div class="animate__animated animate__fadeIn container">
-        <br>
-        <p class="display-6 text-center">Guided Reading</p>
+        <p class="display-6 text-center mt-4">Guided Reading</p>
+        <div class="container p-4">
 
-        <form action="#" th:action="@{/saveGuidedReadingMeeting}" th:object="${meetingObject}" method="POST">
-            <div class="card mx-5 col-6 mx-auto p-3">
+            <form class="row" th:action="@{/saveFollowUpMeeting}" method="POST">
+                <div class="container row m-0">
+                    <th:block th:each="meeting, iter : ${meetings}">
+                        <div class="col card p-3 m-1">
+                            <h4 th:text="${meeting.student.firstName} + ' ' + ${meeting.student.lastName}"></h4>
+                            <label><input type="hidden" name="meetingId" th:value="${meeting.meetingNumber}"/></label>
+                            <!--                            <hr style="width: 100%">-->
+                            <div class="form-group">
+                                <label for="nextStepValue">Next Step</label>
+                                <span class="about-symbol material-symbols-outlined" style="font-size: 20px;">arrow_circle_up</span>
+                                <textarea cols="10" rows="3" class="form-control" id="nextStepValue"
+                                          name="nextStepValues"
+                                ></textarea>
+                            </div>
 
-
-                <label th:for="${meeting_number}" class="control-label">Students (Select multiple)</label>
-                <select class="selectpicker form-control" data-live-search="true" th:id="${meeting_number}" name="id"
-                        multiple required>
-
-                    <option th:each="student : ${listStudents}" th:value="${student.id}"
-                            th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
-                </select>
-
-                <!-- Date input -->
-                <div class="form-group">
-                    <label class="control-label" for="date">Date</label>
-                    <input class="form-control" id="date" name="date" placeholder="yyyy-mm-dd" type="text" required
-                           autocomplete="off"/>
+                            <div class="form-group">
+                                <label for="strengthValue">Strength</label>
+                                <span class="about-symbol material-symbols-outlined"
+                                      style="font-size: 20px;">add_circle</span>
+                                <textarea cols="10" rows="3" class="form-control" id="strengthValue"
+                                          name="strengthValues"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </th:block>
                 </div>
+                <button type="submit" class="btn btn-primary rounded-pill mx-auto mt-3" style="width: 5rem;">Save
+                </button>
+            </form>
 
-                <div class="form-group ">
-                    <label class="control-label" for="letter">Reading Level</label>
-                    <select class="form-control" id="letter" name="readingLevelValue"></select>
-                    <option></option>
-                </div>
-
-                <div class="form-group ">
-                    <label class="control-label" for="textarea1">Teaching Point</label>
-                    <span class="about-symbol material-symbols-outlined" style="font-size: 20px;">check_circle</span>
-                    <textarea class="form-control" cols="40" id="textarea1" name="teachingPointValue"
-                              rows="3"></textarea>
-                </div>
-                <div class="d-flex justify-content-center">
-
-                    <button type="submit" class="btn btn-primary rounded-pill mx-auto mt-3" style="width: 5rem;">Next
-                    </button>
-                </div>
+            <hr style="width: 80%;" class="mx-auto">
+            <div class="container d-flex justify-content-center">
+                <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
+                   th:href="@{/notebook/students}">Back to Students</a>
             </div>
-        </form>
-
-
-        <hr style="width: 80%;" class="mx-auto">
-        <div class="container d-flex justify-content-center">
-            <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
-               th:href="@{/notebook/students}">Back to Students</a>
         </div>
     </div>
 </main>
@@ -114,5 +105,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <!--end selectpicker-->
+
+<!--passing variable to js-->
+<script th:inline="javascript">
+    var id = /*[[${id}]]*/ "test";
+    // alert(test);
+    console.log("id is " + id);
+</script>
+
 </body>
 </html>
