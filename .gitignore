@@ -34,3 +34,4 @@ build/
 
 #custom
 application.properties
+src/main/resources/application.properties
