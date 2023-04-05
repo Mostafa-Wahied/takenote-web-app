@@ -1,18 +1,35 @@
 ############### this version was working fine with render! ###############
-# Build stage
+## Build stage
+##
+#FROM maven:3.8.7 AS build
+#COPY . .
+#RUN mvn clean package -Pprod -DskipTests
 #
+##
+## Package stage
+##
+#FROM openjdk:18
+#COPY --from=build /target/takenote-web-app.jar takenote-docker.jar
+## ENV PORT=8080
+#EXPOSE 8080
+#ENTRYPOINT ["java", "-jar", "takenote-docker.jar"]
+
+# trying to use env variables
+# Build stage
 FROM maven:3.8.7 AS build
 COPY . .
 RUN mvn clean package -Pprod -DskipTests
 
-#
 # Package stage
-#
 FROM openjdk:18
 COPY --from=build /target/takenote-web-app.jar takenote-docker.jar
+ENV SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+ENV SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+ENV SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
 # ENV PORT=8080
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "takenote-docker.jar"]
+
 
 # we have to edit the application.properties file to use the connect docker with the database like so:
 # spring.datasource.url=jdbc:mysql://host.docker.internal:3306/takenotecopy?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
