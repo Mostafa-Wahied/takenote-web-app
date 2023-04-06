@@ -1,0 +1,6 @@
+runtime: java8
+env: standard
+
+handlers:
+  - url: /.*
+    script: auto

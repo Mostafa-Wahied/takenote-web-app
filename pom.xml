@@ -76,6 +76,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!--    for firebase:    -->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.1.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -93,10 +100,23 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>2.2.0</version>
+                <configuration>
+                    <version>1</version>
+                    <projectId>takenote-382822</projectId>
+                </configuration>
+            </plugin>
+
         </plugins>
+        <!--        this will be the final name of the jar file when packaged   -->
         <finalName>
             takenote-web-app
         </finalName>
+
     </build>
 
 </project>
