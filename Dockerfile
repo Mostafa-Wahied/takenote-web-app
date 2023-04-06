@@ -17,23 +17,19 @@
 # trying to use env variables
 # Build stage
 FROM maven:3.8.7 AS build
-COPY . /app
-WORKDIR /app
+COPY . .
 RUN mvn clean package -Pprod -DskipTests
 
 # Package stage
-FROM openjdk:17-slim
-ENV APP_HOME=/app
-ENV JAR_FILE=takenote-docker.jar
-WORKDIR $APP_HOME
-COPY --from=build /app/target/takenote-web-app.jar $APP_HOME/$JAR_FILE
-
+FROM openjdk:17
+COPY --from=build /target/takenote-web-app.jar takenote-docker.jar
 ENV SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
 ENV SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
 ENV SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+# ENV PORT=8080
 ENV PORT=8080
 EXPOSE $PORT
-ENTRYPOINT ["java", "-jar", "$JAR_FILE"]
+ENTRYPOINT ["java", "-jar", "takenote-docker.jar"]
 
 
 # we have to edit the application.properties file to use the connect docker with the database like so(if we're using local db):
