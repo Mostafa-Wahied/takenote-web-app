@@ -5,7 +5,7 @@
     <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 
     <!--    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">-->
-<!--animate.css cdn-->
+    <!--animate.css cdn-->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
@@ -51,9 +51,12 @@
                         <p class="desc-text">All your notes, all in one place. Elevate student
                             learning
                             with features to capture and analyze observational data in a snap.</p>
-                        <div class="mt-md-5 pt-md-5">
-                            <a th:href="@{/showNewStudentForm}"
-                               class="btn btn-primary me-md-5 rounded-pill btn-lg mx-auto">Get Started</a>
+                        <div class="mt-md-5">
+                            <a href="#"
+                               class="btn btn-primary me-md-5 rounded-pill btn-lg mx-auto" id="get-started-btn"
+                               data-bs-toggle="modal" data-bs-target="#myModal">
+                                Get Started
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -68,14 +71,41 @@
         </section>
         <!-- End of Hero -->
     </div>
+
+    <!-- modal dialog -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Choose an option</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!--                <div class="modal-body">-->
+                <!--                    <p>Do you want to go to NoteTaker or NoteBook?</p>-->
+                <!--                </div>-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary rounded-pill mx-auto" id="noteTakerBtn">NoteTaker
+                    </button>
+                    <button type="button" class="btn btn-primary rounded-pill mx-auto" id="noteBookBtn">NoteBook
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of modal dialog -->
 </main>
 
 <!--footer-->
 <div th:replace="~{fragments/footer :: footer}"></div>
 <!--end of footer-->
+<!--  jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!-- end of jQuery -->
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
+
 </body>
 </html>

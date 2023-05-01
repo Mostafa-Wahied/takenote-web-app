@@ -1,35 +1,83 @@
+console.log("JavaScript file loaded");
+
+// get references to the modal buttons
+function addClickListenersToModalButtons() {
+    const noteTakerBtn = document.getElementById("noteTakerBtn");
+    const noteBookBtn = document.getElementById("noteBookBtn");
+    console.log(noteTakerBtn);
+    console.log(noteBookBtn);
+
+    noteTakerBtn.addEventListener("click", () => {
+        window.location.href = "/noteTaker"; // replace with the actual URL of the NoteTaker page
+    });
+
+    noteBookBtn.addEventListener("click", () => {
+        window.location.href = "/noteBook"; // replace with the actual URL of the NoteBook page
+    });
+}
+document.addEventListener("DOMContentLoaded", () => {
+    addClickListenersToModalButtons();
+});
+// end of get references to the modal buttons
+
 // Date Picker dropdown
-$(document).ready(function () {
-    var date_input = $('input[name="date"]'); //our date input has the name "date"
-    var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-    var options = {
+// $(document).ready(function () {
+//     var date_input = $('input[name="date"]'); //our date input has the name "date"
+//     var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+//     var options = {
+//         format: 'yyyy-mm-dd',
+//         container: container,
+//         todayHighlight: true,
+//         autoclose: true,
+//     };
+//     date_input.datepicker(options);
+// })
+
+function initializeDatePicker() {
+    const date_input = $('input[name="date"]');
+    const container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+    const options = {
         format: 'yyyy-mm-dd',
         container: container,
         todayHighlight: true,
         autoclose: true,
     };
     date_input.datepicker(options);
-})
-
-// populating the reading level dropdown menu on forms
-const alphabetDropdown = document.querySelector("#letter");
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-for (let letter of alphabet) {
-    let optionHtmlElement = document.createElement("option");
-    optionHtmlElement.value = letter;
-    optionHtmlElement.textContent = letter;
-    alphabetDropdown.append(optionHtmlElement);
 }
+initializeDatePicker();
+// end of Date Picker dropdown
+
+// // populating the reading level dropdown menu on forms
+// const alphabetDropdown = document.querySelector("#letter");
+// const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+// for (let letter of alphabet) {
+//     let optionHtmlElement = document.createElement("option");
+//     optionHtmlElement.value = letter;
+//     optionHtmlElement.textContent = letter;
+//     alphabetDropdown.append(optionHtmlElement);
+// }
+function populateReadingLevelDropdown() {
+    const alphabetDropdown = document.querySelector("#letter");
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (let letter of alphabet) {
+        let optionHtmlElement = document.createElement("option");
+        optionHtmlElement.value = letter;
+        optionHtmlElement.textContent = letter;
+        alphabetDropdown.append(optionHtmlElement);
+    }
+}
+populateReadingLevelDropdown();
+// end of populating the reading level dropdown menu on forms
 
 // setting active state to navbar pages
 // Get the container element
-var btnContainer = document.getElementsByClassName("nav-item");
+const btnContainer = document.getElementsByClassName("nav-item");
 // Get all buttons with class="btn" inside the container
-var btns = document.getElementsByClassName("nav-link");
+const btns = document.getElementsByClassName("nav-link");
 // Loop through the buttons and add the active class to the current/clicked button
-for (var i = 0; i < btns.length; i++) {
+for (let i = 0; i < btns.length; i++) {
     btns[i].addEventListener("click", function () {
-        var current = document.getElementsByClassName("active");
+        const current = document.getElementsByClassName("active");
         // If there's no active class
         if (current.length > 0) {
             current[0].className = current[0].className.replace(" active", "");
@@ -58,3 +106,4 @@ function confirmDelete(event) {
         document.querySelector('[name="confirm"]').value = 'true';
     }
 }
+
