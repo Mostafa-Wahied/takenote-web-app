@@ -35,3 +35,4 @@ build/
 #custom
 application.properties
 src/main/resources/application.properties
+logging_file.log;
