@@ -1,6 +1,6 @@
 # TakeNote wep-app
 
-[Live Site](https://takenote-web-app-production.up.railway.app/)
+[Live site](https://takenote-web-app-production.up.railway.app/)
 
 ## Description
 
