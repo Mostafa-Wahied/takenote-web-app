@@ -383,3 +383,84 @@ svg.tea #steamR {
         font-size: 1.4rem;
     }
 }
+
+
+/*custom colors*/
+.color-1 {
+    color: #ff2200 !important;
+}
+
+.color-2 {
+    color: #fd6048 !important;
+}
+
+.color-3 {
+    color: #6ba7ba !important;
+}
+
+.color-4 {
+    color: #B7AC44 !important;
+}
+
+.bg-color-1 {
+    background-color: #ff2200 !important;
+}
+
+.bg-color-2 {
+    background-color: #fd6048 !important;
+}
+
+.bg-color-3 {
+    background-color: #6ba7ba !important;
+}
+
+.bg-color-4 {
+    background-color: #B7AC44 !important;
+}
+
+.bg-gradient-1 {
+    background:linear-gradient(135deg, #406672 0%,#6ba7ba 100%);
+}
+
+.bg-color-white {
+    background-color: white !important;
+}
+
+.bg-gradient-2 {
+    background:linear-gradient(135deg, #6ba7ba 0%,#406672 100%);
+}
+
+.bg-color-1-hover:hover {
+    background-color: #ff2200 !important;
+    color: white !important;
+}
+
+.bg-color-2-hover:hover {
+    background-color: #fd6048 !important;
+    color: white !important;
+}
+
+.bg-color-3-hover:hover {
+    background-color: #6ba7ba !important;
+    color: white !important;
+}
+
+.bg-color-4-hover:hover {
+    background-color: #B7AC44 !important;
+    color: white !important;
+}
+
+.bg-color-white-hover:hover {
+    background-color: white !important;
+    color: black !important;
+}
+
+.bg-gradient-1-hover:hover {
+    background:linear-gradient(135deg, #ff2200 0%,#fd6048 100%);
+    color: white !important;
+}
+
+.bg-gradient-2-hover:hover {
+    background:linear-gradient(135deg, #406672 0%,#6ba7ba 100%);
+    color: white !important;
+}

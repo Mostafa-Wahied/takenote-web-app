@@ -1,24 +1,4 @@
-console.log("JavaScript file loaded");
-
-// get references to the modal buttons
-function addClickListenersToModalButtons() {
-    const noteTakerBtn = document.getElementById("noteTakerBtn");
-    const noteBookBtn = document.getElementById("noteBookBtn");
-    console.log(noteTakerBtn);
-    console.log(noteBookBtn);
-
-    noteTakerBtn.addEventListener("click", () => {
-        window.location.href = "/noteTaker"; // replace with the actual URL of the NoteTaker page
-    });
-
-    noteBookBtn.addEventListener("click", () => {
-        window.location.href = "/noteBook"; // replace with the actual URL of the NoteBook page
-    });
-}
-document.addEventListener("DOMContentLoaded", () => {
-    addClickListenersToModalButtons();
-});
-// end of get references to the modal buttons
+console.log("script.js file loaded");
 
 // Date Picker dropdown
 // $(document).ready(function () {
@@ -32,6 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
 //     };
 //     date_input.datepicker(options);
 // })
+// current year
+
+function displayCurrentYear() {
+    console.log("displayCurrentYear() called");
+    const year = new Date().getFullYear();
+    const element = document.querySelector('#year');
+    element.textContent = String(year);
+}
+
+// Call the function to display the current year
+displayCurrentYear();
 
 function initializeDatePicker() {
     const date_input = $('input[name="date"]');
@@ -106,4 +97,7 @@ function confirmDelete(event) {
         document.querySelector('[name="confirm"]').value = 'true';
     }
 }
+// end of delete student confirmation function
+
+
 
