@@ -1,7 +1,6 @@
 # TakeNote wep-app
 
-My Github account: [here](https://github.com/Mostafa-Wahied)
-
+[Live site](https://takenote-web-app-production.up.railway.app/)
 
 ## Description
 
