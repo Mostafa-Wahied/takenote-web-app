@@ -18,11 +18,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles/datatables.css}">
     <link rel="stylesheet" th:href="@{/styles/style.css}">
     <!-- Bootstrap CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- Datatables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"/>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
+    <script th:src="@{/js/students.js}" defer></script>
     <script th:src="@{/js/script.js}" defer></script>
     <title th:text="${student.firstName + ' ' + student.lastName}">TakeNote</title>
 </head>
@@ -45,7 +53,7 @@
         <!--Student table-->
         <section class="container">
             <div class="row">
-                <table style="width: 100%" class="table table-striped table-hover">
+                <table id="students-table" style="width: 100%" class="table table-striped table-hover table-bordered">
                     <thead>
                     <tr>
                         <th scope="col">Date</th>

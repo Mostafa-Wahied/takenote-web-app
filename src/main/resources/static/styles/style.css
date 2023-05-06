@@ -20,10 +20,48 @@
 }
 
 .students-symbol {
-    color: black;
-    font-size: 1.35vw;
+    color: #fd6048;
+    font-size: 1.35rem;
     font-variation-settings: 'wght' 300,
-    'FILL' 1;
+    'FILL' 0;
+}
+
+.students-symbol:hover {
+    color: black;
+    font-size: 1.35rem;
+    font-variation-settings: 'wght' 300,
+    'FILL' 0;
+}
+
+/* End of google icons */
+
+/* Buttons */
+
+.modal-btn:hover {
+    background-color: #fc5a41 !important;
+    border: 1px solid #fc5a41 !important;
+    color: white !important;
+}
+
+.modal-btn:hover .about-symbol {
+    color: white !important;
+}
+
+.close-btn {
+    color: #fa3e21 !important;
+    border: none !important;
+    background-color: white !important;
+}
+
+.close-btn .material-symbols-outlined {
+    color: #fa3e21 !important;
+    font-size: 1.2rem;
+}
+
+.close-btn .material-symbols-outlined:hover {
+    color: white !important;
+    background-color: #fc5a41 !important;
+    font-size: 1.2rem;
 }
 
 .btn-primary {
@@ -42,6 +80,12 @@
     background-color: white !important;
     border: 1px solid #fc5a41 !important;
     color: #fc5a41 !important;
+}
+
+#student-btn:hover {
+    background-color: #fc5a41 !important;
+    border: 1px solid #fc5a41 !important;
+    color: white !important;
 }
 
 /* End of buttons */
@@ -419,7 +463,7 @@ svg.tea #steamR {
 }
 
 .bg-gradient-1 {
-    background:linear-gradient(135deg, #406672 0%,#6ba7ba 100%);
+    background: linear-gradient(135deg, #406672 0%, #6ba7ba 100%);
 }
 
 .bg-color-white {
@@ -427,7 +471,7 @@ svg.tea #steamR {
 }
 
 .bg-gradient-2 {
-    background:linear-gradient(135deg, #6ba7ba 0%,#406672 100%);
+    background: linear-gradient(135deg, #6ba7ba 0%, #406672 100%);
 }
 
 .bg-color-1-hover:hover {
@@ -456,11 +500,29 @@ svg.tea #steamR {
 }
 
 .bg-gradient-1-hover:hover {
-    background:linear-gradient(135deg, #ff2200 0%,#fd6048 100%);
+    background: linear-gradient(135deg, #ff2200 0%, #fd6048 100%);
     color: white !important;
 }
 
 .bg-gradient-2-hover:hover {
-    background:linear-gradient(135deg, #406672 0%,#6ba7ba 100%);
+    background: linear-gradient(135deg, #406672 0%, #6ba7ba 100%);
     color: white !important;
+}
+
+
+/*table rounded corners*/
+thead th:first-child {
+    border-top-left-radius: 9px;
+}
+
+thead th:last-child {
+    border-top-right-radius: 9px;
+}
+
+tbody tr:last-child :first-child {
+    border-bottom-left-radius: 9px;
+}
+
+tbody tr:last-child :last-child {
+    border-bottom-right-radius: 9px;
 }

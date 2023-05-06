@@ -85,9 +85,7 @@
             <div class="modal-content bg-light rounded-4">
                 <div class="modal-header text-center border-bottom-0">
                     <h1 class="modal-title fs-5 w-100 text-center fw-bold" id="exampleModalLabel">Get Started!</h1>
-                    <button type="button" class="close-btn color-2 ps-2" data-bs-dismiss="modal" aria-label="Close">
-                        <span class="material-symbols-outlined rounded-pill p-1">close</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body row no-gutters m-0 px-4 pb-4 pt-0">
 
@@ -105,7 +103,7 @@
 
                                 <div class="d-flex flex-column">
                                     <a th:href="@{/notetaker/reading}"
-                                       class="modal-btn rounded-pill btn btn-light d-flex">
+                                       class="btn btn-light d-flex">
                                         <div class="row w-100">
                                             <div class="col-11 d-flex align-items-center">
                                                 <span class="col-2 about-symbol material-symbols-outlined">menu_book</span>
@@ -117,7 +115,7 @@
                                         </div>
                                     </a>
                                     <a th:href="@{/notetaker/writing}"
-                                       class="modal-btn rounded-pill btn btn-light d-flex">
+                                       class="btn btn-light d-flex">
                                         <div class="row w-100">
                                             <div class="col-11 d-flex align-items-center">
                                                 <span class="col-2 about-symbol material-symbols-outlined">edit_note</span>
@@ -146,8 +144,7 @@
                                 </p>
 
                                 <div class="d-flex flex-column">
-                                    <a th:href="@{/notebook/reading}"
-                                       class="modal-btn rounded-pill btn btn-light d-flex">
+                                    <a th:href="@{/notebook/reading}" class="btn btn-light d-flex">
                                         <div class="row w-100">
                                             <div class="col-11 d-flex align-items-center">
                                                 <span class="col-2 about-symbol material-symbols-outlined">menu_book</span>
@@ -158,8 +155,7 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <a th:href="@{/notebook/writing}"
-                                       class="modal-btn rounded-pill btn btn-light d-flex">
+                                    <a th:href="@{/notebook/writing}" class="btn btn-light d-flex">
                                         <div class="row w-100">
                                             <div class="col-11 d-flex align-items-center">
                                                 <span class="col-2 about-symbol material-symbols-outlined">edit_note</span>
@@ -171,7 +167,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <a th:href="@{/notebook/students}" class="modal-btn rounded-pill btn btn-light d-flex">
+                                <a th:href="@{/notebook/students}" class="btn btn-light d-flex">
                                     <div class="row w-100">
                                         <div class="col-11 d-flex align-items-center">
                                             <span class="col-2 about-symbol material-symbols-outlined">people</span>
@@ -192,6 +188,7 @@
         </div>
     </div>
     <!-- end of modal dialog -->
+
 
 </main>
 

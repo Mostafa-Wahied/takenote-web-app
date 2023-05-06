@@ -45,11 +45,11 @@
             <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
                 <label>
                     <input type="text" th:field="*{firstName}" placeholder="First Name"
-                           class="form-control mb-4 col-4">
+                           class="form-control rounded-pill mb-4 col-4">
                 </label>
                 <label>
                     <input type="text" th:field="*{lastName}" placeholder="Last Name"
-                           class="form-control mb-4 col-4">
+                           class="form-control rounded-pill mb-4 col-4">
                 </label>
                 <br>
                 <button type="submit" class="btn btn-primary rounded-pill">Save Student</button>

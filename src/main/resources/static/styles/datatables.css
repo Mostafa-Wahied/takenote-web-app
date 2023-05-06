@@ -1,0 +1,37 @@
+#students-table_paginate > ul > li.paginate_button.page-item.active > a {
+    background-color: #fd6048;
+    border-color: #fd6048;
+}
+
+/*control the focus color on the input search*/
+#students-table_filter > label > input[type=search]:focus {
+    border-color: #fd6048;
+    box-shadow: 0 0 0 0.2rem rgba(253, 96, 72, 0.25);
+}
+
+/*add rounded corner to input search*/
+#students-table_filter > label > input[type=search] {
+    border-radius: 20px;
+}
+
+/*control the table_length focus color*/
+#students-table_length > label > select:focus {
+    border-color: #fd6048;
+    box-shadow: 0 0 0 0.2rem rgba(253, 96, 72, 0.25);
+}
+
+/*add rounded corner to table_length*/
+#students-table_length > label > select {
+    border-radius: 20px;
+}
+
+/*add left rounded corners*/
+#students-table_previous > a {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+}
+/*add right rounded corners*/
+#students-table_next > a {
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
