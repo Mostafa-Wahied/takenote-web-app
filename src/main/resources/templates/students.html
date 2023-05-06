@@ -71,8 +71,6 @@
 
                     <tbody>
 
-                    <!--                    <th:block th:each="student : ${listStudents}">-->
-                    <!--                        <tr th:each="meeting, iterStat : ${student.meetings}" th:if="${iterStat.last}">-->
                     <th:block th:each="student : ${studentsWithLastMeeting}">
                         <tr th:each="meeting, iterStat : ${student.meetings}">
 
