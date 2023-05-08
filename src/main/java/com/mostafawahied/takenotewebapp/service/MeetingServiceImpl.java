@@ -1,20 +1,15 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Student;
-import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MeetingServiceImpl implements MeetingService {
@@ -166,4 +161,48 @@ public class MeetingServiceImpl implements MeetingService {
             this.saveMeeting(followUpMeeting);
         }
     }
+
+    @Override
+    public Map<String, Map<String, Integer>> getMeetingCountByStudentAndType() {
+        // Create a map to store the result
+        Map<String, Map<String, Integer>> result = new HashMap<>();
+
+        // Get all the meetings from the database using the meetingRepository
+        List<Meeting> meetings = meetingRepository.findAll();
+
+        // Loop through each meeting
+        for (Meeting meeting : meetings) {
+            // Get the student name and the meeting type from the meeting
+            String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
+            String meetingType = meeting.getType();
+
+            // Check if the result map already contains an entry for the student name
+            if (result.containsKey(studentName)) {
+                // Get the existing map of meeting types and counts for the student name
+                Map<String, Integer> meetingTypes = result.get(studentName);
+
+                // Check if the meeting types map already contains an entry for the meeting type
+                if (meetingTypes.containsKey(meetingType)) {
+                    // Increment the existing count for the meeting type by one
+                    meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
+                } else {
+                    // Add a new entry for the meeting type with a count of one
+                    meetingTypes.put(meetingType, 1);
+                }
+            } else {
+                // Create a new map of meeting types and counts for the student name
+                Map<String, Integer> meetingTypes = new HashMap<>();
+
+                // Add a new entry for the meeting type with a count of one
+                meetingTypes.put(meetingType, 1);
+
+                // Add a new entry for the student name with the map of meeting types and counts
+                result.put(studentName, meetingTypes);
+            }
+        }
+
+        // Return the result map
+        return result;
+    }
+
 }
