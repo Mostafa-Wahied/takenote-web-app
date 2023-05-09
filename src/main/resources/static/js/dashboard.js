@@ -37,7 +37,9 @@ function drawReadingMeetingCountByTypeBarChart() {
                     title: 'Number of Reading Meetings per Student', subtitle: 'By Type'
                 }, chartArea: {width: '80%', height: '80%'}, bars: 'vertical', hAxis: {title: 'Students'}, vAxis: {
                     title: 'Meeting Count', format: 'decimal'
-                }, height: 300, colors: colors2
+                },
+                height: 300,
+                colors: colors2
             };
             const chart = new google.charts.Bar(document.getElementById('reading_meetings_type_bar_chart'));
             chart.draw(chartData, options);
@@ -83,7 +85,9 @@ function drawWritingMeetingCountByTypeBarChart() {
                     title: 'Number of Writing Meetings per Student', subtitle: 'By Type'
                 }, chartArea: {width: '80%', height: '80%'}, bars: 'vertical', hAxis: {title: 'Students'}, vAxis: {
                     title: 'Meeting Count', format: 'decimal'
-                }, height: 300, colors: colors2
+                },
+                height: 300,
+                colors: colors2
             };
             const chart = new google.charts.Bar(document.getElementById('writing_meetings_type_bar_chart'));
             chart.draw(chartData, options);
@@ -118,11 +122,14 @@ function drawMeetingCountByTypePieChart() {
             });
 
             const options = {
-                title: 'Meeting Count by Type', chartArea: {width: '80%', height: '80%'}, legend: {
+                // title: 'Meeting Count by Type',
+                chartArea: {width: '80%', height: '80%'}, legend: {
                     alignment: 'center', textStyle: {
-                        color: 'grey', // fontSize: 13
+                        color: 'grey',  fontSize: 13
                     },
-                }, pieHole: 0.4, height: 300, colors: colors
+                }, pieHole: 0.4,
+                // height: 300,
+                colors: colors
             };
 
             const chart = new google.visualization.PieChart(document.getElementById('meetings_type_pie_chart'));
@@ -158,7 +165,9 @@ function drawReadingMeetingCountByStudentBarChart() {
                     alignment: 'center', textStyle: {
                         color: 'grey',
                     },
-                }, height: 300, colors: "#fc5a41"
+                },
+                // height: 300,
+                colors: "#fc5a41"
             };
 
             const chart = new google.charts.Bar(document.getElementById('reading_meetings_student_bar_chart'));
@@ -194,7 +203,9 @@ function drawWritingMeetingCountByStudentBarChart() {
                     alignment: 'center', textStyle: {
                         color: 'grey',
                     },
-                }, height: 300, colors: "#fc5a41"
+                },
+                // height: 300,
+                colors: "#fc5a41"
             };
             const chart = new google.charts.Bar(document.getElementById('writing_meetings_student_bar_chart'));
             chart.draw(chartData, options);
