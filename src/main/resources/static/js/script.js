@@ -60,23 +60,23 @@ function populateReadingLevelDropdown() {
 populateReadingLevelDropdown();
 // end of populating the reading level dropdown menu on forms
 
-// setting active state to navbar pages
-// Get the container element
-const btnContainer = document.getElementsByClassName("nav-item");
-// Get all buttons with class="btn" inside the container
-const btns = document.getElementsByClassName("nav-link");
-// Loop through the buttons and add the active class to the current/clicked button
-for (let i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function () {
-        const current = document.getElementsByClassName("active");
-        // If there's no active class
-        if (current.length > 0) {
-            current[0].className = current[0].className.replace(" active", "");
-        }
-        // Add the active class to the current/clicked button
-        this.className += " active";
-    });
-}
+// // setting active state to navbar pages
+// // Get the container element
+// const btnContainer = document.getElementsByClassName("nav-item");
+// // Get all buttons with class="btn" inside the container
+// const btns = document.getElementsByClassName("nav-link");
+// // Loop through the buttons and add the active class to the current/clicked button
+// for (let i = 0; i < btns.length; i++) {
+//     btns[i].addEventListener("click", function () {
+//         const current = document.getElementsByClassName("active");
+//         // If there's no active class
+//         if (current.length > 0) {
+//             current[0].className = current[0].className.replace(" active", "");
+//         }
+//         // Add the active class to the current/clicked button
+//         this.className += " active";
+//     });
+// }
 
 // for selectpicker dropdown
 $('select').selectpicker();

@@ -31,8 +31,10 @@ public interface MeetingService {
 
     void saveFollowUpMeetings(String[] ids, List<String> strengthList, List<String> nextStepsList);
 
-    // for meeting count by student and type bar chart
-    Map<String, Map<String, Integer>> getMeetingCountByStudentAndType(Principal principal);
+    // for reading meeting count by student and type bar chart
+    Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Principal principal);
+    // for writing meeting count by student and type bar chart
+    Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Principal principal);
 
     // for meeting count by type pie chart
     List<Map<String, Object>> getMeetingCountByType();

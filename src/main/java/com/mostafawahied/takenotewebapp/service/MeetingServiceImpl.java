@@ -165,7 +165,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Map<String, Map<String, Integer>> getMeetingCountByStudentAndType(Principal principal) {
+    public Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Principal principal) {
         Map<String, Map<String, Integer>> result = new HashMap<>();
 
         // Get a list of all students
@@ -179,17 +179,49 @@ public class MeetingServiceImpl implements MeetingService {
 
         List<Meeting> meetings = meetingRepository.findAll();
         for (Meeting meeting : meetings) {
-            String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
-            String meetingType = meeting.getType();
-            Map<String, Integer> meetingTypes = result.get(studentName);
-            if (meetingTypes.containsKey(meetingType)) {
-                meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
-            } else {
-                meetingTypes.put(meetingType, 1);
+            if (meeting.getSubject().equals("Reading")) {
+                String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
+                String meetingType = meeting.getType();
+                Map<String, Integer> meetingTypes = result.get(studentName);
+                if (meetingTypes.containsKey(meetingType)) {
+                    meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
+                } else {
+                    meetingTypes.put(meetingType, 1);
+                }
             }
         }
         return result;
     }
+
+    @Override
+    public Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Principal principal) {
+        Map<String, Map<String, Integer>> result = new HashMap<>();
+
+        // Get a list of all students
+        List<Student> students = studentService.getAllStudents(principal);
+
+        // Initialize the result map with all students
+        for (Student student : students) {
+            String studentName = student.getFirstName() + " " + student.getLastName();
+            result.put(studentName, new HashMap<>());
+        }
+
+        List<Meeting> meetings = meetingRepository.findAll();
+        for (Meeting meeting : meetings) {
+            if (meeting.getSubject().equals("Writing")) {
+                String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
+                String meetingType = meeting.getType();
+                Map<String, Integer> meetingTypes = result.get(studentName);
+                if (meetingTypes.containsKey(meetingType)) {
+                    meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
+                } else {
+                    meetingTypes.put(meetingType, 1);
+                }
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public List<Map<String, Object>> getMeetingCountByType() {

@@ -30,21 +30,27 @@ public class DashboardController {
         model.addAttribute("meetings", meetings);
         model.addAttribute("principal", principal.getName());
 
-        List<Map<String, Object>> readingMeetingCountByStudent = meetingService.getReadingMeetingCountByStudent(principal);
-//        System.out.println("**************************************************");
-//        System.out.println(readingMeetingCountByStudent);
-//        System.out.println("**************************************************");
-
+        model.addAttribute("activePage", "dashboard");
         return "dashboard";
     }
 
-    // Meeting Count By Student And Type Bar Chart
+    // Reading Meeting Count By Student And Type Bar Chart
     @ResponseBody
-    @GetMapping("/dashboard/getMeetingCountByStudentAndType")
-    public String getMeetingCountByStudentAndType(Principal principal) {
+    @GetMapping("/dashboard/getReadingMeetingCountByStudentAndType")
+    public String getReadingMeetingCountByStudentAndType(Principal principal) {
         Gson gson = new Gson();
         // getMeetingCountByStudentAndType
-        Map<String, Map<String, Integer>> meetingCountByStudentAndType = meetingService.getMeetingCountByStudentAndType(principal);
+        Map<String, Map<String, Integer>> meetingCountByStudentAndType = meetingService.getReadingMeetingCountByStudentAndType(principal);
+        return gson.toJson(meetingCountByStudentAndType);
+    }
+
+    // Writing Meeting Count By Student And Type Bar Chart
+    @ResponseBody
+    @GetMapping("/dashboard/getWritingMeetingCountByStudentAndType")
+    public String getWritingMeetingCountByStudentAndType(Principal principal) {
+        Gson gson = new Gson();
+        // getMeetingCountByStudentAndType
+        Map<String, Map<String, Integer>> meetingCountByStudentAndType = meetingService.getWritingMeetingCountByStudentAndType(principal);
         return gson.toJson(meetingCountByStudentAndType);
     }
 
@@ -75,9 +81,6 @@ public class DashboardController {
         Gson gson = new Gson();
         // getReadingMeetingCountByStudent
         List<Map<String, Object>> readingMeetingCountByStudent = meetingService.getReadingMeetingCountByStudent(principal);
-        System.out.println("**************************************************");
-        System.out.println(readingMeetingCountByStudent);
-        System.out.println("**************************************************");
         return gson.toJson(readingMeetingCountByStudent);
     }
 
