@@ -1,20 +1,16 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Student;
-import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MeetingServiceImpl implements MeetingService {
@@ -24,6 +20,7 @@ public class MeetingServiceImpl implements MeetingService {
     private MeetingRepository meetingRepository;
     @Autowired
     private UserRepository userRepository;
+
 
     @Override
     public List<Meeting> getAllMeetings() {
@@ -165,5 +162,126 @@ public class MeetingServiceImpl implements MeetingService {
             followUpMeeting.setNextStep(nextStepsList.get(i));
             this.saveMeeting(followUpMeeting);
         }
+    }
+
+    @Override
+    public Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Principal principal) {
+        Map<String, Map<String, Integer>> result = new HashMap<>();
+
+        // Get a list of all students
+        List<Student> students = studentService.getAllStudents(principal);
+
+        // Initialize the result map with all students
+        for (Student student : students) {
+            String studentName = student.getFirstName() + " " + student.getLastName();
+            result.put(studentName, new HashMap<>());
+        }
+
+        List<Meeting> meetings = meetingRepository.findAll();
+        for (Meeting meeting : meetings) {
+            if (meeting.getSubject().equals("Reading")) {
+                String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
+                String meetingType = meeting.getType();
+                Map<String, Integer> meetingTypes = result.get(studentName);
+                if (meetingTypes.containsKey(meetingType)) {
+                    meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
+                } else {
+                    meetingTypes.put(meetingType, 1);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Principal principal) {
+        Map<String, Map<String, Integer>> result = new HashMap<>();
+
+        // Get a list of all students
+        List<Student> students = studentService.getAllStudents(principal);
+
+        // Initialize the result map with all students
+        for (Student student : students) {
+            String studentName = student.getFirstName() + " " + student.getLastName();
+            result.put(studentName, new HashMap<>());
+        }
+
+        List<Meeting> meetings = meetingRepository.findAll();
+        for (Meeting meeting : meetings) {
+            if (meeting.getSubject().equals("Writing")) {
+                String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
+                String meetingType = meeting.getType();
+                Map<String, Integer> meetingTypes = result.get(studentName);
+                if (meetingTypes.containsKey(meetingType)) {
+                    meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
+                } else {
+                    meetingTypes.put(meetingType, 1);
+                }
+            }
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<Map<String, Object>> getMeetingCountByType() {
+        List<Object[]> meetingCountByType = meetingRepository.getMeetingCountByType();
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Object[] meetingCount : meetingCountByType) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("type", meetingCount[0]);
+            map.put("count", meetingCount[1]);
+            result.add(map);
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<Map<String, Object>> getWritingMeetingCountByStudent(Principal principal) {
+        List<Object[]> meetingCountByStudent = meetingRepository.getWritingMeetingsByStudent();
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        List<Student> students = studentService.getAllStudents(principal);
+        // Create a map of student names to meeting counts
+        Map<String, Long> studentMeetingCounts = new HashMap<>();
+        for (Object[] meetingCount : meetingCountByStudent) {
+            String studentName = meetingCount[0] + " " + meetingCount[1];
+            Long count = (Long) meetingCount[2];
+            studentMeetingCounts.put(studentName, count);
+        }
+        // Add a map to the result for each student
+        for (Student student : students) {
+            String studentName = student.getFirstName() + " " + student.getLastName();
+            Long count = studentMeetingCounts.getOrDefault(studentName, 0L);
+            Map<String, Object> map = new HashMap<>();
+            map.put(studentName, count);
+            result.add(map);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getReadingMeetingCountByStudent(Principal principal) {
+        List<Object[]> readingMeetingsCountByStudent = meetingRepository.getReadingMeetingsByStudent();
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        List<Student> students = studentService.getAllStudents(principal);
+        // Create a map of student names to meeting counts
+        Map<String, Long> studentReadingMeetingCounts = new HashMap<>();
+        for (Object[] meetingCount : readingMeetingsCountByStudent) {
+            String studentName = meetingCount[0] + " " + meetingCount[1];
+            Long count = (Long) meetingCount[2];
+            studentReadingMeetingCounts.put(studentName, count);
+        }
+        // Add a map to the result for each student
+        for (Student student : students) {
+            String studentName = student.getFirstName() + " " + student.getLastName();
+            Long count = studentReadingMeetingCounts.getOrDefault(studentName, 0L);
+            Map<String, Object> map = new HashMap<>();
+            map.put(studentName, count);
+            result.add(map);
+        }
+        return result;
     }
 }

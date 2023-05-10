@@ -1,5 +1,6 @@
 package com.mostafawahied.takenotewebapp.controller;
 
+import com.google.gson.Gson;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.model.Student;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class StudentController {
@@ -76,7 +78,6 @@ public class StudentController {
         model.addAttribute("studentsWithLastMeetingWriting", studentService.getStudentsWithLastMeetingWriting(principal));
         return "notebook_writing";
     }
-
 
     // a page to add a new student when Add Student button clicked
     @GetMapping("/showNewStudentForm")
