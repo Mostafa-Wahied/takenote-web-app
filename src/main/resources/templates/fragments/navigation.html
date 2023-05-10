@@ -25,20 +25,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav  mb-2 mb-lg-0">
-
+                <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a th:class="${activePage == 'home'} ? 'nav-link active' : 'nav-link'" aria-current="page"
                            th:href="@{/}">Home</a>
                     </li>
-
                     <li class="nav-item">
                         <a th:class="${activePage == 'dashboard'} ? 'nav-link active' : 'nav-link'"
                            th:href="@{/dashboard}">Dashboard</a>
                     </li>
-
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a th:class="${activePage == 'notetakerReading' || activePage == 'notetakerWriting' ? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle '}" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             NoteTaker
                         </a>
@@ -49,9 +46,8 @@
                                    th:href="@{/notetaker/writing}">Writing</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a th:class="${activePage == 'studentsPage' || activePage == 'notebookReadingPage' || activePage == 'notebookWritingPage' ? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle'}" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             NoteBook
                         </a>
@@ -66,25 +62,19 @@
                                    th:href="@{/notebook/writing}">Writing</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item">
                         <a th:class="${activePage == 'about'} ? 'nav-link active' : 'nav-link'"
                            th:href="@{/about}">About</a>
                     </li>
-
-                    <!--                <div class="d-flex align-content-end">-->
                     <li sec:authorize="!isAuthenticated()" class="nav-item login-link">
                         <a class="btn btn-primary rounded-pill text-light" href="" th:href="@{/login}">Sign In</a>
-
                     </li>
-
                     <li sec:authorize="isAuthenticated()" class="nav-item logout-link">
                         <a class="btn btn-primary rounded-pill text-light" href="" th:href="@{/logout}">Logout</a>
                     </li>
-
-
                 </ul>
             </div>
+
         </div>
     </nav>
 <!--</div>-->

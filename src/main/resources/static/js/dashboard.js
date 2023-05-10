@@ -125,7 +125,7 @@ function drawMeetingCountByTypePieChart() {
                 // title: 'Meeting Count by Type',
                 chartArea: {width: '80%', height: '80%'}, legend: {
                     alignment: 'center', textStyle: {
-                        color: 'grey',  fontSize: 13
+                        color: 'grey',  fontSize: 11
                     },
                 }, pieHole: 0.4,
                 // height: 300,

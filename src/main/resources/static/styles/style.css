@@ -10,7 +10,7 @@
 .label {
     font-variation-settings: 'FILL' 1;
     color: #6ba7ba;
-    font-size: 1.3vw;
+    font-size: 1.6rem;
     font-weight: lighter;
 }
 
@@ -36,6 +36,10 @@
 /* End of google icons */
 
 /* Buttons */
+
+.logout-link a, .login-link a {
+    font-size: 0.9rem;
+}
 
 .modal-btn:hover {
     background-color: #fc5a41 !important;
@@ -95,13 +99,17 @@
     width: 100%;
 }
 
+.nav-link {
+    font-size: 0.9rem !important;
+}
+
 .navbar-collapse {
     flex-basis: 100%;
     flex-grow: 0 !important;
 }
 
 .navbar-brand {
-    font-size: 1.75rem;
+    /*font-size: 1rem;*/
     letter-spacing: 5px;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
@@ -125,13 +133,13 @@
 .navbar-nav li a {
     font-family: 'Montserrat', sans-serif;
     color: #6ba7baad;
-    font-size: medium;
+    /*font-size: medium;*/
     font-weight: 500;
 }
 
 .navbar-nav > li {
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .navbar.navbar-light .nav-item .nav-link:hover {
@@ -141,7 +149,7 @@
 }
 
 .nav-item a.active {
-    font-size: medium;
+    /*font-size: medium;*/
     font-weight: 500;
     color: #ff725ce2 !important;
     padding-bottom: 5%;
