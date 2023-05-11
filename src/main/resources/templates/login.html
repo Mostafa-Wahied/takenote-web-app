@@ -53,7 +53,31 @@
                                     </div>
                                     <!--                            end of logout message-->
 
-                                    <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4">Sign in</p>
+                                    <!--            Google Login-->
+                                    <div class="d-flex justify-content-center">
+                                        <!--                                        <a class="text-center" href="/oauth2/authorization/google">Login with Google</a>-->
+
+                                        <div>
+                                            <a class="btn btn-secondary rounded-pill py-0 ps-0 pe-2 mb-2 border-0"
+                                               style="background-color: #4285f4;"
+                                               href="/oauth2/authorization/google">
+                                                <img th:src="@{/image/icons8-google.svg}" src="" alt="Google logo"
+                                                     style="width: 40px; height: 40px;">
+                                                Sign in with Google
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!--            end of Google login-->
+
+                                    <div class="d-flex align-items-center my-2">
+                                        <div class="flex-grow-1 border-bottom"></div>
+                                        <span class="mx-2">or</span>
+                                        <div class="flex-grow-1 border-bottom"></div>
+                                    </div>
+
+
+                                    <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4">Sign in</p>
 
                                     <!--            error message-->
                                     <div th:if="${param.error}">

@@ -46,7 +46,8 @@
 
         <!-- Hero -->
         <section class="d-flex flex-column justify-content-center align-items-center text-center">
-            <h1 class="display-5 my-4" th:text="Hello + ' ' + ${principal}">Dashboard</h1>
+            <h1 class="fs-5 my-4" th:text="Hello + ' ' + ${principal}" style="color: dimgray; font-weight: normal">
+                Dashboard</h1>
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -148,10 +149,9 @@
             </div>
         </section>
         <!-- End of Hero -->
+    </main>
 </div>
 
-
-</main>
 
 <!--footer-->
 <div th:replace="~{fragments/footer :: footer}"></div>

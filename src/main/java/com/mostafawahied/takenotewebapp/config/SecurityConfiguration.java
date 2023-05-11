@@ -1,5 +1,6 @@
 package com.mostafawahied.takenotewebapp.config;
 
+import com.mostafawahied.takenotewebapp.service.CustomOAuth2UserService;
 import com.mostafawahied.takenotewebapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CustomOAuth2UserService oAuth2UserService;
+
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -38,8 +45,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(
+        http.authorizeRequests()
+                .antMatchers(
                         "/register**",
+                        "/oauth/**",
                         "/",
                         "/about",
                         "/js/**",
@@ -49,6 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/dashboard")
                 .failureUrl("/login?error")
                 .permitAll()
                 .and()
@@ -57,6 +67,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
+                .permitAll()
+                // google
+                .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .userInfoEndpoint().userService(oAuth2UserService)
+                .and()
+                .successHandler(oAuth2LoginSuccessHandler)
+//                .defaultSuccessUrl("/dashboard")
+                .failureUrl("/login?error")
                 .permitAll();
+
     }
 }

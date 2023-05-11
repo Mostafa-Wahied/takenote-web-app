@@ -29,8 +29,9 @@ public class DashboardController {
         model.addAttribute("students", students);
         model.addAttribute("meetings", meetings);
         model.addAttribute("principal", principal.getName());
-
+        // setting active page for navbar
         model.addAttribute("activePage", "dashboard");
+
         return "dashboard";
     }
 

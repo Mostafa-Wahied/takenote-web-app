@@ -1,7 +1,7 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.dto.UserRegistrationDto;
-import com.mostafawahied.takenotewebapp.model.Meeting;
+import com.mostafawahied.takenotewebapp.model.AuthenticationProvider;
 import com.mostafawahied.takenotewebapp.model.Role;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(UserRegistrationDto registrationDto) {
-        User user = new User(registrationDto.getUsername(), passwordEncoder.encode(registrationDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+        User user = new User(registrationDto.getUsername(), passwordEncoder.encode(registrationDto.getPassword()), List.of(new Role("ROLE_USER")));
 
         return userRepository.save(user);
     }
@@ -47,6 +48,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public void createNewUserAfterOAuthLoginSuccess(String email, String name, AuthenticationProvider provider) {
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername(name);
+        user.setAuthProvider(provider);
+        user.setRoles(List.of(new Role("ROLE_USER")));
+        this.userRepository.save(user);
+    }
+
+    @Override
+    public void updateUserAfterOAuthLoginSuccess(User user, String name, AuthenticationProvider authenticationProvider) {
+        user.setUsername(name);
+        user.setAuthProvider(authenticationProvider);
+        this.userRepository.save(user);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -58,4 +81,7 @@ public class UserServiceImpl implements UserService {
     private Collection<? extends GrantedAuthority> mapRolesAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
+
+//    for google
+
 }

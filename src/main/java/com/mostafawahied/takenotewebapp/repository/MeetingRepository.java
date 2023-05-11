@@ -3,12 +3,9 @@ package com.mostafawahied.takenotewebapp.repository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNullApi;
 
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 //        ------------------- experimental - trying to get unique latest meetings ---------------------------
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {

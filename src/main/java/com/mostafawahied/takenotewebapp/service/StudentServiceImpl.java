@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.sql.Date;
 import java.util.*;
 
 @Service
@@ -23,7 +22,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> getAllStudents(Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
-        return user.getStudents();
+        if (user != null) {
+            return user.getStudents();
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     @Override
