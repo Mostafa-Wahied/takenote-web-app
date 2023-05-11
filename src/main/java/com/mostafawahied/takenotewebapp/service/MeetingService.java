@@ -33,7 +33,7 @@ public interface MeetingService {
     Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Principal principal);
 
     // for meeting count by type pie chart
-    List<Map<String, Object>> getMeetingCountByType();
+    List<Map<String, Object>> getMeetingCountByType(Principal principal);
 
     //    for meeting count by student
     List<Map<String, Object>> getWritingMeetingCountByStudent(Principal principal);

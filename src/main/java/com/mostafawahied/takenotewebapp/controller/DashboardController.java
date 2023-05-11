@@ -58,10 +58,10 @@ public class DashboardController {
     // Meeting Count By Type Pie Chart
     @ResponseBody
     @GetMapping("/dashboard/getMeetingCountByType")
-    public String getMeetingCountByType() {
+    public String getMeetingCountByType(Principal principal) {
         Gson gson = new Gson();
         // getMeetingCountByType
-        List<Map<String, Object>> meetingCountByType = meetingService.getMeetingCountByType();
+        List<Map<String, Object>> meetingCountByType = meetingService.getMeetingCountByType(principal);
         return gson.toJson(meetingCountByType);
     }
 

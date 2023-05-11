@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import java.security.Principal;
 import java.sql.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MeetingServiceImpl implements MeetingService {
@@ -260,8 +261,13 @@ public class MeetingServiceImpl implements MeetingService {
 
 
     @Override
-    public List<Map<String, Object>> getMeetingCountByType() {
-        List<Object[]> meetingCountByType = meetingRepository.getMeetingCountByType();
+    public List<Map<String, Object>> getMeetingCountByType(Principal principal) {
+        // Get a list of all students associated with the Principal
+        List<Student> students = studentService.getAllStudents(principal);
+        // Extract the student IDs from the list of students
+        List<Long> studentIds = students.stream().map(Student::getId).collect(Collectors.toList());
+        // Get the meeting count by type for the given student IDs
+        List<Object[]> meetingCountByType = meetingRepository.getMeetingCountByType(studentIds);
         List<Map<String, Object>> result = new ArrayList<>();
         for (Object[] meetingCount : meetingCountByType) {
             Map<String, Object> map = new HashMap<>();
@@ -271,6 +277,7 @@ public class MeetingServiceImpl implements MeetingService {
         }
         return result;
     }
+
 
 
     @Override

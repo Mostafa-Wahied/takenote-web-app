@@ -3,6 +3,7 @@ package com.mostafawahied.takenotewebapp.repository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNullApi;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     @Query("SELECT m FROM Meeting m JOIN FETCH m.student")
     List<Meeting> findAll();
 
-    //
-    @Query("SELECT m.type, COUNT(m) FROM Meeting m GROUP BY m.type")
-    List<Object[]> getMeetingCountByType();
+    // get meetings of the students with the given ids
+    @Query("SELECT m.type, COUNT(m) FROM Meeting m WHERE m.student.id IN :studentIds GROUP BY m.type")
+    List<Object[]> getMeetingCountByType(@Param("studentIds") List<Long> studentIds);
 
     @Query("select s.firstName, s.lastName, count(*) as meeting_count from Meeting m join Student s on m.student.id = s.id where m.subject = 'Writing' group by m.student.id")
     List<Object[]> getWritingMeetingsByStudent();

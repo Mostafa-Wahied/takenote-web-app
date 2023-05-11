@@ -72,10 +72,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2Login()
                 .loginPage("/login")
+//                .defaultSuccessUrl("/dashboard")
+//                .failureUrl("/login?error")
                 .userInfoEndpoint().userService(oAuth2UserService)
                 .and()
                 .successHandler(oAuth2LoginSuccessHandler)
-//                .defaultSuccessUrl("/dashboard")
+                .defaultSuccessUrl("/dashboard")
                 .failureUrl("/login?error")
                 .permitAll();
 
