@@ -11,72 +11,88 @@
 <!-- NavBar -->
 <!--<div class="  my-nav w-100 border" th:fragment="navigation">-->
 <!--<div class="">-->
-    <nav id="navbar" class="navbar navbar-expand-lg py-3 navbar-light" th:fragment="navigation">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/}">
-                <!-- Logo Image -->
-                <img th:src="@{/image/favicon.ico}" width="25" alt="" class="d-inline-block align-middle mr-2">
-                <!-- Logo Text -->
-                <span class="take-span">Take</span><span class="note-span">Note</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a th:class="${activePage == 'home'} ? 'nav-link active' : 'nav-link'" aria-current="page"
-                           th:href="@{/}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:class="${activePage == 'dashboard'} ? 'nav-link active' : 'nav-link'"
-                           th:href="@{/dashboard}">Dashboard</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a th:class="${activePage == 'notetakerReading' || activePage == 'notetakerWriting' ? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle '}" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            NoteTaker
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a th:class="${activePage == 'notetakerReading'} ? 'nav-link active' : 'nav-link'"
-                                   th:href="@{/notetaker/reading}">Reading</a></li>
-                            <li><a th:class="${activePage == 'notetakerWriting'} ? 'nav-link active' : 'nav-link'"
-                                   th:href="@{/notetaker/writing}">Writing</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a th:class="${activePage == 'studentsPage' || activePage == 'notebookReadingPage' || activePage == 'notebookWritingPage' ? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle'}" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            NoteBook
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a th:class="${activePage == 'studentsPage'} ? 'nav-link active' : 'nav-link'"
-                                   th:href="@{/notebook/students}">My Students</a></li>
-                            <li>
-                                <a th:class="${activePage == 'notebookReadingPage'} ? 'nav-link active' : 'nav-link'"
-                                   th:href="@{/notebook/reading}">Reading</a></li>
-                            <li>
-                                <a th:class="${activePage == 'notebookWritingPage'} ? 'nav-link active' : 'nav-link'"
-                                   th:href="@{/notebook/writing}">Writing</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a th:class="${activePage == 'about'} ? 'nav-link active' : 'nav-link'"
-                           th:href="@{/about}">About</a>
-                    </li>
-                    <li sec:authorize="!isAuthenticated()" class="nav-item login-link">
-                        <a class="btn btn-primary rounded-pill text-light" href="" th:href="@{/login}">Sign In</a>
-                    </li>
-                    <li sec:authorize="isAuthenticated()" class="nav-item logout-link">
-                        <a class="btn btn-primary rounded-pill text-light" href="" th:href="@{/logout}">Logout</a>
-                    </li>
-                </ul>
-            </div>
-
+<nav id="navbar" class="navbar navbar-expand-lg py-3 navbar-light" th:fragment="navigation">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">
+            <!-- Logo Image -->
+            <img th:src="@{/image/favicon.ico}" width="25" alt="" class="d-inline-block align-middle mr-2">
+            <!-- Logo Text -->
+            <span class="take-span">Take</span><span class="note-span">Note</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a th:class="${activePage == 'home'} ? 'nav-link active' : 'nav-link'" aria-current="page"
+                       th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a th:class="${activePage == 'dashboard'} ? 'nav-link active' : 'nav-link'"
+                       th:href="@{/dashboard}">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a th:class="${activePage == 'notetakerReading' || activePage == 'notetakerWriting' ? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle '}"
+                       href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        NoteTaker
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:class="${activePage == 'notetakerReading'} ? 'nav-link active' : 'nav-link'"
+                               th:href="@{/notetaker/reading}">Reading</a></li>
+                        <li><a th:class="${activePage == 'notetakerWriting'} ? 'nav-link active' : 'nav-link'"
+                               th:href="@{/notetaker/writing}">Writing</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a th:class="${activePage == 'studentsPage' || activePage == 'notebookReadingPage' || activePage == 'notebookWritingPage' ? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle'}"
+                       href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        NoteBook
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:class="${activePage == 'studentsPage'} ? 'nav-link active' : 'nav-link'"
+                               th:href="@{/notebook/students}">My Students</a></li>
+                        <li>
+                            <a th:class="${activePage == 'notebookReadingPage'} ? 'nav-link active' : 'nav-link'"
+                               th:href="@{/notebook/reading}">Reading</a></li>
+                        <li>
+                            <a th:class="${activePage == 'notebookWritingPage'} ? 'nav-link active' : 'nav-link'"
+                               th:href="@{/notebook/writing}">Writing</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a th:class="${activePage == 'about'} ? 'nav-link active' : 'nav-link'"
+                       th:href="@{/about}">About</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()" class="nav-item login-link">
+                    <a class="btn btn-primary rounded-pill text-light" href="" th:href="@{/login}">Sign In</a>
+                </li>
+                <!--                    <li sec:authorize="isAuthenticated()" class="nav-item logout-link">-->
+                <!--                        <a class="btn btn-primary rounded-pill text-light" href="" th:href="@{/logout}">Logout</a>-->
+                <!--                    </li>-->
+                <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img th:if="${pictureUrl}" th:src="${pictureUrl}" width="25" alt=""
+                             class="d-inline-block align-middle mr-2 rounded-circle">
+                        <span class="d-inline-block align-middle mr-2" th:text="${#authentication.name}"></span>
+                    </a>
+                    <ul class="dropdown-menu" style="">
+                        <li sec:authorize="isAuthenticated()" class="nav-item">
+                            <a class="nav-link" href="" th:href="@{/logout}">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-    </nav>
+
+    </div>
+</nav>
 <!--</div>-->
 <!--</div>-->
 <!-- End of Navbar -->

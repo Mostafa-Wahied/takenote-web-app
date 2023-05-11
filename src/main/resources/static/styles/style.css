@@ -147,8 +147,13 @@ body {
 
 .navbar.navbar-light .nav-item .nav-link:hover {
     color: #FF735C !important;
-    padding-bottom: 5% !important;
-    border-bottom: 2px solid #FF735C !important;
+    /*padding-bottom: 5% !important;*/
+    /*border-bottom: 2px solid #FF735C !important;*/
+}
+
+.dropdown-menu .nav-link:hover {
+    margin-left: 5px;
+    transition: 0.1s ease-in-out;
 }
 
 .nav-item a.active {
@@ -537,3 +542,4 @@ tbody tr:last-child :first-child {
 tbody tr:last-child :last-child {
     border-bottom-right-radius: 9px;
 }
+

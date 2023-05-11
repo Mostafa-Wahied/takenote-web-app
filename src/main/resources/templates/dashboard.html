@@ -45,11 +45,26 @@
     <main>
 
         <!-- Hero -->
-        <section class="d-flex flex-column justify-content-center align-items-center text-center">
-            <h1 class="fs-5 my-4" th:text="Hello + ' ' + ${principal}" style="color: dimgray; font-weight: normal">
-                Dashboard</h1>
+        <section class="d-flex flex-column animate__animated animate__fadeIn" style="font-family: Montserrat">
+
             <div class="container">
-                <div class="row">
+                <h1
+                        class="mt-4 text-left"
+                        style="color: dimgray;
+                         font-weight: normal;
+                          font-family: Montserrat,serif;
+                           font-size: 1.5rem;">
+                    Teacher's Dashboard
+                </h1>
+                <h1
+                        class="text-left"
+                        th:text="Welcome + ', ' + ${principal}"
+                        style="color: darkgrey;
+                         font-size: 0.9rem;
+                          font-weight: 500;
+                           font-family: Montserrat,serif;">
+                </h1>
+                <div class="row text-center">
                     <div class="col-md-6">
 
                         <div id="carouselExampleDark"
