@@ -6,6 +6,8 @@ import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,10 @@ public class DashboardController {
         model.addAttribute("students", students);
         model.addAttribute("meetings", meetings);
         model.addAttribute("principal", principal.getName());
+        // meetings count for the current user
+        model.addAttribute("meetingsCount", meetingService.getMeetingCount(principal));
+        // students count for the current user
+        model.addAttribute("studentsCount", studentService.getAllStudents(principal).size());
         // setting active page for navbar
         model.addAttribute("activePage", "dashboard");
 
@@ -65,24 +71,33 @@ public class DashboardController {
         return gson.toJson(meetingCountByType);
     }
 
-    // Meeting Count By Student Bar Chart
+    // Writing Meeting Count By Student Bar Chart
     @ResponseBody
-    @GetMapping("/dashboard/getWritingMeetingsCountByStudent")
+    @GetMapping("/dashboard/getWritingMeetingsCountBySubject")
     public String getWritingMeetingsCountByStudent(Principal principal) {
         Gson gson = new Gson();
         // getMeetingCountByStudent
-        List<Map<String, Object>> meetingCountByStudent = meetingService.getWritingMeetingCountByStudent(principal);
+        List<Map<String, Object>> meetingCountByStudent = meetingService.getWritingMeetingCountByStudentBySubject(principal);
         return gson.toJson(meetingCountByStudent);
     }
 
     // Reading Meeting Count By Student Bar Chart
     @ResponseBody
-    @GetMapping("/dashboard/getReadingMeetingsCountByStudent")
+    @GetMapping("/dashboard/getReadingMeetingsCountBySubject")
     public String getReadingMeetingCountByStudent(Principal principal) {
         Gson gson = new Gson();
         // getReadingMeetingCountByStudent
-        List<Map<String, Object>> readingMeetingCountByStudent = meetingService.getReadingMeetingCountByStudent(principal);
+        List<Map<String, Object>> readingMeetingCountByStudent = meetingService.getReadingMeetingCountByStudentBySubject(principal);
         return gson.toJson(readingMeetingCountByStudent);
     }
 
+    // Reading Subject Levels progress Line Chart Card
+    @ResponseBody
+    @GetMapping("/dashboard/getAverageReadingSubjectLevel")
+    public String getAverageReadingSubjectLevel(Principal principal) {
+        Gson gson = new Gson();
+        // getAverageReadingSubjectLevel
+        List<Map<String, Object>> averageReadingSubjectLevel = meetingService.getAverageSubjectLevelProgress(principal);
+        return gson.toJson(averageReadingSubjectLevel);
+    }
 }

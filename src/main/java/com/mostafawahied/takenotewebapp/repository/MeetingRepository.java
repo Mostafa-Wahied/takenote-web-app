@@ -1,6 +1,7 @@
 package com.mostafawahied.takenotewebapp.repository;
 
 import com.mostafawahied.takenotewebapp.model.Meeting;
+import com.mostafawahied.takenotewebapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,8 +20,17 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     List<Object[]> getMeetingCountByType(@Param("studentIds") List<Long> studentIds);
 
     @Query("select s.firstName, s.lastName, count(*) as meeting_count from Meeting m join Student s on m.student.id = s.id where m.subject = 'Writing' group by m.student.id")
-    List<Object[]> getWritingMeetingsByStudent();
+    List<Object[]> getWritingMeetingsByStudentBySubject();
 
     @Query("select s.firstName, s.lastName, count(*) as meeting_count from Meeting m join Student s on m.student.id = s.id where m.subject = 'Reading' group by m.student.id")
-    List<Object[]> getReadingMeetingsByStudent();
+    List<Object[]> getReadingMeetingsByStudentBySubject();
+
+    // get meetings of the students for a given user
+    @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.user = :user GROUP BY m.date ORDER BY m.date")
+    List<Object[]> getAverageSubjectLevelProgress(@Param("user") User user);
+
+    // get all meetings for the students of a given user
+    @Query("select count (m) from Meeting m where m.student.user = :user")
+    int getMeetingCount(@Param("user") User user);
+
 }

@@ -1,8 +1,10 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Student;
+import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
+import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -18,8 +20,8 @@ public class MeetingServiceImpl implements MeetingService {
     private StudentService studentService;
     @Autowired
     private MeetingRepository meetingRepository;
-
-
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Meeting> getAllMeetings() {
@@ -196,34 +198,6 @@ public class MeetingServiceImpl implements MeetingService {
         }
         return result;
     }
-//
-//    @Override
-//    public Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Principal principal) {
-//        Map<String, Map<String, Integer>> result = new HashMap<>();
-//        // Get a list of all students
-//        List<Student> students = studentService.getAllStudents(principal);
-//        // Initialize the result map with all students
-//        for (Student student : students) {
-//            String studentName = student.getFirstName() + " " + student.getLastName();
-//            result.put(studentName, new HashMap<>());
-//        }
-//        List<Meeting> meetings = meetingRepository.findAll();
-//        for (Meeting meeting : meetings) {
-//            if (meeting.getSubject().equals("Reading")) {
-//                String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
-//                String meetingType = meeting.getType();
-//                if (result.containsKey(studentName)) {
-//                    Map<String, Integer> meetingTypes = result.get(studentName);
-//                    if (meetingTypes.containsKey(meetingType)) {
-//                        meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
-//                    } else {
-//                        meetingTypes.put(meetingType, 1);
-//                    }
-//                }
-//            }
-//        }
-//        return result;
-//    }
 
     @Override
     public Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Principal principal) {
@@ -259,7 +233,6 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
-
     @Override
     public List<Map<String, Object>> getMeetingCountByType(Principal principal) {
         // Get a list of all students associated with the Principal
@@ -278,13 +251,10 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
-
-
     @Override
-    public List<Map<String, Object>> getWritingMeetingCountByStudent(Principal principal) {
-        List<Object[]> meetingCountByStudent = meetingRepository.getWritingMeetingsByStudent();
+    public List<Map<String, Object>> getWritingMeetingCountByStudentBySubject(Principal principal) {
+        List<Object[]> meetingCountByStudent = meetingRepository.getWritingMeetingsByStudentBySubject();
         List<Map<String, Object>> result = new ArrayList<>();
-
         List<Student> students = studentService.getAllStudents(principal);
         // Create a map of student names to meeting counts
         Map<String, Long> studentMeetingCounts = new HashMap<>();
@@ -305,10 +275,9 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public List<Map<String, Object>> getReadingMeetingCountByStudent(Principal principal) {
-        List<Object[]> readingMeetingsCountByStudent = meetingRepository.getReadingMeetingsByStudent();
+    public List<Map<String, Object>> getReadingMeetingCountByStudentBySubject(Principal principal) {
+        List<Object[]> readingMeetingsCountByStudent = meetingRepository.getReadingMeetingsByStudentBySubject();
         List<Map<String, Object>> result = new ArrayList<>();
-
         List<Student> students = studentService.getAllStudents(principal);
         // Create a map of student names to meeting counts
         Map<String, Long> studentReadingMeetingCounts = new HashMap<>();
@@ -327,4 +296,37 @@ public class MeetingServiceImpl implements MeetingService {
         }
         return result;
     }
+
+    // get the average subject level progress for the logged in user
+    @Override
+    public List<Map<String, Object>> getAverageSubjectLevelProgress(Principal principal) {
+        // Get the username from the userDetails object
+        String username = userRepository.findByUsername(principal.getName()).getUsername();
+        // Find the user by username from the userRepository
+        User user = userRepository.findByUsername(username);
+        // Call the meetingRepository with the user parameter
+        List<Object[]> averageSubjectLevelProgress = meetingRepository.getAverageSubjectLevelProgress(user);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Object[] progress : averageSubjectLevelProgress) {
+            Date date = (Date) progress[0];
+            Double avgSubjectLevel = (Double) progress[1];
+            Map<String, Object> map = new HashMap<>();
+            map.put("date", date);
+            map.put("avgSubjectLevel", avgSubjectLevel);
+            result.add(map);
+        }
+        return result;
+    }
+
+    // get the meetings number for the logged in user
+    @Override
+    public int getMeetingCount(Principal principal) {
+        // Get the username from the userDetails object
+        String username = userRepository.findByUsername(principal.getName()).getUsername();
+        // Find the user by username from the userRepository
+        User user = userRepository.findByUsername(username);
+        // Call the meetingRepository with the user parameter
+        return meetingRepository.getMeetingCount(user);
+    }
+
 }

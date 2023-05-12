@@ -1,6 +1,8 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Meeting;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 
 import java.security.Principal;
@@ -29,16 +31,24 @@ public interface MeetingService {
 
     // for reading meeting count by student and type bar chart
     Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Principal principal);
+
     // for writing meeting count by student and type bar chart
     Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Principal principal);
 
     // for meeting count by type pie chart
     List<Map<String, Object>> getMeetingCountByType(Principal principal);
 
-    //    for meeting count by student
-    List<Map<String, Object>> getWritingMeetingCountByStudent(Principal principal);
+    // for reading meeting count by student by subject bar chart
+    List<Map<String, Object>> getWritingMeetingCountByStudentBySubject(Principal principal);
 
-    List<Map<String, Object>> getReadingMeetingCountByStudent(Principal principal);
+    // for writing meeting count by student by subject bar chart
+    List<Map<String, Object>> getReadingMeetingCountByStudentBySubject(Principal principal);
+
+    // for average subject level progress line chart
+    List<Map<String, Object>> getAverageSubjectLevelProgress(Principal principal);
+
+    // get the meetings number for the logged in user
+    int getMeetingCount(Principal principal);
 }
 
 
