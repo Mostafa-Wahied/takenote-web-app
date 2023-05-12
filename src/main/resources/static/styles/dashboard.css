@@ -1,7 +1,41 @@
-#meetings-type-bar-pills-tab button{
+/*bar charts buttons size*/
+#meetings-type-bar-pills-tab button {
     font-size: 0.75rem !important;
 }
 
 #meetings-subject-bar-pills-tab button {
     font-size: 0.75rem !important;
+}
+
+/*cards css*/
+.card {
+    margin-bottom: 0.5rem !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.card-text {
+    font-size: 2rem;
+    margin-left: 4rem;
+}
+
+.card-number {
+    font-size: 3rem;
+    padding-block: 35px;
+    padding-right: 1rem;
+}
+
+
+/*media queries*/
+@media (max-width: 576px) {
+    .card-text {
+        font-size: 1.5rem;
+        padding-top: 0.4rem;
+        margin-left: 0;
+        /*padding-left: 0;*/
+    }
+
+    .card-number {
+        font-size: 2rem;
+        padding-block: 5px;
+    }
 }
