@@ -24,6 +24,13 @@
     padding-right: 1rem;
 }
 
+.students-card-btn {
+    text-decoration: none;
+}
+
+.students-card:hover {
+    background-color: rgba(222, 222, 222, 0.17);
+}
 
 /*media queries*/
 @media (max-width: 576px) {

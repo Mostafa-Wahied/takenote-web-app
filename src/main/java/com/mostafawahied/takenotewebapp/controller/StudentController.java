@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StudentController {
@@ -32,10 +33,7 @@ public class StudentController {
         return "index";
     }
 
-    //    display all students
-    final String notebookStudentsURL = "/notebook/students";
-
-    @GetMapping(notebookStudentsURL)
+    @GetMapping("/notebook/students")
     public String viewAllStudentsPage(Model model, Student student, Principal principal) throws Exception {
         model.addAttribute("listStudents", studentService.getAllStudents(principal));
         //        for navigation active state
@@ -46,14 +44,13 @@ public class StudentController {
     }
 
     //display student by ID using a path variable
-    final String notebookStudentByIdURL = "/notebook/student/{id}";
-
-    @GetMapping(notebookStudentByIdURL)
+    @GetMapping("/notebook/student/{id}")
     public String viewStudentById(@PathVariable(value = "id") long id, Model model) {
         Student student = studentService.getStudentById(id);
         model.addAttribute("student", student);
-
+        model.addAttribute("studentId", id);
         model.addAttribute("meetings", student.getMeetings());
+        model.addAttribute("meetingCount", student.getMeetings().size());
         return "student";
     }
 
@@ -63,7 +60,7 @@ public class StudentController {
         model.addAttribute("listStudents", studentService.getAllStudents(principal));
         //        for navigation active state
         model.addAttribute("activePage", "notebookReadingPage");
-//        getting students with last meeting
+        // getting students with last meeting
         model.addAttribute("studentsWithLastMeetingReading", studentService.getStudentsWithLastMeetingReading(principal));
         return "notebook_reading";
     }
@@ -140,4 +137,15 @@ public class StudentController {
         model.addAttribute("activePage", "about");
         return "about";
     }
+
+    // Reading Subject Levels progress Line Chart Card
+    @ResponseBody
+    @GetMapping("/notebook/student/{id}/averageReadingSubjectLevel")
+    public String getStudentAverageReadingSubjectLevel(@PathVariable(value = "id") long studentId) {
+        Gson gson = new Gson();
+        // getAverageReadingSubjectLevel
+        List<Map<String, Object>> averageReadingSubjectLevel = meetingService.getStudentAverageSubjectLevelProgress(studentId);
+        return gson.toJson(averageReadingSubjectLevel);
+    }
+
 }

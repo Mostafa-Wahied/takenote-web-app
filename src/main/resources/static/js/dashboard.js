@@ -226,18 +226,14 @@ function drawAverageSubjectLevelProgressLineChart() {
     fetch('/dashboard/getAverageReadingSubjectLevel')
         .then(response => response.json())
         .then(data => {
-            // Get the current average subject level value from the data
-            let currentAverageSubjectLevel= 0;
-            if (data.length === 0) {
-                 currentAverageSubjectLevel = 0;
-            } else {
-                 currentAverageSubjectLevel = data[data.length - 1].avgSubjectLevel;
-            }
-            console.log("currentAverageSubjectLevel: ", currentAverageSubjectLevel);
+            // Get average reading level for all meetings for the logged in user
+            let avgReadingLevel = document.querySelector('#average_reading_level_float').dataset.avgLevel;
+            console.log("avgReadingLevel: " + avgReadingLevel);
+            let letter = String.fromCharCode('Z'.charCodeAt(0) - avgReadingLevel + 1);
             // Select the <p> element by its id
             let averageSubjectLevelElement = document.querySelector('#average-subject-level');
             // Update the content of the <p> element with the current average subject level value
-            averageSubjectLevelElement.textContent = currentAverageSubjectLevel;
+            averageSubjectLevelElement.textContent = letter;
             // end of getting current average subject level value
             console.log("average_reading_subject_level: ", data);
             const chartData = new google.visualization.DataTable();
@@ -283,7 +279,7 @@ function drawAverageSubjectLevelProgressLineChart() {
                     // Set the format option to display whole numbers
                     format: '#',
                     viewWindow: {
-                        min: 20,
+                        min: 1,
                         max: 30
                     },
                     // Set the format option to show the letter for each tick
@@ -401,5 +397,4 @@ function updateSubjectActiveTab() {
 
 // Call the function to update the active tab and redraw the charts
 updateSubjectActiveTab();
-
 

@@ -1,0 +1,59 @@
+/*bar charts buttons size*/
+#pills-student-reading-table-bar-tab {
+    font-size: 0.75rem !important;
+}
+#pills-student-writing-table-bar-tab {
+    font-size: 0.75rem !important;
+}
+/*cards css*/
+.student-card {
+    height : 150px !important;
+}
+.card {
+    margin-bottom: 0.5rem !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.card-text {
+    font-size: 20px;
+    margin-left: 50px;
+    margin-bottom: 15px !important;
+}
+
+.card-number {
+    font-size: 32px;
+    /*padding-block: 23px;*/
+    /*padding-right: 1rem;*/
+}
+
+body > main > div > section > div.row {
+    padding-inline: 150px;
+}
+
+.reading-level-text {
+    font-size: 0.6rem;
+}
+
+#average-subject-level {
+    font-size: 32px;
+}
+
+/*media queries*/
+@media (max-width: 576px) {
+    .card-text {
+        font-size: 16px;
+        margin-left: 30px !important;
+        padding-bottom: 15px;
+        /*padding-left: 0;*/
+    }
+
+    .card-number {
+        font-size: 32px;
+        /*padding-block: 30px;*/
+        /*margin-left: 40px !important;*/
+    }
+
+    body > main > div > section > div.row {
+        padding-inline: 0;
+    }
+}

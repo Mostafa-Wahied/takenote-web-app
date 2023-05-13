@@ -159,8 +159,12 @@ public class MeetingServiceImpl implements MeetingService {
             int theId = Integer.parseInt(ids[i]);
             // Retrieve the existing Meeting object by its ID
             Meeting followUpMeeting = this.getMeetingById(theId);
-            followUpMeeting.setStrength(strengthList.get(i));
-            followUpMeeting.setNextStep(nextStepsList.get(i));
+            if(!strengthList.isEmpty()) {
+                followUpMeeting.setStrength(strengthList.get(i));
+            }
+            if (!nextStepsList.isEmpty()) {
+                followUpMeeting.setNextStep(nextStepsList.get(i));
+            }
             this.saveMeeting(followUpMeeting);
         }
     }
@@ -318,6 +322,22 @@ public class MeetingServiceImpl implements MeetingService {
         return result;
     }
 
+    // get the average subject level progress for 1 student
+    @Override
+    public List<Map<String, Object>> getStudentAverageSubjectLevelProgress(long studentId) {
+        List<Object[]> averageSubjectLevelProgress = meetingRepository.getStudentAverageSubjectLevelProgress(studentId);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Object[] progress : averageSubjectLevelProgress) {
+            Date date = (Date) progress[0];
+            Double avgSubjectLevel = (Double) progress[1];
+            Map<String, Object> map = new HashMap<>();
+            map.put("date", date);
+            map.put("avgSubjectLevel", avgSubjectLevel);
+            result.add(map);
+        }
+        return result;
+    }
+
     // get the meetings number for the logged in user
     @Override
     public int getMeetingCount(Principal principal) {
@@ -327,6 +347,17 @@ public class MeetingServiceImpl implements MeetingService {
         User user = userRepository.findByUsername(username);
         // Call the meetingRepository with the user parameter
         return meetingRepository.getMeetingCount(user);
+    }
+
+    // get the average reading level for all meetings for the logged in user
+    @Override
+    public float getAverageReadingLevel(Principal principal) {
+        // Get the username from the userDetails object
+        String username = userRepository.findByUsername(principal.getName()).getUsername();
+        // Find the user by username from the userRepository
+        User user = userRepository.findByUsername(username);
+        // Call the meetingRepository with the user parameter
+        return meetingRepository.getAverageReadingLevel(user);
     }
 
 }

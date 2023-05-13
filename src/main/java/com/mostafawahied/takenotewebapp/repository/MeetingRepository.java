@@ -29,8 +29,16 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.user = :user GROUP BY m.date ORDER BY m.date")
     List<Object[]> getAverageSubjectLevelProgress(@Param("user") User user);
 
+    // get meetings of the students for a given user
+    @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m join Student s on m.student.id = s.id where m.subject = 'Reading' and s.id = :studentId GROUP BY m.date ORDER BY m.date")
+    List<Object[]> getStudentAverageSubjectLevelProgress(long studentId);
+
     // get all meetings for the students of a given user
     @Query("select count (m) from Meeting m where m.student.user = :user")
     int getMeetingCount(@Param("user") User user);
+
+    // get the average reading level for all meetings for the logged in user
+    @Query("select avg(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) from Meeting m where m.subject = 'Reading' and m.student.user = :user")
+    float getAverageReadingLevel(@Param("user") User user);
 
 }

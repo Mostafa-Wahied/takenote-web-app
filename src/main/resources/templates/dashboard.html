@@ -65,6 +65,10 @@
                            font-family: Montserrat,serif;">
                 </h1>
 
+                <!-- Getting the average reading level float variable injected by dashController Model -->
+                <input type="hidden" id="average_reading_level_float" th:data-avg-level="${averageReadingLevel}">
+                <!-- end of getting the avg -->
+
                 <div class="row my-2">
                     <div class="col-md-4">
                         <div class="card rounded-4 p-3">
@@ -73,8 +77,9 @@
                                     <div id="average_reading_subject_level_line_chart"></div>
                                 </div>
                                 <div class="col-6 text-center">
-                                    <div class="d-flex justify-content-center align-items-center flex-column" style="height: 100%;">
-                                        <p class="mb-0" style="font-size: 0.8rem">Current Average Reading Level</p>
+                                    <div class="d-flex justify-content-center align-items-center flex-column"
+                                         style="height: 100%;">
+                                        <p class="mb-0" style="font-size: 0.8rem">Overall Average Reading Level</p>
                                         <p class="mt-0" id="average-subject-level" style="font-size: 3rem"></p>
                                     </div>
                                 </div>
@@ -82,18 +87,20 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card rounded-4">
-                            <div class="row">
-                                <div class="col-md-6 card-text-container d-flex justify-content-center align-items-center text-center">
-                                    <p class="card-text text-center">Students</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card-number-container d-flex justify-content-center align-items-center text-center">
-                                        <p class="card-number"  th:text="${studentsCount}"></p>
+                        <a class="students-card-btn" th:href="@{/notebook/students}">
+                            <div class="students-card card rounded-4">
+                                <div class="row">
+                                    <div class="col-md-6 card-text-container d-flex justify-content-center align-items-center text-center">
+                                        <p class="card-text text-center">Students</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-number-container d-flex justify-content-center align-items-center text-center">
+                                            <p class="card-number" th:text="${studentsCount}"></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="col">
                         <div class="card rounded-4">

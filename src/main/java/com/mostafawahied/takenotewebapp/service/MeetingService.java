@@ -47,8 +47,14 @@ public interface MeetingService {
     // for average subject level progress line chart
     List<Map<String, Object>> getAverageSubjectLevelProgress(Principal principal);
 
+    // get the average subject level progress for 1 student
+    List<Map<String, Object>> getStudentAverageSubjectLevelProgress(long studentId);
+
     // get the meetings number for the logged in user
     int getMeetingCount(Principal principal);
+
+    // get the average reading level for all meetings for the logged in user
+    float getAverageReadingLevel(Principal principal);
 }
 
 

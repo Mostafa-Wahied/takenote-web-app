@@ -6,11 +6,15 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $('#student-reading-table').DataTable();
+    $('#student-reading-table').DataTable({
+        "order": [[0, "desc"]] // 0 is the index of the column you want to sort by default
+    });
 });
 
 $(document).ready(function () {
-    $('#student-writing-table').DataTable();
+    $('#student-writing-table').DataTable({
+        "order": [[0, "desc"]] // 0 is the index of the column you want to sort by default
+    });
 });
 
 

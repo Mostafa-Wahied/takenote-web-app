@@ -38,6 +38,9 @@ public class DashboardController {
         // setting active page for navbar
         model.addAttribute("activePage", "dashboard");
 
+        // inject the average reading level for all meetings for the current user
+        float averageReadingLevel = meetingService.getAverageReadingLevel(principal);
+        model.addAttribute("averageReadingLevel", averageReadingLevel);
         return "dashboard";
     }
 
@@ -100,4 +103,14 @@ public class DashboardController {
         List<Map<String, Object>> averageReadingSubjectLevel = meetingService.getAverageSubjectLevelProgress(principal);
         return gson.toJson(averageReadingSubjectLevel);
     }
+
+    // Average reading level for all meetings for the logged in user
+//    @ResponseBody
+//    @GetMapping("/dashboard/getAverageReadingLevel")
+//    public String getAverageReadingLevel(Principal principal) {
+//        Gson gson = new Gson();
+//        // getAverageReadingLevel
+//        float averageReadingLevel = meetingService.getAverageReadingLevel(principal);
+//        return gson.toJson(averageReadingLevel);
+//    }
 }
