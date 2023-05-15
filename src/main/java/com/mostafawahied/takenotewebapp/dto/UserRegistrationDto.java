@@ -1,9 +1,14 @@
 package com.mostafawahied.takenotewebapp.dto;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
 @NoArgsConstructor
 public class UserRegistrationDto {
+    private String username;
     private String email;
     private String password;
 

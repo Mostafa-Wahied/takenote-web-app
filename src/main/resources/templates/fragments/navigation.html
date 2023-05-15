@@ -80,7 +80,7 @@
                        aria-expanded="false">
                         <img th:if="${pictureUrl}" th:src="${pictureUrl}" width="25" alt=""
                              class="d-inline-block align-middle mr-2 rounded-circle">
-                        <span class="d-inline-block align-middle mr-2" th:text="${#authentication.name}"></span>
+                        <span class="d-inline-block align-middle mr-2" th:text="${name}"></span>
                     </a>
                     <ul class="dropdown-menu" style="">
                         <li sec:authorize="isAuthenticated()" class="nav-item">

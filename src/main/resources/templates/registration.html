@@ -68,14 +68,28 @@
 
                                         <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                                        <!--            error message-->
-                                        <div th:if="${param.error}">
+                                        <!-- error message -->
+                                        <div th:if="${param.emailError}">
                                             <div class="alert alert-info text-center">Email already exists</div>
                                         </div>
-                                        <!--                            end of error message-->
+                                        <div th:if="${param.usernameError}">
+                                            <div class="alert alert-info text-center">Username already exists</div>
+                                        </div>
+                                        <!-- end of error message -->
 
                                         <form th:action="@{/register}" class="mx-1 mx-md-4" method="post"
                                               th:object="${user}">
+
+                                            <div class="d-flex flex-row align-items-center">
+                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+
+                                                <div class="form-outline flex-fill mb-0">
+                                                    <input type="text" id="username" class="form-control"
+                                                           th:field="*{username}" placeholder="Username"
+                                                           required autofocus="autofocus"/>
+                                                    <label class="form-label" for="email"></label>
+                                                </div>
+                                            </div>
 
                                             <div class="d-flex flex-row align-items-center">
                                                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
