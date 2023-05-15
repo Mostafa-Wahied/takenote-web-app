@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
                 passwordEncoder.encode(registrationDto.getPassword()),
                 List.of(new Role("ROLE_USER"))
         );
+        user.setAuthProvider(AuthenticationProvider.LOCAL);
         return userRepository.save(user);
     }
 
