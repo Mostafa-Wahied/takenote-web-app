@@ -7,6 +7,11 @@ import com.mostafawahied.takenotewebapp.service.UserService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +23,8 @@ import java.util.Objects;
 public class UserRegisterationController {
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
     private UserService userService;
 
     @GetMapping
@@ -26,33 +33,31 @@ public class UserRegisterationController {
         return "registration";
     }
 
-//    @PostMapping
-//    public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
-//        userService.save(registrationDto);
-//        return "redirect:/register?success";
-//    }
-
     @PostMapping
     public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
         try {
             userService.save(registrationDto);
-            return "redirect:/register?success";
+            // Authenticate the user
+            authenticateUser(registrationDto.getEmail(), registrationDto.getPassword());
+            return "redirect:/dashboard";
         } catch (DuplicateEmailException e) {
             // Redirect with emailError parameter if there is a duplicate email
             return "redirect:/register?emailError";
         } catch (DuplicateUsernameException e) {
             // Redirect with usernameError parameter if there is a duplicate username
             return "redirect:/register?usernameError";
-        } catch (Exception all) {
-            System.out.println(all);
+        } catch (Exception allExceptions) {
+            System.out.println(allExceptions.getMessage());
             return "redirect:/register?errors";
         }
     }
 
+    // helper method for the auto login
+    private void authenticateUser(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
 
-////    injecting user object into registration.html
-//    @ModelAttribute("user")
-//    public UserRegistrationDto userRegistrationDto() {
-//        return new UserRegistrationDto();
-//    }
 }
