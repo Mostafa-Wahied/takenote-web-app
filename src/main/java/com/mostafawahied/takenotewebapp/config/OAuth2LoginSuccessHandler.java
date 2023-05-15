@@ -23,6 +23,11 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     @Autowired
     private UserService userService;
 
+    public OAuth2LoginSuccessHandler() {
+        setAlwaysUseDefaultTargetUrl(true);
+        setDefaultTargetUrl("/dashboard");
+    }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         logger.info("onAuthenticationSuccess called");
