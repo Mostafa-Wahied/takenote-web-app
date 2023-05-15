@@ -6,6 +6,7 @@ import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,12 +35,12 @@ public class StudentController {
     }
 
     @GetMapping("/notebook/students")
-    public String viewAllStudentsPage(Model model, Student student, Principal principal) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents(principal));
+    public String viewAllStudentsPage(Model model, Student student, Authentication authentication) throws Exception {
+        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         //        for navigation active state
         model.addAttribute("activePage", "studentsPage");
         //        getting students with last meeting
-        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting(principal));
+        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting(authentication));
         return "students";
     }
 
@@ -56,24 +57,24 @@ public class StudentController {
 
     //    display all students for reading
     @GetMapping("/notebook/reading")
-    public String viewReadingStudentsPage(Model model, Principal principal) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents(principal));
+    public String viewReadingStudentsPage(Model model, Authentication authentication) throws Exception {
+        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         //        for navigation active state
         model.addAttribute("activePage", "notebookReadingPage");
         // getting students with last meeting
-        model.addAttribute("studentsWithLastMeetingReading", studentService.getStudentsWithLastMeetingReading(principal));
+        model.addAttribute("studentsWithLastMeetingReading", studentService.getStudentsWithLastMeetingReading(authentication));
         return "notebook_reading";
     }
 
 
     //    display all students for writing
     @GetMapping("/notebook/writing")
-    public String viewWritingStudentsPage(Model model, Principal principal) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents(principal));
+    public String viewWritingStudentsPage(Model model, Authentication authentication) throws Exception {
+        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         //        for navigation active state
         model.addAttribute("activePage", "notebookWritingPage");
         //        getting students with last meeting
-        model.addAttribute("studentsWithLastMeetingWriting", studentService.getStudentsWithLastMeetingWriting(principal));
+        model.addAttribute("studentsWithLastMeetingWriting", studentService.getStudentsWithLastMeetingWriting(authentication));
         return "notebook_writing";
     }
 
@@ -87,8 +88,8 @@ public class StudentController {
 
     // save student to database
     @PostMapping("/saveStudent")
-    public String saveStudent(@ModelAttribute("student") Student student, Principal principal) {
-        studentService.saveStudent(student, principal);
+    public String saveStudent(@ModelAttribute("student") Student student, Authentication authentication) {
+        studentService.saveStudent(student, authentication);
         return "redirect:/showNewStudentForm?success";
     }
 

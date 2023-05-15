@@ -6,10 +6,10 @@ import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.security.Principal;
 import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -159,7 +159,7 @@ public class MeetingServiceImpl implements MeetingService {
             int theId = Integer.parseInt(ids[i]);
             // Retrieve the existing Meeting object by its ID
             Meeting followUpMeeting = this.getMeetingById(theId);
-            if(!strengthList.isEmpty()) {
+            if (!strengthList.isEmpty()) {
                 followUpMeeting.setStrength(strengthList.get(i));
             }
             if (!nextStepsList.isEmpty()) {
@@ -170,11 +170,11 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Principal principal) {
+    public Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Authentication authentication) {
         Map<String, Map<String, Integer>> result = new HashMap<>();
         Map<Long, String> studentIdToNameMap = new HashMap<>();
         // Get a list of all students
-        List<Student> students = studentService.getAllStudents(principal);
+        List<Student> students = studentService.getAllStudents(authentication);
         // Initialize the result map with all students
         for (Student student : students) {
             String studentName = student.getFirstName() + " " + student.getLastName();
@@ -204,11 +204,11 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Principal principal) {
+    public Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Authentication authentication) {
         Map<String, Map<String, Integer>> result = new HashMap<>();
         Map<Long, String> studentIdToNameMap = new HashMap<>();
         // Get a list of all students
-        List<Student> students = studentService.getAllStudents(principal);
+        List<Student> students = studentService.getAllStudents(authentication);
         // Initialize the result map with all students
         for (Student student : students) {
             String studentName = student.getFirstName() + " " + student.getLastName();
@@ -238,9 +238,9 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public List<Map<String, Object>> getMeetingCountByType(Principal principal) {
+    public List<Map<String, Object>> getMeetingCountByType(Authentication authentication) {
         // Get a list of all students associated with the Principal
-        List<Student> students = studentService.getAllStudents(principal);
+        List<Student> students = studentService.getAllStudents(authentication);
         // Extract the student IDs from the list of students
         List<Long> studentIds = students.stream().map(Student::getId).collect(Collectors.toList());
         // Get the meeting count by type for the given student IDs
@@ -256,10 +256,10 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public List<Map<String, Object>> getWritingMeetingCountByStudentBySubject(Principal principal) {
+    public List<Map<String, Object>> getWritingMeetingCountByStudentBySubject(Authentication authentication) {
         List<Object[]> meetingCountByStudent = meetingRepository.getWritingMeetingsByStudentBySubject();
         List<Map<String, Object>> result = new ArrayList<>();
-        List<Student> students = studentService.getAllStudents(principal);
+        List<Student> students = studentService.getAllStudents(authentication);
         // Create a map of student names to meeting counts
         Map<String, Long> studentMeetingCounts = new HashMap<>();
         for (Object[] meetingCount : meetingCountByStudent) {
@@ -279,10 +279,10 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public List<Map<String, Object>> getReadingMeetingCountByStudentBySubject(Principal principal) {
+    public List<Map<String, Object>> getReadingMeetingCountByStudentBySubject(Authentication authentication) {
         List<Object[]> readingMeetingsCountByStudent = meetingRepository.getReadingMeetingsByStudentBySubject();
         List<Map<String, Object>> result = new ArrayList<>();
-        List<Student> students = studentService.getAllStudents(principal);
+        List<Student> students = studentService.getAllStudents(authentication);
         // Create a map of student names to meeting counts
         Map<String, Long> studentReadingMeetingCounts = new HashMap<>();
         for (Object[] meetingCount : readingMeetingsCountByStudent) {
@@ -303,11 +303,11 @@ public class MeetingServiceImpl implements MeetingService {
 
     // get the average subject level progress for the logged in user
     @Override
-    public List<Map<String, Object>> getAverageSubjectLevelProgress(Principal principal) {
-        // Get the username from the userDetails object
-        String username = userRepository.findByUsername(principal.getName()).getUsername();
-        // Find the user by username from the userRepository
-        User user = userRepository.findByUsername(username);
+    public List<Map<String, Object>> getAverageSubjectLevelProgress(Authentication authentication) {
+        // Get the email from the principal
+        String email = studentService.getUserEmailFromAuthentication(authentication);
+        // Find the user by email from the userRepository
+        User user = userRepository.findUserByEmail(email);
         // Call the meetingRepository with the user parameter
         List<Object[]> averageSubjectLevelProgress = meetingRepository.getAverageSubjectLevelProgress(user);
         List<Map<String, Object>> result = new ArrayList<>();
@@ -340,24 +340,29 @@ public class MeetingServiceImpl implements MeetingService {
 
     // get the meetings number for the logged in user
     @Override
-    public int getMeetingCount(Principal principal) {
-        // Get the username from the userDetails object
-        String username = userRepository.findByUsername(principal.getName()).getUsername();
-        // Find the user by username from the userRepository
-        User user = userRepository.findByUsername(username);
+    public int getMeetingCount(Authentication authentication) {
+        // Get the email from the principal
+        String email = studentService.getUserEmailFromAuthentication(authentication);
+        // Find the user by email from the userRepository
+        User user = userRepository.findUserByEmail(email);
         // Call the meetingRepository with the user parameter
         return meetingRepository.getMeetingCount(user);
     }
 
     // get the average reading level for all meetings for the logged in user
     @Override
-    public float getAverageReadingLevel(Principal principal) {
-        // Get the username from the userDetails object
-        String username = userRepository.findByUsername(principal.getName()).getUsername();
-        // Find the user by username from the userRepository
-        User user = userRepository.findByUsername(username);
+    public Float getAverageReadingLevel(Authentication authentication) {
+        // Get the email from the principal
+        String email = studentService.getUserEmailFromAuthentication(authentication);
+        // Find the user by email from the userRepository
+        User user = userRepository.findUserByEmail(email);
         // Call the meetingRepository with the user parameter
-        return meetingRepository.getAverageReadingLevel(user);
+        Float averageReadingLevel = meetingRepository.getAverageReadingLevel(user);
+        if (averageReadingLevel == null) {
+            // handle the situation where no data was returned
+            return (float) 0; // return a default value
+        }
+        return averageReadingLevel;
     }
 
 }

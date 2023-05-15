@@ -39,6 +39,6 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 
     // get the average reading level for all meetings for the logged in user
     @Query("select avg(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) from Meeting m where m.subject = 'Reading' and m.student.user = :user")
-    float getAverageReadingLevel(@Param("user") User user);
+    Float getAverageReadingLevel(@Param("user") User user);
 
 }

@@ -81,7 +81,7 @@
 
                                     <!--            error message-->
                                     <div th:if="${param.error}">
-                                        <div class="alert alert-danger text-center">Invalid username or password</div>
+                                        <div class="alert alert-danger text-center">Invalid email or password</div>
                                     </div>
                                     <!--                            end of error message-->
 
@@ -90,9 +90,9 @@
                                         <div class="d-flex flex-row align-items-center">
                                             <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
-                                                <input type="text" id="username" name="username" class="form-control"
-                                                       placeholder="Username" required autofocus="autofocus"/>
-                                                <label class="form-label" for="username"></label>
+                                                <input type="email" id="email" name="email" class="form-control"
+                                                       placeholder="Email" required autofocus="autofocus"/>
+                                                <label class="form-label" for="email"></label>
                                             </div>
                                         </div>
 

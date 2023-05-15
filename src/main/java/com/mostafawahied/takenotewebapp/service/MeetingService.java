@@ -1,6 +1,7 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Meeting;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
@@ -29,32 +30,27 @@ public interface MeetingService {
 
     void saveFollowUpMeetings(String[] ids, List<String> strengthList, List<String> nextStepsList);
 
-    // for reading meeting count by student and type bar chart
-    Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Principal principal);
+    Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Authentication authentication);
 
-    // for writing meeting count by student and type bar chart
-    Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Principal principal);
+    Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Authentication authentication);
 
-    // for meeting count by type pie chart
-    List<Map<String, Object>> getMeetingCountByType(Principal principal);
+    List<Map<String, Object>> getMeetingCountByType(Authentication authentication);
 
-    // for reading meeting count by student by subject bar chart
-    List<Map<String, Object>> getWritingMeetingCountByStudentBySubject(Principal principal);
+    List<Map<String, Object>> getWritingMeetingCountByStudentBySubject(Authentication authentication);
 
-    // for writing meeting count by student by subject bar chart
-    List<Map<String, Object>> getReadingMeetingCountByStudentBySubject(Principal principal);
+    List<Map<String, Object>> getReadingMeetingCountByStudentBySubject(Authentication authentication);
 
     // for average subject level progress line chart
-    List<Map<String, Object>> getAverageSubjectLevelProgress(Principal principal);
+    List<Map<String, Object>> getAverageSubjectLevelProgress(Authentication authentication);
 
     // get the average subject level progress for 1 student
     List<Map<String, Object>> getStudentAverageSubjectLevelProgress(long studentId);
 
     // get the meetings number for the logged in user
-    int getMeetingCount(Principal principal);
+    int getMeetingCount(Authentication authentication);
 
     // get the average reading level for all meetings for the logged in user
-    float getAverageReadingLevel(Principal principal);
+    Float getAverageReadingLevel(Authentication authentication);
 }
 
 

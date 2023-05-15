@@ -12,7 +12,7 @@ function drawAverageSubjectLevelProgressLineChart() {
         .then(response => response.json())
         .then(data => {
             // Get the current average subject level value from the data
-            let studentAverageSubjectLevel= 0;
+            let studentAverageSubjectLevel = 0;
             if (data.length === 0) {
                 studentAverageSubjectLevel = 0;
             } else {
@@ -23,8 +23,16 @@ function drawAverageSubjectLevelProgressLineChart() {
             console.log("studentAverageSubjectLevel: ", studentAverageSubjectLevel);
             // Select the <p> element by its id
             let averageSubjectLevelElement = document.querySelector('#average-subject-level');
-            // Update the content of the <p> element with the current average subject level value
-            averageSubjectLevelElement.textContent = letter;
+            if (studentAverageSubjectLevel == null || studentAverageSubjectLevel === undefined || studentAverageSubjectLevel === 0) {
+                // Set default value if studentAverageSubjectLevel is null or undefined or 0
+                averageSubjectLevelElement.textContent = "0";
+            } else {
+                // Convert the average subject level to a letter
+                let letter = String.fromCharCode('Z'.charCodeAt(0) - studentAverageSubjectLevel + 1);
+                console.log("studentAverageSubjectLevel: ", studentAverageSubjectLevel);
+                // Update the content of the <p> element with the current average subject level value
+                averageSubjectLevelElement.textContent = letter;
+            }
             // end of getting current average subject level value
             console.log("student_average_reading_subject_level: ", data);
             const chartData = new google.visualization.DataTable();

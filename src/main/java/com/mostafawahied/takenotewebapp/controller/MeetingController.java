@@ -6,6 +6,7 @@ import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,9 @@ public class MeetingController {
 
     // View 1:1 reading form
     @GetMapping("/notetaker/reading/1on1")
-    public String show1on1ReadingForm(Model model, Principal principal) {
+    public String show1on1ReadingForm(Model model, Authentication authentication) {
         // Get all students
-        model.addAttribute("listStudents", studentService.getAllStudents(principal));
+        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         return "1on1_reading_form";
     }
 
@@ -47,9 +48,9 @@ public class MeetingController {
 
     // View 1:1 writing form
     @GetMapping("/notetaker/writing/1on1")
-    public String show1on1WritingForm(Model model, Principal principal) {
+    public String show1on1WritingForm(Model model, Authentication authentication) {
         // get all students
-        model.addAttribute("listStudents", studentService.getAllStudents(principal));
+        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         model.addAttribute("meetings", meetingService.getAllMeetings());
         return "1on1_writing_form";
     }
@@ -67,9 +68,9 @@ public class MeetingController {
 
     // View guided reading form
     @GetMapping("/notetaker/reading/guided_reading")
-    public String showGuidedReadingForm(Model model, Principal principal) {
+    public String showGuidedReadingForm(Model model, Authentication authentication) {
         // get all students
-        model.addAttribute("listStudents", studentService.getAllStudents(principal));
+        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         model.addAttribute("meetings", meetingService.getAllMeetings());
         return "guided_reading_form";
     }
@@ -87,9 +88,9 @@ public class MeetingController {
 
     // View reading strategy group form
     @GetMapping("/notetaker/reading/strategy_group")
-    public String showStrategyGroupReadingForm(Model model, Principal principal) {
+    public String showStrategyGroupReadingForm(Model model, Authentication authentication) {
         // get all students
-        model.addAttribute("listStudents", studentService.getAllStudents(principal));
+        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         model.addAttribute("meetings", meetingService.getAllMeetings());
         return "strategy_group_reading_form";
     }
@@ -107,9 +108,9 @@ public class MeetingController {
 
     // View writing strategy group form
     @GetMapping("/notetaker/writing/strategy_group")
-    public String showStrategyGroupWritingForm(Model model, Principal principal) {
+    public String showStrategyGroupWritingForm(Model model, Authentication authentication) {
         // get all students
-        model.addAttribute("listStudents", studentService.getAllStudents(principal));
+        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         model.addAttribute("meetings", meetingService.getAllMeetings());
         return "strategy_group_writing_form";
     }

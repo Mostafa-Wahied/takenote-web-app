@@ -6,6 +6,7 @@ import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -25,21 +26,21 @@ public class DashboardController {
 
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, Principal principal) {
-        List<Student> students = studentService.getAllStudents(principal);
+    public String dashboard(Model model, Authentication authentication) {
+        List<Student> students = studentService.getAllStudents(authentication);
         List<Meeting> meetings = meetingService.getAllMeetings();
         model.addAttribute("students", students);
         model.addAttribute("meetings", meetings);
-        model.addAttribute("principal", principal.getName());
+        model.addAttribute("principal", authentication.getName());
         // meetings count for the current user
-        model.addAttribute("meetingsCount", meetingService.getMeetingCount(principal));
+        model.addAttribute("meetingsCount", meetingService.getMeetingCount(authentication));
         // students count for the current user
-        model.addAttribute("studentsCount", studentService.getAllStudents(principal).size());
+        model.addAttribute("studentsCount", studentService.getAllStudents(authentication).size());
         // setting active page for navbar
         model.addAttribute("activePage", "dashboard");
 
         // inject the average reading level for all meetings for the current user
-        float averageReadingLevel = meetingService.getAverageReadingLevel(principal);
+        Float averageReadingLevel = meetingService.getAverageReadingLevel(authentication);
         model.addAttribute("averageReadingLevel", averageReadingLevel);
         return "dashboard";
     }
@@ -47,60 +48,60 @@ public class DashboardController {
     // Reading Meeting Count By Student And Type Bar Chart
     @ResponseBody
     @GetMapping("/dashboard/getReadingMeetingCountByStudentAndType")
-    public String getReadingMeetingCountByStudentAndType(Principal principal) {
+    public String getReadingMeetingCountByStudentAndType(Authentication authentication) {
         Gson gson = new Gson();
         // getMeetingCountByStudentAndType
-        Map<String, Map<String, Integer>> meetingCountByStudentAndType = meetingService.getReadingMeetingCountByStudentAndType(principal);
+        Map<String, Map<String, Integer>> meetingCountByStudentAndType = meetingService.getReadingMeetingCountByStudentAndType(authentication);
         return gson.toJson(meetingCountByStudentAndType);
     }
 
     // Writing Meeting Count By Student And Type Bar Chart
     @ResponseBody
     @GetMapping("/dashboard/getWritingMeetingCountByStudentAndType")
-    public String getWritingMeetingCountByStudentAndType(Principal principal) {
+    public String getWritingMeetingCountByStudentAndType(Authentication authentication) {
         Gson gson = new Gson();
         // getMeetingCountByStudentAndType
-        Map<String, Map<String, Integer>> meetingCountByStudentAndType = meetingService.getWritingMeetingCountByStudentAndType(principal);
+        Map<String, Map<String, Integer>> meetingCountByStudentAndType = meetingService.getWritingMeetingCountByStudentAndType(authentication);
         return gson.toJson(meetingCountByStudentAndType);
     }
 
     // Meeting Count By Type Pie Chart
     @ResponseBody
     @GetMapping("/dashboard/getMeetingCountByType")
-    public String getMeetingCountByType(Principal principal) {
+    public String getMeetingCountByType(Authentication authentication) {
         Gson gson = new Gson();
         // getMeetingCountByType
-        List<Map<String, Object>> meetingCountByType = meetingService.getMeetingCountByType(principal);
+        List<Map<String, Object>> meetingCountByType = meetingService.getMeetingCountByType(authentication);
         return gson.toJson(meetingCountByType);
     }
 
     // Writing Meeting Count By Student Bar Chart
     @ResponseBody
     @GetMapping("/dashboard/getWritingMeetingsCountBySubject")
-    public String getWritingMeetingsCountByStudent(Principal principal) {
+    public String getWritingMeetingsCountByStudent(Authentication authentication) {
         Gson gson = new Gson();
         // getMeetingCountByStudent
-        List<Map<String, Object>> meetingCountByStudent = meetingService.getWritingMeetingCountByStudentBySubject(principal);
+        List<Map<String, Object>> meetingCountByStudent = meetingService.getWritingMeetingCountByStudentBySubject(authentication);
         return gson.toJson(meetingCountByStudent);
     }
 
     // Reading Meeting Count By Student Bar Chart
     @ResponseBody
     @GetMapping("/dashboard/getReadingMeetingsCountBySubject")
-    public String getReadingMeetingCountByStudent(Principal principal) {
+    public String getReadingMeetingCountByStudent(Authentication authentication) {
         Gson gson = new Gson();
         // getReadingMeetingCountByStudent
-        List<Map<String, Object>> readingMeetingCountByStudent = meetingService.getReadingMeetingCountByStudentBySubject(principal);
+        List<Map<String, Object>> readingMeetingCountByStudent = meetingService.getReadingMeetingCountByStudentBySubject(authentication);
         return gson.toJson(readingMeetingCountByStudent);
     }
 
     // Reading Subject Levels progress Line Chart Card
     @ResponseBody
     @GetMapping("/dashboard/getAverageReadingSubjectLevel")
-    public String getAverageReadingSubjectLevel(Principal principal) {
+    public String getAverageReadingSubjectLevel(Authentication authentication) {
         Gson gson = new Gson();
         // getAverageReadingSubjectLevel
-        List<Map<String, Object>> averageReadingSubjectLevel = meetingService.getAverageSubjectLevelProgress(principal);
+        List<Map<String, Object>> averageReadingSubjectLevel = meetingService.getAverageSubjectLevelProgress(authentication);
         return gson.toJson(averageReadingSubjectLevel);
     }
 

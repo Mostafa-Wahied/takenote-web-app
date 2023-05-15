@@ -229,11 +229,16 @@ function drawAverageSubjectLevelProgressLineChart() {
             // Get average reading level for all meetings for the logged in user
             let avgReadingLevel = document.querySelector('#average_reading_level_float').dataset.avgLevel;
             console.log("avgReadingLevel: " + avgReadingLevel);
-            let letter = String.fromCharCode('Z'.charCodeAt(0) - avgReadingLevel + 1);
-            // Select the <p> element by its id
             let averageSubjectLevelElement = document.querySelector('#average-subject-level');
-            // Update the content of the <p> element with the current average subject level value
-            averageSubjectLevelElement.textContent = letter;
+            if (avgReadingLevel == null || avgReadingLevel == undefined || avgReadingLevel == 0) {
+                // Set default value if avgReadingLevel is null or undefined or 0
+                averageSubjectLevelElement.textContent = "0";
+            } else {
+                // Convert the average reading level to a letter
+                let letter = String.fromCharCode('Z'.charCodeAt(0) - avgReadingLevel + 1);
+                // Update the content of the <p> element with the current average subject level value
+                averageSubjectLevelElement.textContent = letter;
+            }
             // end of getting current average subject level value
             console.log("average_reading_subject_level: ", data);
             const chartData = new google.visualization.DataTable();

@@ -1,14 +1,16 @@
 package com.mostafawahied.takenotewebapp.service;
 
+import com.mostafawahied.takenotewebapp.config.CustomOAuth2User;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.StudentRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.*;
 
 @Service
@@ -19,9 +21,29 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private UserRepository userRepository;
 
+    // a helper method to obtain the email address of the logged in user depending on the user is logged in using google or not
     @Override
-    public List<Student> getAllStudents(Principal principal) {
-        User user = userRepository.findByUsername(principal.getName());
+    public String getUserEmailFromAuthentication(Authentication authentication) {
+        // Obtain the principal object associated with the authenticated user
+        Object principal = authentication.getPrincipal();
+        String email = null;
+        if (principal instanceof CustomOAuth2User customOAuth2User) {
+            // Cast the principal object to CustomOAuth2User and obtain the email address
+            email = customOAuth2User.getEmail();
+        } else if (principal instanceof UserDetails) {
+            // Cast the principal object to UserDetails and obtain the email address
+            UserDetails userDetails = (UserDetails) principal;
+            email = userDetails.getUsername();
+        }
+        return email;
+    }
+
+    @Override
+    public List<Student> getAllStudents(Authentication authentication) {
+        // Obtain the email address of the user from the CustomOAuth2User object
+        String email = getUserEmailFromAuthentication(authentication);
+        // Find the user by email
+        User user = userRepository.findUserByEmail(email);
         if (user != null) {
             return user.getStudents();
         } else {
@@ -30,10 +52,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void saveStudent(Student student, Principal principal) {
-        User user = userRepository.findByUsername(principal.getName());
-        student.setUser(user);
-        this.studentRepository.save(student);
+    public void saveStudent(Student student, Authentication authentication) {
+        // Obtain the email address of the user from the CustomOAuth2User object
+        String email = getUserEmailFromAuthentication(authentication);
+        // Find the user by email
+        User user = userRepository.findUserByEmail(email);
+        if (user == null) {
+            // Handle the situation where the user was not found
+            throw new RuntimeException("User not found");
+        } else {
+            student.setUser(user);
+            this.studentRepository.save(student);
+        }
     }
 
     @Override
@@ -56,9 +86,9 @@ public class StudentServiceImpl implements StudentService {
 
     // Method retrieves all students from the database and returns a new list of students with only their latest meeting
     @Override
-    public List<Student> getStudentsWithLastMeeting(Principal principal) {
+    public List<Student> getStudentsWithLastMeeting(Authentication authentication) {
         //from each student in students list retrieved from DB
-        List<Student> studentsList = getAllStudents(principal);
+        List<Student> studentsList = getAllStudents(authentication);
         List<Student> newStudentsList = new ArrayList<>();
         for (Student student : studentsList) {
             Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
@@ -71,9 +101,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsWithLastMeetingReading(Principal principal) {
+    public List<Student> getStudentsWithLastMeetingReading(Authentication authentication) {
         //from each student in students list retrieved from DB
-        List<Student> studentsList = getAllStudents(principal);
+        List<Student> studentsList = getAllStudents(authentication);
         List<Student> newStudentsList = new ArrayList<>();
         for (Student student : studentsList) {
             Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
@@ -92,9 +122,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsWithLastMeetingWriting(Principal principal) {
+    public List<Student> getStudentsWithLastMeetingWriting(Authentication authentication) {
         //from each student in students list retrieved from DB
-        List<Student> studentsList = getAllStudents(principal);
+        List<Student> studentsList = getAllStudents(authentication);
         List<Student> newStudentsList = new ArrayList<>();
         for (Student student : studentsList) {
             Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);

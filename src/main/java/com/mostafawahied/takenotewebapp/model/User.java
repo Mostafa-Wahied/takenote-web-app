@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"username"})
+        @UniqueConstraint(columnNames = {"email"})
 })
 public class User {
     @Id
@@ -47,13 +47,13 @@ public class User {
         this.students = students;
     }
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public User(String username, String password, Collection<Role> roles) {
-        this.username = username;
+    public User(String email, String password, Collection<Role> roles) {
+        this.email = email;
         this.password = password;
         this.roles = roles;
     }
@@ -72,6 +72,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
