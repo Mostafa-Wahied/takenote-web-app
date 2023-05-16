@@ -22,12 +22,9 @@ public class User {
     private String username;
     private String email;
     private String password;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
     private AuthenticationProvider authProvider;
-
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(
@@ -35,9 +32,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
-
     @OneToMany(mappedBy = "user")
     private List<Student> students = new ArrayList<>();
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 
     public User(String username, String email, String password, List<Role> roles) {
         this.username = username;

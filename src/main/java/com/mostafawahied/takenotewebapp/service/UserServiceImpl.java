@@ -1,15 +1,14 @@
 package com.mostafawahied.takenotewebapp.service;
 
-import com.mostafawahied.takenotewebapp.config.CustomOAuth2User;
 import com.mostafawahied.takenotewebapp.dto.UserRegistrationDto;
 import com.mostafawahied.takenotewebapp.exception.DuplicateEmailException;
 import com.mostafawahied.takenotewebapp.exception.DuplicateUsernameException;
+import com.mostafawahied.takenotewebapp.exception.UserNotFoundException;
 import com.mostafawahied.takenotewebapp.model.AuthenticationProvider;
 import com.mostafawahied.takenotewebapp.model.Role;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -100,5 +99,31 @@ public class UserServiceImpl implements UserService {
     private Collection<? extends GrantedAuthority> mapRolesAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
+
+    // for forgot password
+    @Override
+    public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
+        User user = userRepository.findUserByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("Could not find any user with the email " + email);
+        }
+    }
+
+    @Override
+    public User getByResetPasswordToken(String token) {
+        return userRepository.findUserByResetPasswordToken(token);
+    }
+
+    @Override
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }
+    // end of forgot password
+
 
 }
