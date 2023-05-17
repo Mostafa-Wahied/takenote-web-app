@@ -1,5 +1,6 @@
 package com.mostafawahied.takenotewebapp.repository;
 
+import com.mostafawahied.takenotewebapp.model.Classroom;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNullApi;
 
+import java.util.Collection;
 import java.util.List;
 
 //        ------------------- experimental - trying to get unique latest meetings ---------------------------
@@ -26,19 +28,19 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     List<Object[]> getReadingMeetingsByStudentBySubject();
 
     // get meetings of the students for a given user
-    @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.user = :user GROUP BY m.date ORDER BY m.date")
-    List<Object[]> getAverageSubjectLevelProgress(@Param("user") User user);
+    @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.classroom in :classrooms GROUP BY m.date ORDER BY m.date")
+    List<Object[]> getAverageSubjectLevelProgress(@Param("classrooms") Collection<Classroom> classrooms);
 
     // get meetings of the students for a given user
     @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m join Student s on m.student.id = s.id where m.subject = 'Reading' and s.id = :studentId GROUP BY m.date ORDER BY m.date")
     List<Object[]> getStudentAverageSubjectLevelProgress(long studentId);
 
     // get all meetings for the students of a given user
-    @Query("select count (m) from Meeting m where m.student.user = :user")
-    int getMeetingCount(@Param("user") User user);
+    @Query("select count (m) from Meeting m where m.student.classroom in :classrooms")
+    int getMeetingCount(@Param("classrooms") Collection<Classroom> classrooms);
 
     // get the average reading level for all meetings for the logged in user
-    @Query("select avg(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) from Meeting m where m.subject = 'Reading' and m.student.user = :user")
-    Float getAverageReadingLevel(@Param("user") User user);
+    @Query("select avg(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) from Meeting m where m.subject = 'Reading' and m.student.classroom in :classrooms")
+    Float getAverageReadingLevel(@Param("classrooms") Collection<Classroom> classrooms);
 
 }

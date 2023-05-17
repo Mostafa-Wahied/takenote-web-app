@@ -1,5 +1,6 @@
 package com.mostafawahied.takenotewebapp.service;
 
+import com.mostafawahied.takenotewebapp.model.Classroom;
 import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
@@ -304,12 +305,10 @@ public class MeetingServiceImpl implements MeetingService {
     // get the average subject level progress for the logged in user
     @Override
     public List<Map<String, Object>> getAverageSubjectLevelProgress(Authentication authentication) {
-        // Get the email from the principal
         String email = studentService.getUserEmailFromAuthentication(authentication);
-        // Find the user by email from the userRepository
         User user = userRepository.findUserByEmail(email);
-        // Call the meetingRepository with the user parameter
-        List<Object[]> averageSubjectLevelProgress = meetingRepository.getAverageSubjectLevelProgress(user);
+        List<Classroom> classrooms = user.getClassrooms();
+        List<Object[]> averageSubjectLevelProgress = meetingRepository.getAverageSubjectLevelProgress(classrooms);
         List<Map<String, Object>> result = new ArrayList<>();
         for (Object[] progress : averageSubjectLevelProgress) {
             Date date = (Date) progress[0];
@@ -341,23 +340,19 @@ public class MeetingServiceImpl implements MeetingService {
     // get the meetings number for the logged in user
     @Override
     public int getMeetingCount(Authentication authentication) {
-        // Get the email from the principal
         String email = studentService.getUserEmailFromAuthentication(authentication);
-        // Find the user by email from the userRepository
         User user = userRepository.findUserByEmail(email);
-        // Call the meetingRepository with the user parameter
-        return meetingRepository.getMeetingCount(user);
+        List<Classroom> classrooms = user.getClassrooms();
+        return meetingRepository.getMeetingCount(classrooms);
     }
 
     // get the average reading level for all meetings for the logged in user
     @Override
     public Float getAverageReadingLevel(Authentication authentication) {
-        // Get the email from the principal
         String email = studentService.getUserEmailFromAuthentication(authentication);
-        // Find the user by email from the userRepository
         User user = userRepository.findUserByEmail(email);
-        // Call the meetingRepository with the user parameter
-        Float averageReadingLevel = meetingRepository.getAverageReadingLevel(user);
+        List<Classroom> classrooms = user.getClassrooms();
+        Float averageReadingLevel = meetingRepository.getAverageReadingLevel(classrooms);
         if (averageReadingLevel == null) {
             // handle the situation where no data was returned
             return (float) 0; // return a default value

@@ -2,6 +2,7 @@ package com.mostafawahied.takenotewebapp.controller;
 
 import com.google.gson.Gson;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
+import com.mostafawahied.takenotewebapp.service.ClassroomService;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.service.StudentService;
@@ -18,13 +19,12 @@ import java.util.Map;
 
 @Controller
 public class StudentController {
-
+    @Autowired
+    private ClassroomService classroomService;
     @Autowired
     private StudentService studentService;
     @Autowired
     private MeetingService meetingService;
-    @Autowired
-    private MeetingRepository meetingRepository;
 
     //    viewHomePage
     @GetMapping("/")
@@ -37,10 +37,9 @@ public class StudentController {
     @GetMapping("/notebook/students")
     public String viewAllStudentsPage(Model model, Student student, Authentication authentication) throws Exception {
         model.addAttribute("listStudents", studentService.getAllStudents(authentication));
-        //        for navigation active state
         model.addAttribute("activePage", "studentsPage");
-        //        getting students with last meeting
         model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting(authentication));
+        model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
         return "students";
     }
 
@@ -78,18 +77,23 @@ public class StudentController {
         return "notebook_writing";
     }
 
-    // a page to add a new student when Add Student button clicked
     @GetMapping("/showNewStudentForm")
-    public String showNewStudentForm(Model model) {
+    public String showNewStudentForm(@RequestParam(value = "classroomId", required = false) Long classroomId, Model model, Authentication authentication) {
         Student student = new Student();
         model.addAttribute("student", student);
+        model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
+        model.addAttribute("classroomId", classroomId);
         return "new_student";
     }
 
     // save student to database
     @PostMapping("/saveStudent")
-    public String saveStudent(@ModelAttribute("student") Student student, Authentication authentication) {
-        studentService.saveStudent(student, authentication);
+    public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(value = "classroomId", required = true) Long classroomId, Model model) {
+        if (classroomId == null) {
+            model.addAttribute("errorMessage", "A classroom must be selected");
+            return "new_student";
+        }
+        studentService.saveStudent(student, classroomId);
         return "redirect:/showNewStudentForm?success";
     }
 
@@ -106,8 +110,8 @@ public class StudentController {
     @PostMapping("/deleteStudent/{id}")
     public String deleteStudent(@PathVariable(value = "id") long id,
                                 @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm) {
+        long classroomId = studentService.getStudentById(id).getClassroom().getId();
         if (confirm) {
-            // call delete student method
             studentService.deleteStudentById(id);
         }
         return "redirect:/notebook/students";

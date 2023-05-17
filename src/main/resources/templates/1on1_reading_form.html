@@ -63,8 +63,11 @@
                 <select class="selectpicker form-control" data-live-search="true" id="dropDownList" name="id" required>
                     <option></option>
 
-                    <option th:each="student : ${listStudents}" th:value="${student.id}"
-                            th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
+                    <option
+                            th:each="student : ${listStudents}"
+                            th:value="${student.id}"
+                            th:text="${student.firstName} + ' ' + ${student.lastName}">
+                    </option>
                 </select>
 
                 <!-- Date input -->
@@ -108,8 +111,7 @@
         <hr style="width: 80%;" class="mx-auto">
         <div class="container d-flex justify-content-center">
             <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
-               th:href="@{/notebook/students}">Back to Students</a>
-        </div>
+               th:href="@{/classrooms}">Back to Classrooms</a></div>
     </div>
 </main>
 

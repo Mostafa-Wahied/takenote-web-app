@@ -12,9 +12,7 @@ public interface StudentService {
 
     List<Student> getAllStudents(Authentication authentication);
 
-//    void saveStudent(Student student, Principal principal);
-
-    void saveStudent(Student student, Authentication authentication);
+    void saveStudent(Student student, Long classroomId);
 
     Student getStudentById(long id);
 

@@ -36,6 +36,12 @@
         <p class="display-6 text-center">Add New Student</p>
         <div class="m-5 p-5 text-center">
 
+            <!--            error message-->
+            <div th:if="${param.error}">
+                <div class="alert alert-info text-center" th:text="${errorMessage}"></div>
+            </div>
+            <!--                            end of success message-->
+
             <!--            success message-->
             <div th:if="${param.success}">
                 <div class="alert alert-info text-center">Your new student have been saved</div>
@@ -43,13 +49,25 @@
             <!--                            end of success message-->
 
             <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
+                <div class="container d-flex justify-content-center mb-2">
+                    <select id="classroom-select" class="form-select rounded-pill"
+                            aria-label="Default select example"
+                            style="width: 10vw" name="classroomId">
+                        <option
+                                th:each="classroom : ${classrooms}"
+                                th:text="${classroom.className}"
+                                th:value="${classroom.id}">
+                        </option>
+                    </select>
+                </div>
+                <input type="hidden" id="classroom-id" name="classroomId" value="">
                 <label>
                     <input type="text" th:field="*{firstName}" placeholder="First Name"
-                           class="form-control rounded-pill mb-4 col-4">
+                           class="form-control rounded-pill mb-4 col-4" required>
                 </label>
                 <label>
                     <input type="text" th:field="*{lastName}" placeholder="Last Name"
-                           class="form-control rounded-pill mb-4 col-4">
+                           class="form-control rounded-pill mb-4 col-4" required>
                 </label>
                 <br>
                 <button type="submit" class="btn btn-primary rounded-pill">Save Student</button>

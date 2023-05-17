@@ -26,11 +26,10 @@ public class Student {
     private String lastName;
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
 //  @ToString.Exclude
-    private List<Meeting> meetings = new ArrayList<Meeting>();
-
+    private List<Meeting> meetings = new ArrayList<>();
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "classroom_id", nullable = false)
+    private Classroom classroom;
 
     public Student(String firstName, String lastName) {
         this.firstName = firstName;

@@ -54,13 +54,13 @@
                         NoteBook
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a th:class="${activePage == 'studentsPage'} ? 'nav-link active' : 'nav-link'"
-                               th:href="@{/notebook/students}">My Students</a></li>
-                        <li>
-                            <a th:class="${activePage == 'notebookReadingPage'} ? 'nav-link active' : 'nav-link'"
+<!--                        <li><a th:class="${activePage == 'studentsPage'} ? 'nav-link active' : 'nav-link'"-->
+<!--                               th:href="@{/notebook/students}">My Students</a></li>-->
+                        <li><a th:class="${activePage == 'classroomsPage'} ? 'nav-link active' : 'nav-link'"
+                               th:href="@{/classrooms}">My Classrooms</a></li>
+                        <li><a th:class="${activePage == 'notebookReadingPage'} ? 'nav-link active' : 'nav-link'"
                                th:href="@{/notebook/reading}">Reading</a></li>
-                        <li>
-                            <a th:class="${activePage == 'notebookWritingPage'} ? 'nav-link active' : 'nav-link'"
+                        <li><a th:class="${activePage == 'notebookWritingPage'} ? 'nav-link active' : 'nav-link'"
                                th:href="@{/notebook/writing}">Writing</a></li>
                     </ul>
                 </li>

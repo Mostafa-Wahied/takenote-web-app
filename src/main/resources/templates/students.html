@@ -30,6 +30,7 @@
 
 
     <script th:src="@{/js/datatables.js}" defer></script>
+    <script th:src="@{/js/students.js}" defer></script>
     <script th:src="@{/js/script.js}" defer></script>
     <title>TakeNote - My Students</title>
 </head>
@@ -51,12 +52,29 @@
         <!--Students table-->
         <section class="container px-2">
 
-            <div class="container d-flex justify-content-start mx-auto">
-                <a th:href="@{/showNewStudentForm}" id="add-student-btn"
-                   class="btn btn-primary rounded-pill">Add
-                    Student</a>
-            </div>
+            <div class="row d-flex">
+                <div class="col">
+                    <div class="container d-flex">
+                        <a th:href="@{/showNewStudentForm(classroomId=${classroomId})}" id="add-student-btn"
+                           class="btn btn-primary rounded-pill">Add
+                            Student</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container d-flex justify-content-end">
+                        <select id="classroom-select" class="form-select rounded-pill"
+                                aria-label="Default select example"
+                                style="width: 9.5vw">
+                            <option
+                                    th:each="classroom : ${classrooms}"
+                                    th:text="${classroom.className}"
+                                    th:value="${classroom.id}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
 
+            </div>
             <div class="container mt-2 pt-2">
                 <table id="students-table" class="students-table table table-striped table-hover table-bordered">
                     <thead>
@@ -72,7 +90,10 @@
                     <tbody>
 
                     <th:block th:each="student : ${studentsWithLastMeeting}">
-                        <tr th:each="meeting, iterStat : ${student.meetings}">
+                        <tr
+                                th:each="meeting, iterStat : ${student.meetings}"
+                                th:data-classroom-id="${student.classroom.id}">
+                            <!-- ↑ for students.js that filters the students based on classroom -->
 
                             <td style="white-space: nowrap; width: 3%">
                                 <a id="student-btn" class="btn btn-light color-2"

@@ -1,7 +1,10 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.config.CustomOAuth2User;
+import com.mostafawahied.takenotewebapp.exception.ResourceNotFoundException;
+import com.mostafawahied.takenotewebapp.model.Classroom;
 import com.mostafawahied.takenotewebapp.model.User;
+import com.mostafawahied.takenotewebapp.repository.ClassroomRepository;
 import com.mostafawahied.takenotewebapp.repository.StudentRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
@@ -12,11 +15,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private ClassroomRepository classroomRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -45,25 +52,23 @@ public class StudentServiceImpl implements StudentService {
         // Find the user by email
         User user = userRepository.findUserByEmail(email);
         if (user != null) {
-            return user.getStudents();
+            List<Classroom> classrooms = classroomRepository.findByUser(user);
+            return classrooms.stream()
+                    .flatMap(classroom -> classroom.getStudents().stream())
+                    .collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }
     }
 
     @Override
-    public void saveStudent(Student student, Authentication authentication) {
-        // Obtain the email address of the user from the CustomOAuth2User object
-        String email = getUserEmailFromAuthentication(authentication);
-        // Find the user by email
-        User user = userRepository.findUserByEmail(email);
-        if (user == null) {
-            // Handle the situation where the user was not found
-            throw new RuntimeException("User not found");
-        } else {
-            student.setUser(user);
-            this.studentRepository.save(student);
+    public void saveStudent(Student student, Long classroomId) {
+        if (classroomId != null) {
+            Classroom classroom = classroomRepository.findById(classroomId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Classroom not found with id: " + classroomId));
+            student.setClassroom(classroom);
         }
+        this.studentRepository.save(student);
     }
 
     @Override
@@ -74,7 +79,7 @@ public class StudentServiceImpl implements StudentService {
         if (optional.isPresent()) {
             student = optional.get();
         } else {
-            throw new RuntimeException(("Student not found for id: " + id));
+            throw new ResourceNotFoundException("Student not found for id: " + id);
         }
         return student;
     }

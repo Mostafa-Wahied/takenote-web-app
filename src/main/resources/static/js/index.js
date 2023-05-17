@@ -30,5 +30,3 @@ displayCurrentYear();
 //     addClickListenersToModalButtons();
 // });
 // // end of get references to the modal buttons
-
-

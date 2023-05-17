@@ -33,7 +33,7 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
     @OneToMany(mappedBy = "user")
-    private List<Student> students = new ArrayList<>();
+    private List<Classroom> classrooms = new ArrayList<>();
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
@@ -42,14 +42,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.roles = roles;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
     }
 
     public User(String email, String password) {
