@@ -1,6 +1,5 @@
 package com.mostafawahied.takenotewebapp.service;
 
-import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
 import org.springframework.security.core.Authentication;
 
@@ -24,4 +23,8 @@ public interface StudentService {
     List<Student> getStudentsWithLastMeetingReading(Authentication authentication);
 
     List<Student> getStudentsWithLastMeetingWriting(Authentication authentication);
+
+    List<Student> getStudentsWithLastMeetingByClassroom(Authentication authentication);
+
+    List<Student> getAllStudentsByClassroom(Long classroomId);
 }

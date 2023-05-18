@@ -147,4 +147,36 @@ public class StudentServiceImpl implements StudentService {
         return newStudentsList;
     }
 
+    @Override
+    public List<Student> getStudentsWithLastMeetingByClassroom(Authentication authentication) {
+        String email = getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(email);
+        Long selectedClassroomId = user.getSelectedClassroomId();
+        Classroom classroom = classroomRepository.findById(selectedClassroomId).orElse(null);
+        if (classroom != null) {
+            List<Student> studentsList = classroom.getStudents();
+            List<Student> newStudentsList = new ArrayList<>();
+            for (Student student : studentsList) {
+                Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
+                List<Meeting> meetings = student.getMeetings();
+                Meeting meeting = meetings.stream().max(meetingDateComparator).orElse(new Meeting());
+                student.setMeetings(List.of(meeting));
+                newStudentsList.add(student);
+            }
+            return newStudentsList;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Student> getAllStudentsByClassroom(Long classroomId) {
+        Classroom classroom = classroomRepository.findById(classroomId).orElse(null);
+        if (classroom != null) {
+            return classroom.getStudents();
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
 }

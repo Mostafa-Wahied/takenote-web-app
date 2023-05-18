@@ -61,17 +61,17 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="container d-flex justify-content-end">
+                    <form id="classroom-form" class="classroom-form container d-flex justify-content-end" method="POST"
+                          th:action="@{/select-classroom}">
+                        <input type="hidden" name="classroomId" value="${user.selectedClassroomId}"/>
                         <select id="classroom-select" class="form-select rounded-pill"
-                                aria-label="Default select example"
-                                style="width: 9.5vw">
-                            <option
-                                    th:each="classroom : ${classrooms}"
-                                    th:text="${classroom.className}"
-                                    th:value="${classroom.id}">
-                            </option>
+                                aria-label="Default select example" style="width: 10vw" name="selectedClassroomId"
+                                onchange="document.getElementById('classroom-form').submit()">
+                            <option th:each="classroom : ${classrooms}" th:text="${classroom.className}"
+                                    th:value="${classroom.id}"
+                                    th:selected="${classroom.id == selectedClassroomId}"></option>
                         </select>
-                    </div>
+                    </form>
                 </div>
 
             </div>
@@ -89,7 +89,7 @@
 
                     <tbody>
 
-                    <th:block th:each="student : ${studentsWithLastMeeting}">
+                    <th:block th:each="student : ${students}">
                         <tr
                                 th:each="meeting, iterStat : ${student.meetings}"
                                 th:data-classroom-id="${student.classroom.id}">

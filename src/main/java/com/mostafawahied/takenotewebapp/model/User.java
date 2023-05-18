@@ -36,6 +36,7 @@ public class User {
     private List<Classroom> classrooms = new ArrayList<>();
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
+    private long selectedClassroomId;
 
     public User(String username, String email, String password, List<Role> roles) {
         this.username = username;

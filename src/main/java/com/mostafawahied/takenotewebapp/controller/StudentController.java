@@ -1,19 +1,19 @@
 package com.mostafawahied.takenotewebapp.controller;
 
 import com.google.gson.Gson;
-import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
+import com.mostafawahied.takenotewebapp.model.User;
+import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import com.mostafawahied.takenotewebapp.service.ClassroomService;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +25,8 @@ public class StudentController {
     private StudentService studentService;
     @Autowired
     private MeetingService meetingService;
+    @Autowired
+    private UserRepository userRepository;
 
     //    viewHomePage
     @GetMapping("/")
@@ -36,10 +38,13 @@ public class StudentController {
 
     @GetMapping("/notebook/students")
     public String viewAllStudentsPage(Model model, Student student, Authentication authentication) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
         model.addAttribute("activePage", "studentsPage");
-        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting(authentication));
         model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
+        String userEmail = studentService.getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(userEmail);
+        model.addAttribute("selectedClassroomId", user.getSelectedClassroomId());
+        List<Student> students = studentService.getStudentsWithLastMeetingByClassroom(authentication);
+        model.addAttribute("students", students);
         return "students";
     }
 
