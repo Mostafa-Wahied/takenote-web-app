@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 <head>
-  <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
-        rel="stylesheet">
-  <!--animate.css cdn-->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
+          rel="stylesheet">
+    <!--animate.css cdn-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" th:href="@{/styles/style.css}">
-  <!-- Bootstrap CSS only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
-  <script th:src="@{/static/script.js}" defer></script>
-  <title>TakeNote - Add New Classroom</title>
+    <script th:src="@{/static/script.js}" defer></script>
+    <title>TakeNote - Add New Classroom</title>
 </head>
 <body class="d-flex flex-column h-100">
 <!-- NavBar -->
@@ -31,37 +31,33 @@
 <!-- End of preloader -->
 
 <main>
-  <div class="animate__animated animate__fadeIn container">
-    <br>
-    <p class="display-6 text-center">Add New Classroom</p>
-    <div class="m-5 p-5 text-center">
-
-      <!--            success message-->
-      <div th:if="${param.success}">
-        <div class="alert alert-info text-center">Your new Classroom have been saved</div>
-      </div>
-      <!--                            end of success message-->
-
-      <form action="#" th:action="@{/saveClassroom}" th:object="${classroom}" method="POST">
-        <label>
-          <input type="text" th:field="*{className}" placeholder="Classroom Name"
-                 class="form-control rounded-pill mb-4 col-4">
-        </label>
-        <label>
-          <input type="text" th:field="*{classYear}" placeholder="Classroom Year"
-                 class="form-control rounded-pill mb-4 col-4">
-        </label>
+    <div class="animate__animated animate__fadeIn container">
         <br>
-        <button type="submit" class="btn btn-primary rounded-pill">Add Classroom</button>
-      </form>
+        <p class="display-6 text-center">Add New Classroom</p>
+        <div class="m-5 p-5 text-center">
 
-      <hr class="mx-auto">
-      <div class="container d-flex justify-content-center">
-        <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
-           th:href="@{/notebook/students}">Back to Students</a>
-      </div>
+            <!--            success message-->
+            <div th:if="${param.success}">
+                <div class="alert alert-info text-center">Your new Classroom have been saved</div>
+            </div>
+            <!--                            end of success message-->
+
+            <form action="#" th:action="@{/saveClassroom}" th:object="${classroom}" method="POST">
+                <label>
+                    <input type="text" th:field="*{className}" placeholder="Classroom Name"
+                           class="form-control rounded-pill mb-4 col-4" required>
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary rounded-pill">Add Classroom</button>
+            </form>
+
+            <hr class="mx-auto">
+            <div class="container d-flex justify-content-center">
+                <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
+                   th:href="@{/notebook/students}">Back to Students</a>
+            </div>
+        </div>
     </div>
-  </div>
 </main>
 
 <!--footer-->

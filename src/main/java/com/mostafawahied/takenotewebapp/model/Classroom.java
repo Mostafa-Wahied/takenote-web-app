@@ -19,16 +19,13 @@ public class Classroom {
     private long id;
     @Column(name = "classroom_name")
     private String className;
-    @Column(name = "classroom_year")
-    private int classYear;
     @OneToMany(mappedBy = "classroom")
     private List<Student> students;
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Classroom(String className, int classYear) {
+    public Classroom(String className) {
         this.className = className;
-        this.classYear = classYear;
     }
 }

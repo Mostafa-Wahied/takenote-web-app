@@ -39,14 +39,7 @@ public class StudentController {
     @GetMapping("/notebook/students")
     public String viewAllStudentsPage(Model model, Student student, Authentication authentication) throws Exception {
         model.addAttribute("activePage", "studentsPage");
-        model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
-        String userEmail = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(userEmail);
-        long selectedClassroomId = user.getSelectedClassroomId();
-        model.addAttribute("selectedClassroomId", selectedClassroomId);
-        model.addAttribute("selectedClassroomName", classroomService.getClassroomById(selectedClassroomId).getClassName());
-        List<Student> students = studentService.getStudentsWithLastMeetingByClassroom(authentication);
-        model.addAttribute("students", students);
+        getUserStudentsClassroomsAndAddToModel(model, authentication);
         return "students";
     }
 
@@ -64,11 +57,8 @@ public class StudentController {
     //    display all students for reading
     @GetMapping("/notebook/reading")
     public String viewReadingStudentsPage(Model model, Authentication authentication) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
-        //        for navigation active state
         model.addAttribute("activePage", "notebookReadingPage");
-        // getting students with last meeting
-        model.addAttribute("studentsWithLastMeetingReading", studentService.getStudentsWithLastMeetingReading(authentication));
+        getUserStudentsClassroomsAndAddToModel(model, authentication);
         return "notebook_reading";
     }
 
@@ -76,11 +66,8 @@ public class StudentController {
     //    display all students for writing
     @GetMapping("/notebook/writing")
     public String viewWritingStudentsPage(Model model, Authentication authentication) throws Exception {
-        model.addAttribute("listStudents", studentService.getAllStudents(authentication));
-        //        for navigation active state
         model.addAttribute("activePage", "notebookWritingPage");
-        //        getting students with last meeting
-        model.addAttribute("studentsWithLastMeetingWriting", studentService.getStudentsWithLastMeetingWriting(authentication));
+        getUserStudentsClassroomsAndAddToModel(model, authentication);
         return "notebook_writing";
     }
 
@@ -158,6 +145,23 @@ public class StudentController {
         // getAverageReadingSubjectLevel
         List<Map<String, Object>> averageReadingSubjectLevel = meetingService.getStudentAverageSubjectLevelProgress(studentId);
         return gson.toJson(averageReadingSubjectLevel);
+    }
+
+
+    // helper method to get the user's students and classrooms and add them to the model
+    private void getUserStudentsClassroomsAndAddToModel(Model model, Authentication authentication) {
+        model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
+        String userEmail = studentService.getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(userEmail);
+        long selectedClassroomId = user.getSelectedClassroomId();
+        model.addAttribute("selectedClassroomId", selectedClassroomId);
+        if (selectedClassroomId != 0) {
+            model.addAttribute("selectedClassroomName", classroomService.getClassroomById(selectedClassroomId).getClassName());
+        } else {
+            model.addAttribute("selectedClassroomName", "Add Classroom");
+        }
+        List<Student> students = studentService.getStudentsWithLastMeetingByClassroom(authentication);
+        model.addAttribute("students", students);
     }
 
 }
