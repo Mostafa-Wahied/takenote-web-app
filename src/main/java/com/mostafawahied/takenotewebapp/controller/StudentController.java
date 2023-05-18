@@ -42,7 +42,9 @@ public class StudentController {
         model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
         String userEmail = studentService.getUserEmailFromAuthentication(authentication);
         User user = userRepository.findUserByEmail(userEmail);
-        model.addAttribute("selectedClassroomId", user.getSelectedClassroomId());
+        long selectedClassroomId = user.getSelectedClassroomId();
+        model.addAttribute("selectedClassroomId", selectedClassroomId);
+        model.addAttribute("selectedClassroomName", classroomService.getClassroomById(selectedClassroomId).getClassName());
         List<Student> students = studentService.getStudentsWithLastMeetingByClassroom(authentication);
         model.addAttribute("students", students);
         return "students";

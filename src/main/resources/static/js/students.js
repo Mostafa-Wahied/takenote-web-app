@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 // update the href attribute of the add student button with the selected classroom ID
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const classroomSelect = document.getElementById('classroom-select');
     const addStudentBtn = document.getElementById('add-student-btn');
 
@@ -35,3 +35,22 @@ document.addEventListener("DOMContentLoaded", function() {
         addStudentBtn.href = `/showNewStudentForm?classroomId=${selectedClassroomId}`;
     });
 });
+
+//for the classroom dropdown menu
+document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function (item) {
+    item.addEventListener('click', function (event) {
+        event.preventDefault();
+        const value = this.getAttribute('data-value');
+        // for the add new classroom option
+        if (value === 'new') {
+            window.location.href = '/showNewClassroomForm';
+        } else {
+            const hiddenInput = document.querySelector('input[name="selectedClassroomId"]');
+            hiddenInput.value = value;
+            hiddenInput.setAttribute('name', 'selectedClassroomId');
+            document.getElementById('classroom-form').submit();
+        }
+    });
+});
+
+
