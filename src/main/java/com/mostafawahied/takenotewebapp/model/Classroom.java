@@ -19,7 +19,7 @@ public class Classroom {
     private long id;
     @Column(name = "classroom_name")
     private String className;
-    @OneToMany(mappedBy = "classroom")
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Student> students;
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)

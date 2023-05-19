@@ -63,50 +63,9 @@
                            class="btn btn-primary rounded-pill">Add Student</a>
                     </div>
                 </div>
-                <div class="col">
-                    <!--                    <form id="classroom-form" class="classroom-form container d-flex justify-content-end" method="POST"-->
-                    <!--                          th:action="@{/select-classroom}">-->
-                    <!--                        <input type="hidden" name="classroomId" value="${user.selectedClassroomId}"/>-->
-                    <!--                        &lt;!&ndash; name="selectedClassroomId" is being passed to /select-classroom method &ndash;&gt;-->
-                    <!--                        <select id="classroom-select" class="form-select rounded-pill"-->
-                    <!--                                aria-label="Default select example" style="width: auto" name="selectedClassroomId"-->
-                    <!--                                onchange="document.getElementById('classroom-form').submit()">-->
-                    <!--                            &lt;!&ndash;th:selected selectedClassroomId variable is coming from the notebook/students controller model&ndash;&gt;-->
-                    <!--                            <option th:each="classroom : ${classrooms}" th:text="${classroom.className}"-->
-                    <!--                                    th:value="${classroom.id}"-->
-                    <!--                                    th:selected="${classroom.id == selectedClassroomId}"></option>-->
-                    <!--                        </select>-->
-                    <!--                    </form>-->
-                    <form id="classroom-form" class="classroom-form container d-flex justify-content-end" method="POST"
-                          th:action="@{/select-classroom}">
-                        <input type="hidden" name="selectedClassroomId" value="${user.selectedClassroomId}"/>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle rounded-pill bg-color-2 border-0"
-                                    type="button"
-                                    id="classroomDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                <span th:text="${selectedClassroomName}">Select Classroom</span>
-                            </button>
-                            <ul class="dropdown-menu w-100" aria-labelledby="classroomDropdown">
-                                <th:block th:each="classroom : ${classrooms}">
-                                    <li>
-                                        <a class="dropdown-item" href="#" th:data-value="${classroom.id}"
-                                           th:text="${classroom.className}"
-                                           th:selected="${classroom.id == selectedClassroomId}"></a>
-                                    </li>
-                                </th:block>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" th:data-value="new">
-                                        <span class="material-symbols-outlined">add</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
-                </div>
+                <!-- classroom dropdown menu -->
+                <div th:replace="~{fragments/classroom_dropdown :: classroom_dropdown}"></div>
+                <!-- End of classroom drop down menu -->
             </div>
             <!--end of button & dropdown container-->
             <div class="container mt-2 pt-2">
@@ -124,7 +83,6 @@
 
                     <tbody>
                     <th:block th:each="student : ${students}">
-                        <!--                <tr th:each="student : ${listStudents}">-->
                         <tr th:each="meeting : ${student.meetings}" th:if="${meeting.subject == 'Reading'}">
                             <td style="white-space: nowrap; width: 3%">
                                 <a id="student-btn" class="btn btn-light color-2"
@@ -133,19 +91,16 @@
                             </td>
                             <td style="white-space: nowrap; width: 3%" th:text="${meeting.subjectLevel}"></td>
                             <td style="white-space: nowrap; width: 3%" th:text="${meeting.date}"></td>
-                            <!-- <td th:unless="${meeting.subject=='Reading'}"></td>-->
                             <td th:text="${meeting.nextStep}"></td>
-                            <!-- <td th:unless="${meeting.subject=='Reading'}"></td>-->
-                            <!--                    </th:block>-->
+
                         </tr>
                     </th:block>
 
                     </tbody>
                 </table>
-                <div class="container d-flex justify-content-center">
-                    <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
-                       th:href="@{/notebook/students}">Back to Students</a>
-                </div>
+                <!-- back to students btn -->
+                <div th:replace="~{fragments/back_to_student_btn :: back_to_students_btn}"></div>
+                <!-- End of back to students btn -->
             </div>
 
         </section>

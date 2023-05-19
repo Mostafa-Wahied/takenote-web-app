@@ -14,3 +14,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     console.log("classroomIdInput.value: ", classroomIdInput.value);
 });
+
+// //for the classroom dropdown menu
+// document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function (item) {
+//     item.addEventListener('click', function (event) {
+//         event.preventDefault();
+//         const value = this.getAttribute('data-value');
+//         // for the add new classroom option
+//         if (value === 'new') {
+//             window.location.href = '/showNewClassroomForm';
+//         } else {
+//             const hiddenInput = document.querySelector('input[name="selectedClassroomId"]');
+//             hiddenInput.value = value;
+//             hiddenInput.setAttribute('name', 'selectedClassroomId');
+//             document.getElementById('classroom-form').submit();
+//         }
+//     });
+// });

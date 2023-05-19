@@ -15,4 +15,6 @@ public interface ClassroomService {
     void saveClassroom(Classroom classroom, Authentication authentication);
 
     Classroom getClassroomById(long id);
+
+    void deleteClassroomById(long id);
 }

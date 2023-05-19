@@ -82,10 +82,9 @@
                     <br>
                 </div>
 
-                <div class="container d-flex justify-content-center">
-                    <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
-                       th:href="@{/notebook/students}">Back to Students</a>
-                </div>
+                <!-- back to students btn -->
+                <div th:replace="~{fragments/back_to_student_btn :: back_to_students_btn}"></div>
+                <!-- End of back to students btn -->
 
             </div>
 

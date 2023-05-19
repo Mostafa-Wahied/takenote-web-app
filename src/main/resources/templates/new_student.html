@@ -52,9 +52,12 @@
                 <div class="container d-flex justify-content-center mb-2">
                     <select id="classroom-select" class="form-select rounded-pill"
                             aria-label="Default select example"
-                            style="width: 10vw" name="classroomId">
+                            style="width: 10vw" name="classroomId" required>
                         <option
-                                th:each="classroom : ${classrooms}"
+                                th:if="${classrooms.isEmpty()}" disabled selected>No Classrooms Available
+                        </option>
+                        <option
+                                th:if="${!classrooms.isEmpty()}" th:each="classroom : ${classrooms}"
                                 th:text="${classroom.className}"
                                 th:value="${classroom.id}">
                         </option>
@@ -74,10 +77,9 @@
             </form>
 
             <hr class="mx-auto">
-            <div class="container d-flex justify-content-center">
-                <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
-                   th:href="@{/notebook/students}">Back to Students</a>
-            </div>
+            <!-- back to students btn -->
+            <div th:replace="~{fragments/back_to_student_btn :: back_to_students_btn}"></div>
+            <!-- End of back to students btn -->
         </div>
     </div>
 </main>

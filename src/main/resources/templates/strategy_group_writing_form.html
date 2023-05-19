@@ -84,16 +84,14 @@
                 <button type="submit" class="btn btn-primary rounded-pill mx-auto mt-3" style="width: 5rem;">Next
                 </button>
             </div>
+        </form>
     </div>
-    </form>
 
 
     <hr style="width: 80%;" class="mx-auto">
-    <div class="container d-flex justify-content-center">
-        <a id="back-to-students-btn" class="btn btn-primary rounded-pill justify-content-center"
-           th:href="@{/notebook/students}">Back to Students</a>
-    </div>
-    </div>
+    <!-- back to students btn -->
+    <div th:replace="~{fragments/back_to_student_btn :: back_to_students_btn}"></div>
+    <!-- End of back to students btn -->
 </main>
 
 <!--footer-->

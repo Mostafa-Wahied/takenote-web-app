@@ -67,4 +67,10 @@ public class ClassroomServiceImpl implements ClassroomService {
         return classroom;
     }
 
+    @Override
+    public void deleteClassroomById(long id) {
+        classroomRepository.deleteById(id);
+    }
+
+
 }

@@ -89,15 +89,7 @@ window.addEventListener("load", function () {
     loader.style.display = "none";
 })
 
-// delete student confirmation function
-function confirmDelete(event) {
-    if (!confirm('Are you sure you want to delete this student?')) {
-        event.preventDefault();
-    } else {
-        document.querySelector('[name="confirm"]').value = 'true';
-    }
-}
-// end of delete student confirmation function
+
 
 
 

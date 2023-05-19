@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="col" th:fragment="classroom_dropdown">
+    <form id="classroom-form" class="classroom-form container d-flex justify-content-end" method="POST"
+          th:action="@{/select-classroom}">
+        <input type="hidden" name="selectedClassroomId" value="0"/>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle rounded-pill bg-color-2 border-0"
+                    type="button"
+                    id="classroomDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <span th:text="${selectedClassroomName}">Select Classroom</span>
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="classroomDropdown">
+                <th:block th:each="classroom : ${classrooms}">
+                    <li>
+                        <div class="d-flex">
+                            <div class="col-9">
+                                <a class="dropdown-item classroom-dropdown-item" href="#"
+                                   th:data-value="${classroom.id}"
+                                   th:text="${classroom.className}"
+                                   th:selected="${classroom.id == selectedClassroomId}">
+                                </a>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn"
+                                        onclick="confirmDeleteClassroom('${classroom.id}')">
+                                    <span class="students-symbol material-symbols-outlined">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </th:block>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#" th:data-value="new">
+                        <span class="material-symbols-outlined">add</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </form>
+
+    <form id="delete-classroom-form" th:action="@{/classroom/delete/{id}(id=${selectedClassroomId})}"
+          method="post" style="display: none;">
+        <input type="hidden" name="selectedClassroomId" value="0">
+        <input type="hidden" name="confirm" value="true">
+    </form>
+
+    <script th:src="@{/js/classroom_dropdown.js}" defer></script>
+</div>
+
+
+</body>
+</html>

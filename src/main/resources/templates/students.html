@@ -46,6 +46,14 @@
 <main>
     <div class="animate__animated animate__fadeIn container">
 
+        <!--error message-->
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMessage}">
+            <strong th:text="${errorMessage}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <!--end of error-->
+
+
         <figure class="text-center mt-5">
             <p class="display-6 text-center fs-3 text-secondary"
                style="font-family: 'Montserrat', sans-serif"
@@ -62,50 +70,9 @@
                            class="btn btn-primary rounded-pill">Add Student</a>
                     </div>
                 </div>
-                <div class="col">
-                    <!--                    <form id="classroom-form" class="classroom-form container d-flex justify-content-end" method="POST"-->
-                    <!--                          th:action="@{/select-classroom}">-->
-                    <!--                        <input type="hidden" name="classroomId" value="${user.selectedClassroomId}"/>-->
-                    <!--                        &lt;!&ndash; name="selectedClassroomId" is being passed to /select-classroom method &ndash;&gt;-->
-                    <!--                        <select id="classroom-select" class="form-select rounded-pill"-->
-                    <!--                                aria-label="Default select example" style="width: auto" name="selectedClassroomId"-->
-                    <!--                                onchange="document.getElementById('classroom-form').submit()">-->
-                    <!--                            &lt;!&ndash;th:selected selectedClassroomId variable is coming from the notebook/students controller model&ndash;&gt;-->
-                    <!--                            <option th:each="classroom : ${classrooms}" th:text="${classroom.className}"-->
-                    <!--                                    th:value="${classroom.id}"-->
-                    <!--                                    th:selected="${classroom.id == selectedClassroomId}"></option>-->
-                    <!--                        </select>-->
-                    <!--                    </form>-->
-                    <form id="classroom-form" class="classroom-form container d-flex justify-content-end" method="POST"
-                          th:action="@{/select-classroom}">
-                        <input type="hidden" name="selectedClassroomId" value="${user.selectedClassroomId}"/>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle rounded-pill bg-color-2 border-0"
-                                    type="button"
-                                    id="classroomDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                <span th:text="${selectedClassroomName}">Select Classroom</span>
-                            </button>
-                            <ul class="dropdown-menu w-100" aria-labelledby="classroomDropdown">
-                                <th:block th:each="classroom : ${classrooms}">
-                                    <li>
-                                        <a class="dropdown-item" href="#" th:data-value="${classroom.id}"
-                                           th:text="${classroom.className}"
-                                           th:selected="${classroom.id == selectedClassroomId}"></a>
-                                    </li>
-                                </th:block>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" th:data-value="new">
-                                        <span class="material-symbols-outlined">add</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
-                </div>
+                <!-- classroom dropdown menu -->
+                <div th:replace="~{fragments/classroom_dropdown :: classroom_dropdown}"></div>
+                <!-- End of classroom drop down menu -->
             </div>
             <!--end of button & dropdown container-->
             <div class="container mt-2 pt-2">
@@ -123,11 +90,7 @@
                     <tbody>
 
                     <th:block th:each="student : ${students}">
-                        <tr
-                                th:each="meeting, iterStat : ${student.meetings}"
-                                th:data-classroom-id="${student.classroom.id}">
-                            <!-- ↑ for students.js that filters the students based on classroom -->
-
+                        <tr th:each="meeting, iterStat : ${student.meetings}">
                             <td style="white-space: nowrap; width: 3%">
                                 <a id="student-btn" class="btn btn-light color-2"
                                    th:text="${student.firstName + ' ' + student.lastName}"
@@ -145,9 +108,10 @@
                                     <a th:href="@{/showUpdateForm/{id}(id=${student.id})}"
                                        class="btn"
                                        style="border: none; background: transparent;"><span
-                                            class="students-symbol material-symbols-outlined">edit_square</span></a>
+                                            class="students-symbol material-symbols-outlined">edit_square</span>
+                                    </a>
                                     <form th:action="@{/deleteStudent/{id}(id=${student.id})}" method="post"
-                                          onsubmit="return confirmDelete(event)">
+                                          onsubmit="return confirmDeleteStudent(event)">
                                         <input type="hidden" name="confirm" value="true">
                                         <button type="submit" class="btn"
                                                 style="border: none; background: transparent;">

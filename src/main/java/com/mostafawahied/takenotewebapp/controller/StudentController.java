@@ -1,6 +1,7 @@
 package com.mostafawahied.takenotewebapp.controller;
 
 import com.google.gson.Gson;
+import com.mostafawahied.takenotewebapp.model.Classroom;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import com.mostafawahied.takenotewebapp.service.ClassroomService;
@@ -30,7 +31,7 @@ public class StudentController {
 
     //    viewHomePage
     @GetMapping("/")
-    public String homePage(Model model) {
+    public String homePage(Model model) throws Exception {
         //        for navigation active state
         model.addAttribute("activePage", "home");
         return "index";
@@ -45,7 +46,7 @@ public class StudentController {
 
     //display student by ID using a path variable
     @GetMapping("/notebook/student/{id}")
-    public String viewStudentById(@PathVariable(value = "id") long id, Model model) {
+    public String viewStudentById(@PathVariable(value = "id") long id, Model model) throws Exception {
         Student student = studentService.getStudentById(id);
         model.addAttribute("student", student);
         model.addAttribute("studentId", id);
@@ -72,7 +73,7 @@ public class StudentController {
     }
 
     @GetMapping("/showNewStudentForm")
-    public String showNewStudentForm(@RequestParam(value = "classroomId", required = false) Long classroomId, Model model, Authentication authentication) {
+    public String showNewStudentForm(@RequestParam(value = "classroomId", required = false) Long classroomId, Model model, Authentication authentication) throws Exception {
         Student student = new Student();
         model.addAttribute("student", student);
         model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
@@ -82,7 +83,7 @@ public class StudentController {
 
     // save student to database
     @PostMapping("/saveStudent")
-    public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(value = "classroomId", required = true) Long classroomId, Model model) {
+    public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(value = "classroomId") Long classroomId, Model model) throws Exception {
         if (classroomId == null) {
             model.addAttribute("errorMessage", "A classroom must be selected");
             return "new_student";
@@ -93,7 +94,7 @@ public class StudentController {
 
     //    update student info
     @GetMapping("/showUpdateForm/{id}")
-    public String showUpdateForm(@PathVariable(value = "id") long id, Model model) {
+    public String showUpdateForm(@PathVariable(value = "id") long id, Model model) throws Exception {
 //        get employee from the service
         Student student = studentService.getStudentById(id);
 //        set student as a model attr to pre-populate the form
@@ -103,7 +104,7 @@ public class StudentController {
 
     @PostMapping("/deleteStudent/{id}")
     public String deleteStudent(@PathVariable(value = "id") long id,
-                                @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm) {
+                                @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm) throws Exception {
         long classroomId = studentService.getStudentById(id).getClassroom().getId();
         if (confirm) {
             studentService.deleteStudentById(id);
@@ -114,7 +115,7 @@ public class StudentController {
 
     //    view reading conference
     @GetMapping("/notetaker/reading")
-    public String viewNotetakerReadingPage(Model model) {
+    public String viewNotetakerReadingPage(Model model) throws Exception {
         //        for navigation active state
         model.addAttribute("activePage", "notetakerReading");
         return "notetaker_reading";
@@ -122,7 +123,7 @@ public class StudentController {
 
     //    view writing conference
     @GetMapping("/notetaker/writing")
-    public String viewNotetakerWritingPage(Model model) {
+    public String viewNotetakerWritingPage(Model model) throws Exception {
         //        for navigation active state
         model.addAttribute("activePage", "notetakerWriting");
         return "notetaker_writing";
@@ -131,7 +132,7 @@ public class StudentController {
 
     //    view about page
     @GetMapping("/about")
-    public String viewAboutPage(Model model) {
+    public String viewAboutPage(Model model) throws Exception {
 //        for navigation active state
         model.addAttribute("activePage", "about");
         return "about";
@@ -140,7 +141,7 @@ public class StudentController {
     // Reading Subject Levels progress Line Chart Card
     @ResponseBody
     @GetMapping("/notebook/student/{id}/averageReadingSubjectLevel")
-    public String getStudentAverageReadingSubjectLevel(@PathVariable(value = "id") long studentId) {
+    public String getStudentAverageReadingSubjectLevel(@PathVariable(value = "id") long studentId) throws Exception {
         Gson gson = new Gson();
         // getAverageReadingSubjectLevel
         List<Map<String, Object>> averageReadingSubjectLevel = meetingService.getStudentAverageSubjectLevelProgress(studentId);
@@ -149,16 +150,22 @@ public class StudentController {
 
 
     // helper method to get the user's students and classrooms and add them to the model
-    private void getUserStudentsClassroomsAndAddToModel(Model model, Authentication authentication) {
+    private void getUserStudentsClassroomsAndAddToModel(Model model, Authentication authentication) throws Exception {
         model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
         String userEmail = studentService.getUserEmailFromAuthentication(authentication);
         User user = userRepository.findUserByEmail(userEmail);
         long selectedClassroomId = user.getSelectedClassroomId();
         model.addAttribute("selectedClassroomId", selectedClassroomId);
-        if (selectedClassroomId != 0) {
-            model.addAttribute("selectedClassroomName", classroomService.getClassroomById(selectedClassroomId).getClassName());
+//        Classroom selectedClassroom = classroomService.getClassroomById(selectedClassroomId);
+        if (selectedClassroomId != 0 && classroomService.getAllClassrooms(authentication).size() > 0) {
+            String selectedClassroomName = classroomService.getClassroomById(selectedClassroomId).getClassName();
+            model.addAttribute("selectedClassroomName", selectedClassroomName);
         } else {
-            model.addAttribute("selectedClassroomName", "Add Classroom");
+            if (classroomService.getAllClassrooms(authentication).size() > 0 && selectedClassroomId == 0) {
+                model.addAttribute("selectedClassroomName", "Select Classroom");
+            } else {
+                model.addAttribute("selectedClassroomName", "Add Classroom");
+            }
         }
         List<Student> students = studentService.getStudentsWithLastMeetingByClassroom(authentication);
         model.addAttribute("students", students);
