@@ -148,7 +148,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsWithLastMeetingByClassroom(Authentication authentication) {
+    public List<Student> getStudentsWithLastAllMeetingByClassroom(Authentication authentication) {
         String email = getUserEmailFromAuthentication(authentication);
         User user = userRepository.findUserByEmail(email);
         Long selectedClassroomId = user.getSelectedClassroomId();
@@ -158,8 +158,8 @@ public class StudentServiceImpl implements StudentService {
             List<Student> newStudentsList = new ArrayList<>();
             for (Student student : studentsList) {
                 Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
-                List<Meeting> meetings = student.getMeetings();
-                Meeting meeting = meetings.stream().max(meetingDateComparator).orElse(new Meeting());
+                List<Meeting> allMeetings = student.getMeetings();
+                Meeting meeting = allMeetings.stream().max(meetingDateComparator).orElse(new Meeting());
                 student.setMeetings(List.of(meeting));
                 newStudentsList.add(student);
             }
@@ -170,7 +170,76 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getAllStudentsByClassroom(Long classroomId) {
+    public List<Student> getStudentsWithLastWritingMeetingByClassroom(Authentication authentication) {
+        String email = getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(email);
+        Long selectedClassroomId = user.getSelectedClassroomId();
+        Classroom classroom = classroomRepository.findById(selectedClassroomId).orElse(null);
+        if (classroom != null) {
+            List<Student> studentsList = classroom.getStudents();
+            List<Student> newStudentsList = new ArrayList<>();
+            for (Student student : studentsList) {
+                Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
+                List<Meeting> allMeetings = student.getMeetings();
+                List<Meeting> readingMeetings = new ArrayList<>();
+                for (Meeting readingMeeting : allMeetings) {
+                    if (Objects.equals(readingMeeting.getSubject(), "Writing")) {
+                        readingMeetings.add(readingMeeting);
+                    }
+                }
+                Meeting meeting = readingMeetings.stream().max(meetingDateComparator).orElse(new Meeting());
+                student.setMeetings(List.of(meeting));
+                newStudentsList.add(student);
+            }
+            return newStudentsList;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Student> getStudentsWithLastReadingMeetingByClassroom(Authentication authentication) {
+        String email = getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(email);
+        Long selectedClassroomId = user.getSelectedClassroomId();
+        Classroom classroom = classroomRepository.findById(selectedClassroomId).orElse(null);
+        if (classroom != null) {
+            List<Student> studentsList = classroom.getStudents();
+            List<Student> newStudentsList = new ArrayList<>();
+            for (Student student : studentsList) {
+                Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
+                List<Meeting> allMeetings = student.getMeetings();
+                List<Meeting> readingMeetings = new ArrayList<>();
+                for (Meeting readingMeeting : allMeetings) {
+                    if (Objects.equals(readingMeeting.getSubject(), "Reading")) {
+                        readingMeetings.add(readingMeeting);
+                    }
+                }
+                Meeting meeting = readingMeetings.stream().max(meetingDateComparator).orElse(new Meeting());
+                student.setMeetings(List.of(meeting));
+                newStudentsList.add(student);
+            }
+            return newStudentsList;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Student> getAllStudentsBySelectedClassroom(Authentication authentication) {
+        String email = getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(email);
+        Long selectedClassroomId = user.getSelectedClassroomId();
+        Classroom classroom = classroomRepository.findById(selectedClassroomId).orElse(null);
+        if (classroom != null) {
+            return classroom.getStudents();
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Student> getAllStudentsByClassroomId(Long classroomId) {
         Classroom classroom = classroomRepository.findById(classroomId).orElse(null);
         if (classroom != null) {
             return classroom.getStudents();

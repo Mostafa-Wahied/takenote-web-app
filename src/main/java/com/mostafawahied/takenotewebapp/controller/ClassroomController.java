@@ -25,14 +25,14 @@ public class ClassroomController {
     @Autowired
     private UserRepository userRepository;
 
-//    @GetMapping("/classrooms")
-//    public String viewClassroomsPage(Model model, Authentication authentication) throws Exception {
-//        //        for navigation active state
-//        model.addAttribute("activePage", "classroomsPage");
-//        List<Classroom> classrooms = classroomService.getAllClassrooms(authentication);
-//        model.addAttribute("classrooms", classrooms);
-//        return "classrooms";
-//    }
+    @GetMapping("/classrooms")
+    public String viewClassroomsPage(Model model, Authentication authentication) throws Exception {
+        //        for navigation active state
+        model.addAttribute("activePage", "classroomsPage");
+        List<Classroom> classrooms = classroomService.getAllClassrooms(authentication);
+        model.addAttribute("classrooms", classrooms);
+        return "classrooms";
+    }
 
     @GetMapping("/showNewClassroomForm")
     public String showNewClassroomForm(Model model) {
@@ -51,14 +51,14 @@ public class ClassroomController {
 
     // show classroom by id
     @GetMapping("/classroom/{id}")
-//    public String viewClassroomById(@PathVariable(value = "id") long id, Model model, Authentication authentication) {
-//        Classroom classroom = classroomService.getClassroomById(id);
-//        model.addAttribute("classroom", classroom);
-//        model.addAttribute("classroomId", id);
-//        //        getting students with last meeting
-//        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting(authentication));
-//        return "classroom";
-//    }
+    public String viewClassroomById(@PathVariable(value = "id") long id, Model model, Authentication authentication) {
+        Classroom classroom = classroomService.getClassroomById(id);
+        model.addAttribute("classroom", classroom);
+        model.addAttribute("classroomId", id);
+        //        getting students with last meeting
+        model.addAttribute("studentsWithLastMeeting", studentService.getStudentsWithLastMeeting(authentication));
+        return "classroom";
+    }
 
     // storing the selected classroom id in the session
     // also using HttpServletRequest to get the referer url to redirect to the page where the form is submitted

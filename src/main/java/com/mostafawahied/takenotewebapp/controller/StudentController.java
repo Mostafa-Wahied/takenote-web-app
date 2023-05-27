@@ -1,8 +1,6 @@
 package com.mostafawahied.takenotewebapp.controller;
 
 import com.google.gson.Gson;
-import com.mostafawahied.takenotewebapp.model.Classroom;
-import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import com.mostafawahied.takenotewebapp.service.ClassroomService;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +37,7 @@ public class StudentController {
     @GetMapping("/notebook/students")
     public String viewAllStudentsPage(Model model, Student student, Authentication authentication) throws Exception {
         model.addAttribute("activePage", "studentsPage");
-        getUserStudentsClassroomsAndAddToModel(model, authentication);
+        addAttributesForStudents(model, authentication, "all");
         return "students";
     }
 
@@ -59,7 +56,7 @@ public class StudentController {
     @GetMapping("/notebook/reading")
     public String viewReadingStudentsPage(Model model, Authentication authentication) throws Exception {
         model.addAttribute("activePage", "notebookReadingPage");
-        getUserStudentsClassroomsAndAddToModel(model, authentication);
+        addAttributesForStudents(model, authentication, "reading");
         return "notebook_reading";
     }
 
@@ -68,12 +65,13 @@ public class StudentController {
     @GetMapping("/notebook/writing")
     public String viewWritingStudentsPage(Model model, Authentication authentication) throws Exception {
         model.addAttribute("activePage", "notebookWritingPage");
-        getUserStudentsClassroomsAndAddToModel(model, authentication);
+        addAttributesForStudents(model, authentication, "writing");
         return "notebook_writing";
     }
 
     @GetMapping("/showNewStudentForm")
-    public String showNewStudentForm(@RequestParam(value = "classroomId", required = false) Long classroomId, Model model, Authentication authentication) throws Exception {
+    public String showNewStudentForm(@RequestParam(value = "classroomId", required = false) Long classroomId,
+                                     Model model, Authentication authentication) throws Exception {
         Student student = new Student();
         model.addAttribute("student", student);
         model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
@@ -83,7 +81,9 @@ public class StudentController {
 
     // save student to database
     @PostMapping("/saveStudent")
-    public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(value = "classroomId") Long classroomId, Model model) throws Exception {
+    public String saveStudent(@ModelAttribute("student") Student student,
+                              @RequestParam(value = "classroomId") Long classroomId,
+                              Model model) throws Exception {
         if (classroomId == null) {
             model.addAttribute("errorMessage", "A classroom must be selected");
             return "new_student";
@@ -103,15 +103,14 @@ public class StudentController {
     }
 
     @PostMapping("/deleteStudent/{id}")
-    public String deleteStudent(@PathVariable(value = "id") long id,
-                                @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm) throws Exception {
-        long classroomId = studentService.getStudentById(id).getClassroom().getId();
+    public String deleteStudent(
+            @PathVariable(value = "id") long id,
+            @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm) throws Exception {
         if (confirm) {
             studentService.deleteStudentById(id);
         }
         return "redirect:/notebook/students";
     }
-
 
     //    view reading conference
     @GetMapping("/notetaker/reading")
@@ -150,24 +149,15 @@ public class StudentController {
 
 
     // helper method to get the user's students and classrooms and add them to the model
-    private void getUserStudentsClassroomsAndAddToModel(Model model, Authentication authentication) throws Exception {
-        model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
-        String userEmail = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(userEmail);
-        long selectedClassroomId = user.getSelectedClassroomId();
-        model.addAttribute("selectedClassroomId", selectedClassroomId);
-//        Classroom selectedClassroom = classroomService.getClassroomById(selectedClassroomId);
-        if (selectedClassroomId != 0 && classroomService.getAllClassrooms(authentication).size() > 0) {
-            String selectedClassroomName = classroomService.getClassroomById(selectedClassroomId).getClassName();
-            model.addAttribute("selectedClassroomName", selectedClassroomName);
+    private void addAttributesForStudents(Model model, Authentication authentication, String meetingType) throws Exception {
+        List<Student> students;
+        if (meetingType.equals("reading")) {
+            students = studentService.getStudentsWithLastReadingMeetingByClassroom(authentication);
+        } else if (meetingType.equals("writing")) {
+            students = studentService.getStudentsWithLastWritingMeetingByClassroom(authentication);
         } else {
-            if (classroomService.getAllClassrooms(authentication).size() > 0 && selectedClassroomId == 0) {
-                model.addAttribute("selectedClassroomName", "Select Classroom");
-            } else {
-                model.addAttribute("selectedClassroomName", "Add Classroom");
-            }
+            students = studentService.getStudentsWithLastAllMeetingByClassroom(authentication);
         }
-        List<Student> students = studentService.getStudentsWithLastMeetingByClassroom(authentication);
         model.addAttribute("students", students);
     }
 

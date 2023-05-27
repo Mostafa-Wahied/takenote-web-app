@@ -73,7 +73,10 @@
                            class="form-control rounded-pill mb-4 col-4" required>
                 </label>
                 <br>
-                <button type="submit" class="btn btn-primary rounded-pill">Save Student</button>
+                <button th:if="${classrooms.isEmpty()}"
+                        type="submit" class="btn btn-primary rounded-pill disabled">Save Student</button>
+                <button th:if="${!classrooms.isEmpty()}"
+                        type="submit" class="btn btn-primary rounded-pill">Save Student</button>
             </form>
 
             <hr class="mx-auto">

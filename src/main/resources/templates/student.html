@@ -136,6 +136,7 @@
                                             class="about-symbol material-symbols-outlined"
                                             style="font-size: 20px;">arrow_circle_up</span>
                                     </th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -150,6 +151,13 @@
                                             <td th:text="${meeting.strength}"></td>
                                             <td th:text="${meeting.teachingPoint}"></td>
                                             <td th:text="${meeting.nextStep}"></td>
+                                            <td style="white-space: nowrap; width: 3%">
+                                                <a th:href="@{/notetaker/writing}"
+                                                   class="btn d-flex justify-content-center"
+                                                   style="border: none; background: transparent;">
+                                                    <span class="students-symbol material-symbols-outlined">add</span>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </th:block>
                                 </th:block>
@@ -166,7 +174,6 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">Date</th>
-                                    <th scope="col">Reading Level</th>
                                     <th scope="col">Conference Type</th>
                                     <th scope="col">Strength <span
                                             class="about-symbol material-symbols-outlined"
@@ -180,6 +187,7 @@
                                             class="about-symbol material-symbols-outlined"
                                             style="font-size: 20px;">arrow_circle_up</span>
                                     </th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -188,12 +196,18 @@
                                         <tr>
                                             <td style="white-space: nowrap; width: 3%"
                                                 th:text="${meeting.date}"></td>
-                                            <td style="width: 6%" th:text="${meeting.subjectLevel}"></td>
                                             <td style="white-space: nowrap; width: 5%"
                                                 th:text="${meeting.type}"></td>
                                             <td th:text="${meeting.strength}"></td>
                                             <td th:text="${meeting.teachingPoint}"></td>
                                             <td th:text="${meeting.nextStep}"></td>
+                                            <td style="white-space: nowrap; width: 3%">
+                                                <a th:href="@{/notetaker/writing}"
+                                                   class="btn d-flex justify-content-center"
+                                                   style="border: none; background: transparent;">
+                                                    <span class="students-symbol material-symbols-outlined">add</span>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </th:block>
                                 </th:block>

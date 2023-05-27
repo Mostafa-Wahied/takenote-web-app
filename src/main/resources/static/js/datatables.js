@@ -2,15 +2,37 @@ console.log("datatables.js loaded...")
 
 // using jQuery DataTables
 $(document).ready(function () {
-    $('#students-table').DataTable();
+    $('#students-table').DataTable({});
 });
-
 $(document).ready(function () {
-    $('#student-reading-table').DataTable({
-        "order": [[0, "desc"]] // 0 is the index of the column you want to sort by default
+    $('#students-reading-table').DataTable({
+        bAutoWidth: false,
+        aoColumns: [
+            {sWidth: "20%"},
+            {sWidth: "15%"},
+            {sWidth: "60%"},
+            {sWidth: "5%"},
+        ]
     });
 });
+$(document).ready(function () {
+    $('#students-writing-table').DataTable({
+        bAutoWidth: false,
+        aoColumns: [
+            {sWidth: "20%"},
+            {sWidth: "15%"},
+            {sWidth: "60%"},
+            {sWidth: "5%"},
+        ]
+    });
+});
+$(document).ready(function () {
+    $('#student-reading-table').DataTable({
+        "order": [[0, "desc"]],
+        // 0 is the index of the column you want to sort by default
 
+    });
+});
 $(document).ready(function () {
     $('#student-writing-table').DataTable({
         "order": [[0, "desc"]] // 0 is the index of the column you want to sort by default

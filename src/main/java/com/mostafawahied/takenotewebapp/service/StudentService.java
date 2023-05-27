@@ -24,7 +24,13 @@ public interface StudentService {
 
     List<Student> getStudentsWithLastMeetingWriting(Authentication authentication);
 
-    List<Student> getStudentsWithLastMeetingByClassroom(Authentication authentication);
+    List<Student> getStudentsWithLastAllMeetingByClassroom(Authentication authentication);
 
-    List<Student> getAllStudentsByClassroom(Long classroomId);
+    List<Student> getStudentsWithLastWritingMeetingByClassroom(Authentication authentication);
+
+    List<Student> getStudentsWithLastReadingMeetingByClassroom(Authentication authentication);
+
+    List<Student> getAllStudentsBySelectedClassroom(Authentication authentication);
+
+    List<Student> getAllStudentsByClassroomId(Long classroomId);
 }

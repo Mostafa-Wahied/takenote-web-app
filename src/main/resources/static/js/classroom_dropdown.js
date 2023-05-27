@@ -15,19 +15,16 @@ document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(function (ite
             document.getElementById('classroom-form').submit();
         }
     });
-    console.log("dropdown-menu .dropdown-item loaded");
 });
 
 
 function confirmDeleteClassroom(classroomId) {
     // Check if a classroom has been selected from the dropdown menu
     const selectButton = document.querySelector("#classroomDropdown");
-    console.log("selectButton.innerText: ", selectButton.innerText);
     if (selectButton.innerText === 'Select Classroom ') {
         alert('Please select a default classroom first before attempting to delete a classroom.');
         return;
     }
-
     if (confirm("Are you sure you want to delete this classroom?")) {
         document.querySelector("#delete-classroom-form input[name='selectedClassroomId']").value = classroomId;
         document.querySelector("#delete-classroom-form").submit();

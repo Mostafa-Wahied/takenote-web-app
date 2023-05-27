@@ -3,6 +3,8 @@ package com.mostafawahied.takenotewebapp.controller;
 import com.mostafawahied.takenotewebapp.config.CustomOAuth2User;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
+import com.mostafawahied.takenotewebapp.service.ClassroomService;
+import com.mostafawahied.takenotewebapp.service.StudentService;
 import com.mostafawahied.takenotewebapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +23,16 @@ import javax.servlet.http.HttpSession;
 @ControllerAdvice
 public class MyControllerAdvice {
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
+    @Autowired
+    private ClassroomService classroomService;
+    @Autowired
+    private StudentService studentService;
 
-    @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<Object> handleException(Exception ex) {
-        return new ResponseEntity<>("Error occurred: " + ex.getMessage() + "<br>" + ex, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(value = {Exception.class})
+//    public ResponseEntity<Object> handleException(Exception ex) {
+//        return new ResponseEntity<>("Error occurred: " + ex.getMessage() + "<br>" + ex, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
@@ -43,8 +49,6 @@ public class MyControllerAdvice {
         }
     }
 
-    @Autowired
-    private UserRepository userRepository;
 
     // adding the user's name to all pages
     @ModelAttribute
@@ -62,6 +66,28 @@ public class MyControllerAdvice {
                 name = user.getUsername();
             }
             model.addAttribute("name", name);
+        }
+    }
+
+    // add classroom dropdown menu attributes to all pages
+    @ModelAttribute
+    public void addClassroomDropdownMenuAttributes(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
+            String userEmail = studentService.getUserEmailFromAuthentication(authentication);
+            User user = userRepository.findUserByEmail(userEmail);
+            long selectedClassroomId = user.getSelectedClassroomId();
+            model.addAttribute("selectedClassroomId", selectedClassroomId);
+            if (selectedClassroomId != 0 && classroomService.getAllClassrooms(authentication).size() > 0) {
+                String selectedClassroomName = classroomService.getClassroomById(selectedClassroomId).getClassName();
+                model.addAttribute("selectedClassroomName", selectedClassroomName);
+            } else {
+                if (classroomService.getAllClassrooms(authentication).size() > 0 && selectedClassroomId == 0) {
+                    model.addAttribute("selectedClassroomName", "Select Classroom");
+                } else {
+                    model.addAttribute("selectedClassroomName", "Add Classroom");
+                }
+            }
         }
     }
 

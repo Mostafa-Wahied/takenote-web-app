@@ -2,7 +2,6 @@ body {
     font-family: 'Roboto', sans-serif !important;
 }
 
-/* buttons */
 /* google icons */
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0,
@@ -40,9 +39,19 @@ body {
 /* End of google icons */
 
 /* Buttons */
-
 .logout-link a, .login-link a {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
+}
+
+#logout-btn {
+    width: 50%;
+}
+
+#logout-btn:hover {
+    color: white !important;
+    background-color: #fa3e21 !important;
+    transition: 0.3s ease-in-out !important;
+    transform: scale(1.04);
 }
 
 .modal-btn:hover {
@@ -104,7 +113,7 @@ body {
 }
 
 .nav-link {
-    font-size: 0.9rem !important;
+    font-size: 0.8rem !important;
 }
 
 .navbar-collapse {
@@ -113,17 +122,19 @@ body {
 }
 
 .navbar-brand {
-    /*font-size: 1rem;*/
+    /*font-size: 0.8rem;*/
     letter-spacing: 5px;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
 }
 
 .take-span {
+    font-size: 1rem;
     color: #406672a9;
 }
 
 .note-span {
+    font-size: 1rem;
     color: #6ba7baad;
 }
 
@@ -142,8 +153,8 @@ body {
 }
 
 .navbar-nav > li {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 0.6rem;
+    margin-right: 0.6rem;
 }
 
 .navbar.navbar-light .nav-item .nav-link:hover {
@@ -552,3 +563,7 @@ tbody tr:last-child :last-child {
 }
 
 
+/*for dropdown button in navigation only*/
+#navbarNavDropdown > ul > li:nth-child(7) #classroomDropdown  {
+font-size: 0.78rem;
+}

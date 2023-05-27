@@ -2,11 +2,8 @@ package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 
-import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,10 +44,14 @@ public interface MeetingService {
     List<Map<String, Object>> getStudentAverageSubjectLevelProgress(long studentId);
 
     // get the meetings number for the logged in user
-    int getMeetingCount(Authentication authentication);
+    int getAllMeetingsCountByUser(Authentication authentication);
+
+    // get the meetings for the selected classroom
+    int getMeetingsByClassroom(long classroomId);
 
     // get the average reading level for all meetings for the logged in user
-    Float getAverageReadingLevel(Authentication authentication);
+    Float getAverageReadingLevelBySelectedClassroomId(long classroomId);
+
 }
 
 

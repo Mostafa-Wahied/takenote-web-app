@@ -48,27 +48,34 @@
         <section class="d-flex flex-column animate__animated animate__fadeIn" style="font-family: Montserrat,serif">
 
             <div class="container">
-                <h1
-                        class="mt-4 text-left"
-                        style="color: dimgray;
+                <div class="row d-flex">
+                    <div class="col">
+                        <h1
+                                class="mt-4 text-left"
+                                style="color: dimgray;
                          font-weight: normal;
                           font-family: Montserrat,serif;
                            font-size: 1.5rem;">
-                    Teacher's Dashboard
-                </h1>
-                <h1
-                        class="text-left"
-                        th:text="Welcome + ', ' + ${principal}"
-                        style="color: darkgrey;
+                            Teacher's Dashboard
+                        </h1>
+                        <h1
+                                class="text-left"
+                                th:text="Welcome + ', ' + ${principal}"
+                                style="color: darkgrey;
                          font-size: 0.9rem;
                           font-weight: 500;
                            font-family: Montserrat,serif;">
-                </h1>
+                        </h1>
 
-                <!-- Getting the average reading level float variable injected by dashController Model -->
-                <input type="hidden" id="average_reading_level_float" th:data-avg-level="${averageReadingLevel}">
-                <!-- end of getting the avg -->
-
+                        <!-- Getting the average reading level float variable injected by dashController Model -->
+                        <input type="hidden" id="average_reading_level_float"
+                               th:data-avg-level="${averageReadingLevel}">
+                        <!-- end of getting the avg -->
+                    </div>
+<!--                    &lt;!&ndash; classroom dropdown menu &ndash;&gt;-->
+<!--                    <div th:replace="~{fragments/classroom_dropdown :: classroom_dropdown}"></div>-->
+<!--                    &lt;!&ndash; End of classroom drop down menu &ndash;&gt;-->
+                </div>
                 <div class="row my-2">
                     <div class="col-md-4">
                         <div class="card rounded-4 p-3">
@@ -79,7 +86,8 @@
                                 <div class="col-6 text-center">
                                     <div class="d-flex justify-content-center align-items-center flex-column"
                                          style="height: 100%;">
-                                        <p class="mb-0" style="font-size: 0.8rem">Overall Average Reading Level</p>
+                                        <p class="mb-0" style="font-size: 0.8rem">Overall Average Reading
+                                            Level</p>
                                         <p class="mt-0" id="average-subject-level" style="font-size: 3rem"></p>
                                     </div>
                                 </div>
@@ -123,12 +131,14 @@
                         <!--         Meetings count per student by subject bar chart           -->
                         <div class="card rounded-4 p-2 animate__animated animate__fadeIn animate__delay-1s">
                             <div class="card-body">
-                                <ul class="nav nav-pills mb-3" id="meetings-subject-bar-pills-tab" role="tablist">
+                                <ul class="nav nav-pills mb-3" id="meetings-subject-bar-pills-tab"
+                                    role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link btn btn-sm active rounded-pill"
                                                 id="pills-reading-subject-bar-tab"
                                                 data-bs-toggle="pill"
-                                                data-bs-target="#pills-reading-subject-bar" type="button" role="tab"
+                                                data-bs-target="#pills-reading-subject-bar" type="button"
+                                                role="tab"
                                                 aria-controls="pills-reading-subject-bar" aria-selected="true">
                                             Reading
                                         </button>
@@ -137,7 +147,8 @@
                                         <button class="nav-link btn btn-sm rounded-pill"
                                                 id="pills-writing-subject-bar-tab"
                                                 data-bs-toggle="pill"
-                                                data-bs-target="#pills-writing-subject-bar" type="button" role="tab"
+                                                data-bs-target="#pills-writing-subject-bar" type="button"
+                                                role="tab"
                                                 aria-controls="pills-writing-subject-bar" aria-selected="false">
                                             Writing
                                         </button>

@@ -1,20 +1,19 @@
 package com.mostafawahied.takenotewebapp.controller;
 
 import com.google.gson.Gson;
-import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
+import com.mostafawahied.takenotewebapp.model.User;
+import com.mostafawahied.takenotewebapp.repository.UserRepository;
+import com.mostafawahied.takenotewebapp.service.ClassroomService;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -23,25 +22,23 @@ public class DashboardController {
     private StudentService studentService;
     @Autowired
     private MeetingService meetingService;
+    @Autowired
+    private ClassroomService classroomService;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, Authentication authentication) {
-        List<Student> students = studentService.getAllStudents(authentication);
-        List<Meeting> meetings = meetingService.getAllMeetings();
-        model.addAttribute("students", students);
-        model.addAttribute("meetings", meetings);
+    public String dashboard(Model model, Authentication authentication) throws Exception {
         model.addAttribute("principal", authentication.getName());
-        // meetings count for the current user
-        model.addAttribute("meetingsCount", meetingService.getMeetingCount(authentication));
-        // students count for the current user
-        model.addAttribute("studentsCount", studentService.getAllStudents(authentication).size());
         // setting active page for navbar
         model.addAttribute("activePage", "dashboard");
 
         // inject the average reading level for all meetings for the current user
-        Float averageReadingLevel = meetingService.getAverageReadingLevel(authentication);
-        model.addAttribute("averageReadingLevel", averageReadingLevel);
+//        Float averageReadingLevel = meetingService.getAverageReadingLevel(authentication);
+//        model.addAttribute("averageReadingLevel", averageReadingLevel);
+        // for classrooms
+        addDashboardAttributes(model, authentication);
         return "dashboard";
     }
 
@@ -114,4 +111,17 @@ public class DashboardController {
 //        float averageReadingLevel = meetingService.getAverageReadingLevel(principal);
 //        return gson.toJson(averageReadingLevel);
 //    }
+
+    // helper method to get the user's students and classrooms and add them to the model
+    public void addDashboardAttributes(Model model, Authentication authentication) throws Exception {
+        String userEmail = studentService.getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(userEmail);
+        long selectedClassroomId = user.getSelectedClassroomId();
+        List<Student> students = studentService.getStudentsWithLastWritingMeetingByClassroom(authentication);
+        model.addAttribute("students", students);
+        model.addAttribute("studentsCount", studentService.getAllStudentsBySelectedClassroom(authentication).size());
+        model.addAttribute("meetingsCount", meetingService.getMeetingsByClassroom(selectedClassroomId));
+        Float averageReadingLevel = meetingService.getAverageReadingLevelBySelectedClassroomId(selectedClassroomId);
+        model.addAttribute("averageReadingLevel", averageReadingLevel);
+    }
 }

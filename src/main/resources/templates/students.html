@@ -32,6 +32,7 @@
 
     <script th:src="@{/js/datatables.js}" defer></script>
     <script th:src="@{/js/students.js}" defer></script>
+    <script th:src="@{/js/classroom_dropdown.js}" defer></script>
     <script th:src="@{/js/script.js}" defer></script>
     <title>TakeNote - My Students</title>
 </head>
@@ -70,9 +71,9 @@
                            class="btn btn-primary rounded-pill">Add Student</a>
                     </div>
                 </div>
-                <!-- classroom dropdown menu -->
-                <div th:replace="~{fragments/classroom_dropdown :: classroom_dropdown}"></div>
-                <!-- End of classroom drop down menu -->
+<!--                &lt;!&ndash; classroom dropdown menu &ndash;&gt;-->
+<!--                <div th:replace="~{fragments/classroom_dropdown :: classroom_dropdown}"></div>-->
+<!--                &lt;!&ndash; End of classroom drop down menu &ndash;&gt;-->
             </div>
             <!--end of button & dropdown container-->
             <div class="container mt-2 pt-2">

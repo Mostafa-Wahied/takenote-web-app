@@ -62,13 +62,13 @@
                            class="btn btn-primary rounded-pill">Add Student</a>
                     </div>
                 </div>
-                <!-- classroom dropdown menu -->
-                <div th:replace="~{fragments/classroom_dropdown :: classroom_dropdown}"></div>
-                <!-- End of classroom drop down menu -->
+<!--                &lt;!&ndash; classroom dropdown menu &ndash;&gt;-->
+<!--                <div th:replace="~{fragments/classroom_dropdown :: classroom_dropdown}"></div>-->
+<!--                &lt;!&ndash; End of classroom drop down menu &ndash;&gt;-->
             </div>
             <!--end of button & dropdown container-->
             <div class="container mt-2 pt-2">
-                <table id="students-table" class="table table-striped table-hover table-bordered">
+                <table id="students-writing-table" class="table table-striped table-hover table-bordered">
                     <thead>
                     <tr>
                         <th scope="col">Name</th>
@@ -76,23 +76,26 @@
                         <th scope="col">Next Step <span class="about-symbol material-symbols-outlined"
                                                         style="font-size: 20px;">arrow_circle_up</span>
                         </th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
                     </thead>
 
                     <tbody>
                     <th:block th:each="student : ${students}">
-                        <!--                <tr th:each="student : ${listStudents}">-->
-                        <tr th:each="meeting : ${student.meetings}" th:if="${meeting.subject == 'Writing'}">
+                        <tr th:each="meeting : ${student.meetings}">
                             <td style="white-space: nowrap; width: 3%">
                                 <a id="student-btn" class="btn btn-light color-2"
                                    th:text="${student.firstName + ' ' + student.lastName}"
                                    th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
                             </td>
                             <td style="white-space: nowrap; width: 3%" th:text="${meeting.date}"></td>
-                            <!-- <td th:unless="${meeting.subject=='Reading'}"></td>-->
                             <td th:text="${meeting.nextStep}"></td>
-                            <!-- <td th:unless="${meeting.subject=='Reading'}"></td>-->
-                            <!--                    </th:block>-->
+                            <td style="white-space: nowrap; width: 3%">
+                                <a th:href="@{/notetaker/writing}" class="btn d-flex justify-content-center"
+                                   style="border: none; background: transparent;">
+                                    <span class="students-symbol material-symbols-outlined">add</span>
+                                </a>
+                            </td>
                         </tr>
                     </th:block>
 
