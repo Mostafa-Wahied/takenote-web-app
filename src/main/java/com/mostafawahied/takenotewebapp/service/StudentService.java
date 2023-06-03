@@ -11,7 +11,7 @@ public interface StudentService {
 
     List<Student> getAllStudents(Authentication authentication);
 
-    void saveStudent(Student student, Long classroomId);
+    void saveStudent(Student student, Long classroomId, Authentication authentication);
 
     Student getStudentById(long id);
 

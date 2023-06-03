@@ -1,17 +1,21 @@
 package com.mostafawahied.takenotewebapp.controller;
 
 import com.google.gson.Gson;
+import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import com.mostafawahied.takenotewebapp.service.ClassroomService;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.service.StudentService;
+import com.mostafawahied.takenotewebapp.service.FileImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +29,8 @@ public class StudentController {
     private MeetingService meetingService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FileImportService fileImportService;
 
     //    viewHomePage
     @GetMapping("/")
@@ -82,15 +88,38 @@ public class StudentController {
     // save student to database
     @PostMapping("/saveStudent")
     public String saveStudent(@ModelAttribute("student") Student student,
-                              @RequestParam(value = "classroomId") Long classroomId,
-                              Model model) throws Exception {
-        if (classroomId == null) {
-            model.addAttribute("errorMessage", "A classroom must be selected");
-            return "new_student";
-        }
-        studentService.saveStudent(student, classroomId);
+                              Authentication authentication) throws Exception {
+        String userEmail = classroomService.getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(userEmail);
+        Long classroomId = user.getSelectedClassroomId();
+        studentService.saveStudent(student, classroomId, authentication);
         return "redirect:/showNewStudentForm?success";
     }
+
+    // import students from a csv or excel file
+    @PostMapping("/importStudents")
+    public String importStudents(@RequestParam("file") MultipartFile file,
+                                 @RequestParam(name = "hasHeader", defaultValue = "false") boolean hasHeader,
+                                 Model model, Authentication authentication) throws Exception {
+        String userEmail = classroomService.getUserEmailFromAuthentication(authentication);
+        User user = userRepository.findUserByEmail(userEmail);
+        Long classroomId = user.getSelectedClassroomId();
+        if (file.isEmpty()) {
+            model.addAttribute("errorMessage", "Please select a file to upload");
+            return "new_student";
+        }
+        try {
+            List<Student> students = fileImportService.importStudents(file, hasHeader);
+            for (Student student : students) {
+                studentService.saveStudent(student, classroomId, authentication);
+            }
+        } catch (IOException e) {
+            model.addAttribute("errorMessage", "Error importing students: " + e.getMessage());
+            return "new_student";
+        }
+        return "redirect:/showNewStudentForm?importSuccess";
+    }
+
 
     //    update student info
     @GetMapping("/showUpdateForm/{id}")

@@ -62,12 +62,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void saveStudent(Student student, Long classroomId) {
+    public void saveStudent(Student student, Long classroomId, Authentication authentication) {
+        // Obtain the email address of the user from the CustomOAuth2User object
+        String email = getUserEmailFromAuthentication(authentication);
+        // Find the user by email
+        User user = userRepository.findUserByEmail(email);
         if (classroomId != null) {
             Classroom classroom = classroomRepository.findById(classroomId)
                     .orElseThrow(() -> new ResourceNotFoundException("Classroom not found with id: " + classroomId));
+            classroom.setUser(user);
             student.setClassroom(classroom);
         }
+        student.setUser(user);
         this.studentRepository.save(student);
     }
 

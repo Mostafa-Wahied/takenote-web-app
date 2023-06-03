@@ -22,10 +22,9 @@ public class Classroom {
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Student> students;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false
-    )
-//            , columnDefinition = "int default 0")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+//            , columnDefinition = "int default 0")
 
     public Classroom(String className) {
         this.className = className;

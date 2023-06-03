@@ -33,52 +33,77 @@
 <main>
     <div class="animate__animated animate__fadeIn container">
         <br>
-        <p class="display-6 text-center">Add New Student</p>
-        <div class="m-5 p-5 text-center">
 
+        <figure class="text-center mt-3">
+            <p class="display-6 text-center fs-3 text-secondary"
+               style="font-family: 'Montserrat', sans-serif">Add / Import Students</p>
+        </figure>
+
+        <div class="p-2">
             <!--            error message-->
             <div th:if="${param.error}">
                 <div class="alert alert-info text-center" th:text="${errorMessage}"></div>
             </div>
-            <!--                            end of success message-->
+            <!--                            end of error message-->
 
-            <!--            success message-->
+            <!--           Save success message-->
             <div th:if="${param.success}">
                 <div class="alert alert-info text-center">Your new student have been saved</div>
             </div>
             <!--                            end of success message-->
 
-            <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
-                <div class="container d-flex justify-content-center mb-2">
-                    <select id="classroom-select" class="form-select rounded-pill"
-                            aria-label="Default select example"
-                            style="width: 10vw" name="classroomId" required>
-                        <option
-                                th:if="${classrooms.isEmpty()}" disabled selected>No Classrooms Available
-                        </option>
-                        <option
-                                th:if="${!classrooms.isEmpty()}" th:each="classroom : ${classrooms}"
-                                th:text="${classroom.className}"
-                                th:value="${classroom.id}">
-                        </option>
-                    </select>
-                </div>
-                <input type="hidden" id="classroom-id" name="classroomId" value="">
-                <label>
-                    <input type="text" th:field="*{firstName}" placeholder="First Name"
-                           class="form-control rounded-pill mb-4 col-4" required>
-                </label>
-                <label>
-                    <input type="text" th:field="*{lastName}" placeholder="Last Name"
-                           class="form-control rounded-pill mb-4 col-4" required>
-                </label>
-                <br>
-                <button th:if="${classrooms.isEmpty()}"
-                        type="submit" class="btn btn-primary rounded-pill disabled">Save Student</button>
-                <button th:if="${!classrooms.isEmpty()}"
-                        type="submit" class="btn btn-primary rounded-pill">Save Student</button>
-            </form>
+            <!--           Import success message-->
+            <div th:if="${param.importSuccess}">
+                <div class="alert alert-info text-center">Your students have been imported</div>
+            </div>
+            <!--                            end of success message-->
+            <div class="card p-3 my-3 text-center" style="width:60%; margin: auto">
+                <p class="text-center text-secondary">Add Student</p>
+                <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
+                    <div class="container d-flex justify-content-center mb-2">
+                    </div>
+                    <input type="hidden" id="classroom-id" name="classroomId" value="">
+                    <label>
+                        <input type="text" th:field="*{firstName}" placeholder="First Name"
+                               class="form-control rounded-pill mb-4 col-4" required>
+                    </label>
+                    <label>
+                        <input type="text" th:field="*{lastName}" placeholder="Last Name"
+                               class="form-control rounded-pill mb-4 col-4" required>
+                    </label>
+                    <br>
+                    <button th:if="${classrooms.isEmpty()}"
+                            type="submit" class="btn btn-primary rounded-pill disabled">Save Student
+                    </button>
+                    <button th:if="${!classrooms.isEmpty()}"
+                            type="submit" class="btn btn-primary rounded-pill">Save Student
+                    </button>
+                </form>
+            </div>
 
+            <p class="text-center">or</p>
+
+            <!--importing students from a csv or excel-->
+            <div class="card p-3 my-3 text-center" style="width:60%; margin: auto">
+                <p class="text-center text-secondary">Import Students</p>
+                <form action="#" th:action="@{/importStudents}" method="POST" enctype="multipart/form-data">
+                    <input id="file" type="file" name="file" accept=".csv,.xlsx" required>
+                    <div class="form-check d-inline-block">
+                        <input class="form-check-input" type="checkbox" name="hasHeader" id="hasHeader" value="true">
+                        <label class="form-check-label" for="hasHeader">
+                            File has a header row?*
+                        </label>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary rounded-pill my-2">Import Students</button>
+                </form>
+                <p class="text-muted my-2" style="font-size: 0.8rem">
+                    * Files accepted: .csv and .xlsx
+                    <br>
+                    * If your file has a header row, please check the box above
+                </p>
+            </div>
+            <!--end of importing-->
             <hr class="mx-auto">
             <!-- back to students btn -->
             <div th:replace="~{fragments/back_to_student_btn :: back_to_students_btn}"></div>

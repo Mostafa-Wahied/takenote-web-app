@@ -30,6 +30,9 @@ public class Student {
     @ManyToOne(optional = false)
     @JoinColumn(name = "classroom_id", nullable = false)
     private Classroom classroom;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
