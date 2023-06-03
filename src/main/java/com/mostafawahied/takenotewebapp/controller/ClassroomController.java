@@ -79,15 +79,15 @@ public class ClassroomController {
                                   @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm,
                                   Authentication authentication, Model model) {
         if (confirm) {
-            if (id != 0) {
-                classroomService.deleteClassroomById(id);
-            }
             String userEmail = studentService.getUserEmailFromAuthentication(authentication);
             User user = userRepository.findUserByEmail(userEmail);
             long selectedClassroomId = user.getSelectedClassroomId();
             if (selectedClassroomId == id) {
                 user.setSelectedClassroomId(0);
                 userRepository.save(user);
+            }
+            if (id != 0) {
+                classroomService.deleteClassroomById(id);
             }
         }
         return "redirect:/notebook/students";

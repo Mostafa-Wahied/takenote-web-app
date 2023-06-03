@@ -3,6 +3,7 @@ package com.mostafawahied.takenotewebapp.service;
 import com.mostafawahied.takenotewebapp.config.CustomOAuth2User;
 import com.mostafawahied.takenotewebapp.exception.ResourceNotFoundException;
 import com.mostafawahied.takenotewebapp.model.Classroom;
+import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.ClassroomRepository;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,15 @@ public class ClassroomServiceImpl implements ClassroomService {
         classroomRepository.deleteById(id);
     }
 
-
+    // get all user's classroom ids
+    @Override
+    public List<Long> getAllClassroomIds(Authentication authentication) {
+        // Obtain the email address of the user from the CustomOAuth2User object
+        String email = getUserEmailFromAuthentication(authentication);
+        // Find the user by email
+        User user = userRepository.findUserByEmail(email);
+        // Return the list of classroom ids
+        List<Long> classroomIds = user.getClassrooms().stream().map(Classroom::getId).toList();
+        return classroomIds;
+    }
 }

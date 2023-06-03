@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -82,6 +83,9 @@ public class StudentController {
         model.addAttribute("student", student);
         model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
         model.addAttribute("classroomId", classroomId);
+        model.addAttribute("classroomIds", classroomService.getAllClassroomIds(authentication));
+        String userEmail = classroomService.getUserEmailFromAuthentication(authentication);
+        model.addAttribute("selectedClassroomId", userRepository.findUserByEmail(userEmail).getSelectedClassroomId());
         return "new_student";
     }
 
@@ -100,13 +104,17 @@ public class StudentController {
     @PostMapping("/importStudents")
     public String importStudents(@RequestParam("file") MultipartFile file,
                                  @RequestParam(name = "hasHeader", defaultValue = "false") boolean hasHeader,
-                                 Model model, Authentication authentication) throws Exception {
+                                 RedirectAttributes redirectAttributes, Authentication authentication) throws Exception {
         String userEmail = classroomService.getUserEmailFromAuthentication(authentication);
         User user = userRepository.findUserByEmail(userEmail);
         Long classroomId = user.getSelectedClassroomId();
         if (file.isEmpty()) {
-            model.addAttribute("errorMessage", "Please select a file to upload");
-            return "new_student";
+            redirectAttributes.addFlashAttribute("errorMessage", "Please select a file to upload");
+            return "redirect:/showNewStudentForm?error";
+        }
+        if (!isFileFormatValid(file)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid file format. Please upload a CSV or Excel file.");
+            return "redirect:/showNewStudentForm?error";
         }
         try {
             List<Student> students = fileImportService.importStudents(file, hasHeader);
@@ -114,12 +122,19 @@ public class StudentController {
                 studentService.saveStudent(student, classroomId, authentication);
             }
         } catch (IOException e) {
-            model.addAttribute("errorMessage", "Error importing students: " + e.getMessage());
-            return "new_student";
+            redirectAttributes.addFlashAttribute("errorMessage", "Error importing students: " + e.getMessage());
+            return "redirect:/showNewStudentForm?error";
         }
         return "redirect:/showNewStudentForm?importSuccess";
     }
 
+    //    helper method to validate the file format
+    private boolean isFileFormatValid(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        assert fileName != null;
+        String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        return fileExtension.equals("csv") || fileExtension.equals("xlsx") || fileExtension.equals("xls");
+    }
 
     //    update student info
     @GetMapping("/showUpdateForm/{id}")

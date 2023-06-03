@@ -17,4 +17,7 @@ public interface ClassroomService {
     Classroom getClassroomById(long id);
 
     void deleteClassroomById(long id);
+
+    // get all user's classroom ids
+    List<Long> getAllClassroomIds(Authentication authentication);
 }
