@@ -57,6 +57,13 @@
                 <div class="alert alert-info text-center">Your students have been imported</div>
             </div>
             <!--                            end of success message-->
+
+            <!--     if classroom is empty       -->
+            <div th:if="${classrooms.isEmpty()}">
+                <div class="alert alert-info text-center">You have no classrooms yet. Please add a classroom first
+                </div>
+            </div>
+
             <div class="card p-3 my-3 text-center" style="width:60%; margin: auto">
                 <p class="text-center text-secondary">Add Student</p>
                 <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
@@ -89,13 +96,20 @@
                 <form action="#" th:action="@{/importStudents}" method="POST" enctype="multipart/form-data">
                     <input id="file" type="file" name="file" accept=".csv,.xlsx" required>
                     <div class="form-check d-inline-block">
-                        <input class="form-check-input" type="checkbox" name="hasHeader" id="hasHeader" value="true">
+                        <input class="form-check-input" type="checkbox" name="hasHeader" id="hasHeader"
+                               value="true">
                         <label class="form-check-label" for="hasHeader">
                             File has a header row?*
                         </label>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary rounded-pill my-2">Import Students</button>
+                    <div th:if="${classrooms.isEmpty()}">
+                        <button type="submit" class="btn btn-primary rounded-pill mt-2 disabled">Import Students
+                        </button>
+                    </div>
+                    <button th:if="${!classrooms.isEmpty()}"
+                            type="submit" class="btn btn-primary rounded-pill my-2">Import Students
+                    </button>
                 </form>
                 <p class="text-muted my-2" style="font-size: 0.8rem">
                     * Files accepted: .csv and .xlsx
