@@ -91,19 +91,16 @@
                     <tbody>
 
                     <th:block th:each="student : ${students}">
-                        <tr th:each="meeting, iterStat : ${student.meetings}">
+<!--                        <tr th:each="meeting, iterStat : ${student.meetings}">-->
+                            <tr>
                             <td style="white-space: nowrap; width: 3%">
                                 <a id="student-btn" class="btn btn-light color-2"
                                    th:text="${student.firstName + ' ' + student.lastName}"
                                    th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
                             </td>
-                            <td style="white-space: nowrap; width: 15%" th:text="${meeting.subjectLevel}"></td>
-                            <td style="white-space: nowrap; width: 15%" th:text="${meeting.date}"
-                                th:if="${meeting.subject=='Reading'}"></td>
-                            <td th:unless="${meeting.subject=='Reading'}"></td>
-                            <td style="white-space: nowrap; width: 15%" th:text="${meeting.date}"
-                                th:if="${meeting.subject=='Writing'}"></td>
-                            <td th:unless="${meeting.subject=='Writing'}"></td>
+                            <td th:text="${student.meetings[0].subject == 'Reading'} and ${!student.meetings.isEmpty()} ? ${student.meetings[0].subjectLevel} : ''"></td>
+                            <td th:text="${student.meetings[0].subject == 'Reading'} and ${!student.meetings.isEmpty()} ? ${student.meetings[0].date} : ''"></td>
+                            <td th:text="${student.meetings[1].subject == 'Writing'} and ${!student.meetings.isEmpty()} ? ${student.meetings[1].date} : ''"></td>
                             <td>
                                 <div class="d-flex" style="position: relative; right: 1rem;">
                                     <a th:href="@{/showUpdateForm/{id}(id=${student.id})}"

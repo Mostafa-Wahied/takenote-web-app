@@ -100,8 +100,13 @@
             <div class="card p-3 my-3 text-center" style="width:60%; margin: auto">
                 <p class="text-center text-secondary">Import Students</p>
                 <form action="#" th:action="@{/importStudents}" method="POST" enctype="multipart/form-data">
-                    <div class="mb-3 mx-auto" style="width: 40%">
-                        <input class="form-control form-control-sm" id="formFileSm" type="file" name="file" accept=".csv,.xlsx" required>
+                    <div th:if="${!classroomIds.contains(selectedClassroomId)}" class="mb-3 mx-auto" style="width: 40%">
+                        <input class="form-control form-control-sm" id="formFileSmDisabled" type="file" name="file"
+                               accept=".csv,.xlsx" disabled required>
+                    </div>
+                    <div th:if="${classroomIds.contains(selectedClassroomId)}" class="mb-3 mx-auto" style="width: 40%">
+                        <input class="form-control form-control-sm" id="formFileSm" type="file" name="file"
+                               accept=".csv,.xlsx" required>
                     </div>
                     <div class="form-check d-inline-block">
                         <input class="form-check-input" type="checkbox" name="hasHeader" id="hasHeader"

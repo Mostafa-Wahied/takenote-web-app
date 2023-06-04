@@ -165,8 +165,9 @@ public class StudentServiceImpl implements StudentService {
             for (Student student : studentsList) {
                 Comparator<Meeting> meetingDateComparator = Comparator.comparing(Meeting::getDate);
                 List<Meeting> allMeetings = student.getMeetings();
-                Meeting meeting = allMeetings.stream().max(meetingDateComparator).orElse(new Meeting());
-                student.setMeetings(List.of(meeting));
+                Meeting readingMeeting = allMeetings.stream().filter(m -> m.getSubject().equals("Reading")).max(meetingDateComparator).orElse(new Meeting());
+                Meeting writingMeeting = allMeetings.stream().filter(m -> m.getSubject().equals("Writing")).max(meetingDateComparator).orElse(new Meeting());
+                student.setMeetings(List.of(readingMeeting, writingMeeting));
                 newStudentsList.add(student);
             }
             return newStudentsList;
