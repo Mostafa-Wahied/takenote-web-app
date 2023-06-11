@@ -29,10 +29,10 @@ public class MyControllerAdvice {
     @Autowired
     private StudentService studentService;
 
-//    @ExceptionHandler(value = {Exception.class})
-//    public ResponseEntity<Object> handleException(Exception ex) {
-//        return new ResponseEntity<>("Error occurred: " + ex.getMessage() + "<br>" + ex, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(value = {Exception.class})
+    public ResponseEntity<Object> handleException(Exception ex) {
+        return new ResponseEntity<>("Error occurred: " + ex.getMessage() + "<br>" + ex, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
@@ -57,15 +57,19 @@ public class MyControllerAdvice {
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
             String name = "";
+            String email = "";
             if (principal instanceof CustomOAuth2User customOAuth2User) {
                 // handle Google login
                 name = customOAuth2User.getName();
+                email = customOAuth2User.getEmail();
             } else if (principal instanceof UserDetails) {
                 // handle local login
                 User user = userRepository.findUserByEmail(((UserDetails) principal).getUsername());
                 name = user.getUsername();
+                email = user.getEmail();
             }
             model.addAttribute("name", name);
+            model.addAttribute("email", email);
         }
     }
 

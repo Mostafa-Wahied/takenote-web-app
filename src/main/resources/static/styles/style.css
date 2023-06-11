@@ -564,6 +564,18 @@ tbody tr:last-child :last-child {
 
 
 /*for dropdown button in navigation only*/
-#navbarNavDropdown > ul > li:nth-child(7) #classroomDropdown  {
-font-size: 0.78rem;
+#navbarNavDropdown > ul > li:nth-child(7) #classroomDropdown {
+    font-size: 0.78rem;
+}
+
+.logout-google-icon {
+    font-variation-settings: 'FILL' 0,
+    'wght' 700,
+    'GRAD' 0,
+    'opsz' 48;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    color: #fd6048 !important;
 }
