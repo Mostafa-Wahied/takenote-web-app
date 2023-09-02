@@ -21,11 +21,11 @@ public interface MeetingService {
 
     void saveMultipleGuidedReadingMeetings(String[] ids, Date date, Character readingLevel, String teachingPoint, Model model);
 
-    void saveMultipleStrategyReadingMeetings(String[] ids, Date date, Character readingLevel, String teachingPoint, Model model);
+    void saveMultipleStrategyReadingMeetings(String[] ids, Date date,  String teachingPoint, Model model);
 
     void saveMultipleStrategyWritingMeetings(String[] ids, Date date, String teachingPoint, Model model);
 
-    void saveFollowUpMeetings(String[] ids, List<String> strengthList, List<String> nextStepsList);
+    void saveFollowUpMeetings(String[] ids, List<String> strengthList, List<String> nextStepsList, Model model);
 
     Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Authentication authentication);
 

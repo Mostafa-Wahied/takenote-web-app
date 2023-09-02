@@ -105,7 +105,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public void saveMultipleStrategyReadingMeetings(String[] ids, Date date, Character readingLevel, String teachingPoint, Model model) {
+    public void saveMultipleStrategyReadingMeetings(String[] ids, Date date, String teachingPoint, Model model) {
         // Create a list to store the selected students
         List<Student> students = new ArrayList<>();
         List<Meeting> meetings = new ArrayList<>();
@@ -119,7 +119,7 @@ public class MeetingServiceImpl implements MeetingService {
             newMeeting.setDate(date);
             newMeeting.setSubject("Reading");
             newMeeting.setType("Strategy Group - Reading");
-            newMeeting.setSubjectLevel(readingLevel);
+//            newMeeting.setSubjectLevel(readingLevel);
             newMeeting.setTeachingPoint(teachingPoint);
             this.saveMeeting(newMeeting);
             meetings.add(newMeeting);
@@ -156,7 +156,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public void saveFollowUpMeetings(String[] ids, List<String> strengthList, List<String> nextStepsList) {
+    public void saveFollowUpMeetings(String[] ids, List<String> strengthList, List<String> nextStepsList, Model model) {
         // Iterate over the students and create a Meeting object for each one
         for (int i = 0; i < ids.length; i++) {
             int theId = Integer.parseInt(ids[i]);
@@ -170,6 +170,8 @@ public class MeetingServiceImpl implements MeetingService {
             }
             this.saveMeeting(followUpMeeting);
         }
+            model.addAttribute("meetingObject", this.getMeetingById(Long.parseLong(ids[0])).getType());
+
     }
 
     @Override
