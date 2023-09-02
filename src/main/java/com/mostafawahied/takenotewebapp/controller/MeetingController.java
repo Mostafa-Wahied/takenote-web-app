@@ -101,10 +101,10 @@ public class MeetingController {
     @PostMapping("/saveStrategyReadingMeeting")
     public String saveMultipleStrategyReadingMeeting(@RequestParam(name = "id") String[] ids,
                                                      @RequestParam(name = "date") Date date,
-                                                     @RequestParam(name = "readingLevelValue") Character readingLevel,
+//                                                     @RequestParam(name = "readingLevelValue") Character readingLevel,
                                                      @RequestParam(name = "teachingPointValue") String teachingPoint,
                                                      Model model) {
-        meetingService.saveMultipleStrategyReadingMeetings(ids, date, readingLevel, teachingPoint, model);
+        meetingService.saveMultipleStrategyReadingMeetings(ids, date, teachingPoint, model);
         return "follow_up_form";
     }
 
@@ -129,10 +129,11 @@ public class MeetingController {
 
     // Get the previous meeting and save update it with Strength and Next step
     @PostMapping("/saveFollowUpMeeting")
-    public String saveFollowUpGuidedReadingMeeting(@RequestParam(name = "meetingId") String[] ids,
+    public String saveFollowUpGuidedReadingMeeting(Model model, @RequestParam(name = "meetingId") String[] ids,
                                                    @RequestParam(name = "strengthValues") List<String> strengthList,
                                                    @RequestParam(name = "nextStepValues") List<String> nextStepsList) {
-        meetingService.saveFollowUpMeetings(ids, strengthList, nextStepsList);
+        meetingService.saveFollowUpMeetings(ids, strengthList, nextStepsList, model);
+//        model.addAttribute(meetingService.getMeetingById(Long.parseLong(ids[0])));
         return "redirect:/notebook/students";
     }
 }
