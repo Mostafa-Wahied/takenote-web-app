@@ -227,7 +227,8 @@ function drawAverageSubjectLevelProgressLineChart() {
         .then(response => response.json())
         .then(data => {
             // Get average reading level for all meetings for the logged in user
-            let avgReadingLevel = document.querySelector('#average_reading_level_float').dataset.avgLevel;
+            let avgReadingLevelFloatString = document.querySelector('#average_reading_level_float').dataset.avgLevel;
+            let avgReadingLevel = Math.round(avgReadingLevelFloatString);
             console.log("avgReadingLevel: " + avgReadingLevel);
             let averageSubjectLevelElement = document.querySelector('#average-subject-level');
             if (avgReadingLevel == null || avgReadingLevel == undefined || avgReadingLevel == 0) {
@@ -235,8 +236,9 @@ function drawAverageSubjectLevelProgressLineChart() {
                 averageSubjectLevelElement.textContent = "0";
             } else {
                 // Convert the average reading level to a letter
-                let letter = String.fromCharCode('Z'.charCodeAt(0) - avgReadingLevel + 1);
+                let letter = String.fromCharCode('A'.charCodeAt(0) + avgReadingLevel - 1);
                 // Update the content of the <p> element with the current average subject level value
+                console.log("avgReadingLevel: ", letter);
                 averageSubjectLevelElement.textContent = letter;
             }
             // end of getting current average subject level value
@@ -251,7 +253,7 @@ function drawAverageSubjectLevelProgressLineChart() {
                 let avgSubjectLevel = row.avgSubjectLevel;
                 // Add the tooltip content for each row
                 // Use the format function to show the letter
-                let letter = String.fromCharCode('Z'.charCodeAt(0) - avgSubjectLevel + 1);
+                let letter = String.fromCharCode('A'.charCodeAt(0) + avgSubjectLevel - 1);
                 let tooltip = `<div>Average Subject Level on ${date.toLocaleDateString()}: ${letter}</div>`;
                 chartData.addRow([date, avgSubjectLevel, tooltip]);
             });
@@ -272,20 +274,20 @@ function drawAverageSubjectLevelProgressLineChart() {
                     textPosition: 'none',
                     // ticks: [1, 5, 10, 15, 20, 25],
                     format: function (value) {
-                        return String.fromCharCode('Z'.charCodeAt(0) - value + 1);
+                        return String.fromCharCode('A'.charCodeAt(0) + value - 1);
                     },
                     gridlines: {
                         color: 'transparent'
                     },
-                    viewWindow: {
-                        min: 1,
-                        max: 26
-                    },
+                    // viewWindow: {
+                    //     min: 1,
+                    //     max: 26
+                    // },
                     // Set the format option to display whole numbers
                     format: '#',
                     viewWindow: {
-                        min: 1,
-                        max: 30
+                        min: 0.1,
+                        max: 27
                     },
                     // Set the format option to show the letter for each tick
                     ticks: [{v: 1, f: 'Z'},

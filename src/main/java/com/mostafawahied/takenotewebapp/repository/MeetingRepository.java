@@ -28,14 +28,14 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     List<Object[]> getReadingMeetingsByStudentBySubject();
 
     // get meetings of the students for a given user
-//    @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.classroom in :classrooms GROUP BY m.date ORDER BY m.date")
+//    @Query("SELECT m.date, AVG(CAST(ASCII(m.subjectLevel) - ASCII('A') + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.classroom in :classrooms GROUP BY m.date ORDER BY m.date")
 //    List<Object[]> getAverageSubjectLevelProgress(@Param("classrooms") Collection<Classroom> classrooms);
-    @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.classroom.id = :classroomId GROUP BY m.date ORDER BY m.date")
+    @Query("SELECT m.date, AVG(CAST(ASCII(m.subjectLevel) - ASCII('A') + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.classroom.id = :classroomId GROUP BY m.date ORDER BY m.date")
     List<Object[]> getAverageSubjectLevelProgress(@Param("classroomId") long classroomId);
 
 
     // get meetings of the students for a given user
-    @Query("SELECT m.date, AVG(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) FROM Meeting m join Student s on m.student.id = s.id where m.subject = 'Reading' and s.id = :studentId GROUP BY m.date ORDER BY m.date")
+    @Query("SELECT m.date, AVG(CAST(ASCII(m.subjectLevel) - ASCII('A') + 1 AS float)) FROM Meeting m join Student s on m.student.id = s.id where m.subject = 'Reading' and s.id = :studentId GROUP BY m.date ORDER BY m.date")
     List<Object[]> getStudentAverageSubjectLevelProgress(long studentId);
 
     // get all meetings for the students of a given user
@@ -48,10 +48,10 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 
 
     // get the average reading level for all meetings for the logged in user
-    @Query("select avg(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) from Meeting m where m.subject = 'Reading' and m.student.classroom in :classrooms")
+    @Query("select AVG(CAST(ASCII(m.subjectLevel) - ASCII('A') + 1 AS float)) from Meeting m where m.subject = 'Reading' and m.student.classroom in :classrooms")
     Float getAverageReadingLevel(@Param("classrooms") Collection<Classroom> classrooms);
 
     // get the average reading level for the meeting of the selected classroom id
-    @Query("select avg(CAST(ASCII('Z') - ASCII(m.subjectLevel) + 1 AS float)) from Meeting m where m.subject = 'Reading' and m.student.classroom.id = :classroomId")
+    @Query("select AVG(CAST(ASCII(m.subjectLevel) - ASCII('A') + 1 AS float)) from Meeting m where m.subject = 'Reading' and m.student.classroom.id = :classroomId")
     Float getAverageReadingLevelByClassroomId(@Param("classroomId") long classroomId);
 }
