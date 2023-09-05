@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-4">
                                 <button type="button" class="btn"
-                                        onclick="confirmDeleteClassroom('${classroom.id}')">
+                                        th:attr="onclick='confirmDeleteClassroom(' + ${classroom.id} + ')'">
                                     <span class="students-symbol material-symbols-outlined"
                                           style="font-size: 1.3rem"
                                     >delete</span>
@@ -55,7 +55,7 @@
 
     <form id="delete-classroom-form" th:action="@{/classroom/delete/{id}(id=${selectedClassroomId})}"
           method="post" style="display: none;">
-        <input type="hidden" name="selectedClassroomId" value="0">
+        <input type="hidden" name="id" value="0">
         <input type="hidden" name="confirm" value="true">
     </form>
 

@@ -26,7 +26,9 @@ function confirmDeleteClassroom(classroomId) {
         return;
     }
     if (confirm("Are you sure you want to delete this classroom?")) {
-        document.querySelector("#delete-classroom-form input[name='selectedClassroomId']").value = classroomId;
-        document.querySelector("#delete-classroom-form").submit();
+        const deleteForm = document.querySelector("#delete-classroom-form");
+        deleteForm.querySelector("input[name='id']").value = classroomId;
+        deleteForm.setAttribute("action", `/classroom/delete/${classroomId}`);
+        deleteForm.submit();
     }
 }
