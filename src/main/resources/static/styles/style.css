@@ -213,7 +213,7 @@ hr {
 
 .about-takenote-titles:hover {
     color: #ff2200;
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 
 .about-p {

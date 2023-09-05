@@ -46,3 +46,18 @@
         padding-block: 5px;
     }
 }
+
+/* media between 576px and 768px*/
+@media (min-width: 576px) and (max-width: 950px) {
+    .card-text {
+        font-size: 1.6rem;
+        margin-left: 4rem;
+    }
+
+    .card-number {
+        font-size: 2.5rem;
+        padding-top: 3rem;
+        margin-left: 2rem;
+        /*padding-right: 1rem;*/
+    }
+}
