@@ -61,6 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/reset_password",
                         "/",
                         "/about",
+                        "/privacy-policy",
                         "/js/**",
                         "/styles/**",
                         "/image/**").permitAll()

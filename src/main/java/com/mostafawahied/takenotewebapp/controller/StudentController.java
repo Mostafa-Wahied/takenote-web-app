@@ -33,13 +33,7 @@ public class StudentController {
     @Autowired
     private FileImportService fileImportService;
 
-    //    viewHomePage
-    @GetMapping("/")
-    public String homePage(Model model) throws Exception {
-        //        for navigation active state
-        model.addAttribute("activePage", "home");
-        return "index";
-    }
+
 
     @GetMapping("/notebook/students")
     public String viewAllStudentsPage(Model model, Student student, Authentication authentication) throws Exception {
@@ -173,13 +167,7 @@ public class StudentController {
     }
 
 
-    //    view about page
-    @GetMapping("/about")
-    public String viewAboutPage(Model model) throws Exception {
-//        for navigation active state
-        model.addAttribute("activePage", "about");
-        return "about";
-    }
+
 
     // Reading Subject Levels progress Line Chart Card
     @ResponseBody
