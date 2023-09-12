@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://takenote.tech/sitemap.xml
