@@ -1,6 +1,6 @@
 # TakeNote
  
-Check out the live website [here](https://takenote-euho.onrender.com/)
+Check out the live website (https://takenote.tech/)
 
 ## Description
 TakeNote is a web application that allows teachers to take observational notes on students' reading and writing progress. Teachers can easily retrieve data and view an overview of students by reading or writing groups. TakeNote is a tool that helps teachers to conduct ongoing formative assessment and to make informed decisions about students' learning needs.
