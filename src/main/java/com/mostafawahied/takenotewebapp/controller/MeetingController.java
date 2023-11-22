@@ -101,7 +101,6 @@ public class MeetingController {
     @PostMapping("/saveStrategyReadingMeeting")
     public String saveMultipleStrategyReadingMeeting(@RequestParam(name = "id") String[] ids,
                                                      @RequestParam(name = "date") Date date,
-//                                                     @RequestParam(name = "readingLevelValue") Character readingLevel,
                                                      @RequestParam(name = "teachingPointValue") String teachingPoint,
                                                      Model model) {
         meetingService.saveMultipleStrategyReadingMeetings(ids, date, teachingPoint, model);

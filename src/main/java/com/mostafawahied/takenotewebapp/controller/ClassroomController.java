@@ -6,6 +6,7 @@ import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import com.mostafawahied.takenotewebapp.service.ClassroomService;
 import com.mostafawahied.takenotewebapp.service.StudentService;
+import com.mostafawahied.takenotewebapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -18,12 +19,16 @@ import java.util.List;
 
 @Controller
 public class ClassroomController {
+    private final ClassroomService classroomService;
+    private final StudentService studentService;
+    private final UserService userService;
+
     @Autowired
-    private ClassroomService classroomService;
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private UserRepository userRepository;
+    public ClassroomController(ClassroomService classroomService, StudentService studentService, UserService userService) {
+        this.classroomService = classroomService;
+        this.studentService = studentService;
+        this.userService = userService;
+    }
 
     @GetMapping("/classrooms")
     public String viewClassroomsPage(Model model, Authentication authentication) throws Exception {
@@ -64,11 +69,10 @@ public class ClassroomController {
     // also using HttpServletRequest to get the referer url to redirect to the page where the form is submitted
     @PostMapping("/select-classroom")
     public String selectClassroom(@RequestParam String selectedClassroomId, HttpServletRequest request, Authentication authentication) {
-        String email = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
+        User user = userService.getUser(authentication);
         long classroomId = Long.parseLong(selectedClassroomId);
         user.setSelectedClassroomId(classroomId);
-        userRepository.save(user);
+        userService.updateUser(user);
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
@@ -79,12 +83,11 @@ public class ClassroomController {
                                   @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm,
                                   Authentication authentication, Model model) {
         if (confirm) {
-            String userEmail = studentService.getUserEmailFromAuthentication(authentication);
-            User user = userRepository.findUserByEmail(userEmail);
+            User user = userService.getUser(authentication);
             long selectedClassroomId = user.getSelectedClassroomId();
             if (selectedClassroomId == id) {
                 user.setSelectedClassroomId(0);
-                userRepository.save(user);
+                userService.updateUser(user);
             }
             if (id != 0) {
                 classroomService.deleteClassroomById(id);

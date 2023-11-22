@@ -7,6 +7,7 @@ import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import com.mostafawahied.takenotewebapp.service.ClassroomService;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.service.StudentService;
+import com.mostafawahied.takenotewebapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -18,14 +19,16 @@ import java.util.*;
 
 @Controller
 public class DashboardController {
+    private final StudentService studentService;
+    private final MeetingService meetingService;
+    private final UserService userService;
+
     @Autowired
-    private StudentService studentService;
-    @Autowired
-    private MeetingService meetingService;
-    @Autowired
-    private ClassroomService classroomService;
-    @Autowired
-    private UserRepository userRepository;
+    public DashboardController(StudentService studentService, MeetingService meetingService, UserService userService) {
+        this.studentService = studentService;
+        this.meetingService = meetingService;
+        this.userService = userService;
+    }
 
 
     @GetMapping("/dashboard")
@@ -114,9 +117,7 @@ public class DashboardController {
 
     // helper method to get the user's students and classrooms and add them to the model
     public void addDashboardAttributes(Model model, Authentication authentication) throws Exception {
-        String userEmail = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(userEmail);
-        long selectedClassroomId = user.getSelectedClassroomId();
+        long selectedClassroomId = userService.getUserSelectedClassroomId(authentication);
         List<Student> students = studentService.getStudentsWithLastWritingMeetingByClassroom(authentication);
         model.addAttribute("students", students);
         model.addAttribute("studentsCount", studentService.getAllStudentsBySelectedClassroom(authentication).size());

@@ -1,12 +1,8 @@
 package com.mostafawahied.takenotewebapp.service;
 
-import com.mostafawahied.takenotewebapp.model.Classroom;
-import com.mostafawahied.takenotewebapp.model.Student;
-import com.mostafawahied.takenotewebapp.model.User;
+import com.mostafawahied.takenotewebapp.model.*;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
-import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -14,17 +10,21 @@ import org.springframework.ui.Model;
 import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class MeetingServiceImpl implements MeetingService {
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private MeetingRepository meetingRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ClassroomService classroomService;
+    private final StudentService studentService;
+    private final MeetingRepository meetingRepository;
+    private final UserService userService;
+    private final ReadingLevelService readingLevelService;
+
+    public MeetingServiceImpl(StudentService studentService, MeetingRepository meetingRepository, UserService userService, ReadingLevelService readingLevelService) {
+        this.studentService = studentService;
+        this.meetingRepository = meetingRepository;
+        this.userService = userService;
+        this.readingLevelService = readingLevelService;
+    }
 
     @Override
     public List<Meeting> getAllMeetings() {
@@ -40,7 +40,7 @@ public class MeetingServiceImpl implements MeetingService {
     public Meeting getMeetingById(long id) {
         Optional<Meeting> optional = meetingRepository.findById(id);
 
-        Meeting meeting = null;
+        Meeting meeting;
         if (optional.isPresent()) {
             meeting = optional.get();
         } else {
@@ -61,6 +61,14 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setTeachingPoint(teachingPoint);
         meeting.setNextStep(nextStep);
         this.saveMeeting(meeting);
+
+        student.setCurrentReadingLevel(readingLevel);
+        ReadingLevel newReadingLevel = new ReadingLevel();
+        newReadingLevel.setLevel(readingLevel);
+        newReadingLevel.setStudent(student);
+        newReadingLevel.setUpdateDate(meeting.getDate());
+        readingLevelService.saveReadingLevel(newReadingLevel);
+
         model.addAttribute("meetingObject", meeting);
     }
 
@@ -96,6 +104,14 @@ public class MeetingServiceImpl implements MeetingService {
             newMeeting.setSubjectLevel(readingLevel);
             newMeeting.setTeachingPoint(teachingPoint);
             this.saveMeeting(newMeeting);
+
+            student.setCurrentReadingLevel(readingLevel);
+            ReadingLevel newReadingLevel = new ReadingLevel();
+            newReadingLevel.setLevel(readingLevel);
+            newReadingLevel.setStudent(student);
+            newReadingLevel.setUpdateDate(date);
+            readingLevelService.saveReadingLevel(newReadingLevel);
+
             meetings.add(newMeeting);
         }
         // Pass the selected students to the follow-up form view as a model attribute
@@ -119,7 +135,6 @@ public class MeetingServiceImpl implements MeetingService {
             newMeeting.setDate(date);
             newMeeting.setSubject("Reading");
             newMeeting.setType("Strategy Group - Reading");
-//            newMeeting.setSubjectLevel(readingLevel);
             newMeeting.setTeachingPoint(teachingPoint);
             this.saveMeeting(newMeeting);
             meetings.add(newMeeting);
@@ -155,6 +170,8 @@ public class MeetingServiceImpl implements MeetingService {
         model.addAttribute("meetings", meetings);
     }
 
+    // Helper method to 
+
     @Override
     public void saveFollowUpMeetings(String[] ids, List<String> strengthList, List<String> nextStepsList, Model model) {
         // Iterate over the students and create a Meeting object for each one
@@ -170,218 +187,162 @@ public class MeetingServiceImpl implements MeetingService {
             }
             this.saveMeeting(followUpMeeting);
         }
-            model.addAttribute("meetingObject", this.getMeetingById(Long.parseLong(ids[0])).getType());
+        model.addAttribute("meetingObject", this.getMeetingById(Long.parseLong(ids[0])).getType());
 
     }
 
+    // Get the reading meetings count by student and type for the bar chart
     @Override
     public Map<String, Map<String, Integer>> getReadingMeetingCountByStudentAndType(Authentication authentication) {
-        Map<String, Map<String, Integer>> result = new HashMap<>();
-        Map<Long, String> studentIdToNameMap = new HashMap<>();
-        // Get a list of all students
-        String email = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        long classroomId = user.getSelectedClassroomId();
-        List<Student> students = studentService.getAllStudentsByClassroomId(classroomId);
-        // Initialize the result map with all students
-        for (Student student : students) {
-            String studentName = student.getFirstName() + " " + student.getLastName();
-            long studentId = student.getId();
-            result.put(studentName, new HashMap<>());
-            studentIdToNameMap.put(studentId, studentName);
-        }
-        List<Meeting> meetings = meetingRepository.findAll();
-        for (Meeting meeting : meetings) {
-            if (meeting.getSubject().equals("Reading")) {
-                Long studentId = meeting.getStudent().getId();
-                String meetingType = meeting.getType();
-                if (studentIdToNameMap.containsKey(studentId)) {
-                    String studentName = studentIdToNameMap.get(studentId);
-                    if (result.containsKey(studentName)) {
-                        Map<String, Integer> meetingTypes = result.get(studentName);
-                        if (meetingTypes.containsKey(meetingType)) {
-                            meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
-                        } else {
-                            meetingTypes.put(meetingType, 1);
-                        }
-                    }
-                }
-            }
-        }
-        return result;
+        return getMeetingCountByType(authentication, "Reading");
     }
 
+    // Get the writing meetings count by student and type for the bar chart
     @Override
     public Map<String, Map<String, Integer>> getWritingMeetingCountByStudentAndType(Authentication authentication) {
+        return getMeetingCountByType(authentication, "Writing");
+    }
+
+    // Helper method to get the meetings count by student and type
+    private Map<String, Map<String, Integer>> getMeetingCountByType(Authentication authentication, String subject) {
         Map<String, Map<String, Integer>> result = new HashMap<>();
-        Map<Long, String> studentIdToNameMap = new HashMap<>();
-        // Get a list of all students
-        String email = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        long classroomId = user.getSelectedClassroomId();
+        long classroomId = userService.getUserSelectedClassroomId(authentication);
         List<Student> students = studentService.getAllStudentsByClassroomId(classroomId);
         // Initialize the result map with all students
-        for (Student student : students) {
+        students.forEach(student -> {
             String studentName = student.getFirstName() + " " + student.getLastName();
-            long studentId = student.getId();
             result.put(studentName, new HashMap<>());
-            studentIdToNameMap.put(studentId, studentName);
-        }
-        List<Meeting> meetings = meetingRepository.findAll();
+        });
+        List<Meeting> meetings = meetingRepository.findMeetingsBySubjectAndClassroomId(subject, classroomId);
         for (Meeting meeting : meetings) {
-            if (meeting.getSubject().equals("Writing")) {
-                Long studentId = meeting.getStudent().getId();
-                String meetingType = meeting.getType();
-                if (studentIdToNameMap.containsKey(studentId)) {
-                    String studentName = studentIdToNameMap.get(studentId);
-                    if (result.containsKey(studentName)) {
-                        Map<String, Integer> meetingTypes = result.get(studentName);
-                        if (meetingTypes.containsKey(meetingType)) {
-                            meetingTypes.put(meetingType, meetingTypes.get(meetingType) + 1);
-                        } else {
-                            meetingTypes.put(meetingType, 1);
-                        }
-                    }
-                }
+            String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
+            String meetingType = meeting.getType();
+            result.computeIfAbsent(studentName, k -> new HashMap<>())
+                    .merge(meetingType, 1, Integer::sum);
+        }
+        return result;
+    }
+
+        // Pie Chart
+        @Override
+        public List<Map<String, Object>> getMeetingCountByType (Authentication authentication){
+            // Get a list of all students associated with the Principal
+            long classroomId = userService.getUserSelectedClassroomId(authentication);
+            List<Student> students = studentService.getAllStudentsByClassroomId(classroomId);
+            // Extract the student IDs from the list of students
+            List<Long> studentIds = students.stream().map(Student::getId).collect(Collectors.toList());
+            // Get the meeting count by type for the given student IDs
+            List<Object[]> meetingCountByType = meetingRepository.getMeetingCountByType(studentIds);
+            List<Map<String, Object>> result = new ArrayList<>();
+            for (Object[] meetingCount : meetingCountByType) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("type", meetingCount[0]);
+                map.put("count", meetingCount[1]);
+                result.add(map);
             }
+            return result;
         }
-        return result;
-    }
-
-    // Pie Chart
-    @Override
-    public List<Map<String, Object>> getMeetingCountByType(Authentication authentication) {
-        // Get a list of all students associated with the Principal
-        String email = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        long classroomId = user.getSelectedClassroomId();
-        List<Student> students = studentService.getAllStudentsByClassroomId(classroomId);
-        // Extract the student IDs from the list of students
-        List<Long> studentIds = students.stream().map(Student::getId).collect(Collectors.toList());
-        // Get the meeting count by type for the given student IDs
-        List<Object[]> meetingCountByType = meetingRepository.getMeetingCountByType(studentIds);
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (Object[] meetingCount : meetingCountByType) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("type", meetingCount[0]);
-            map.put("count", meetingCount[1]);
-            result.add(map);
+        // Get the reading meetings count by student and subject for the bar chart
+        @Override
+        public List<Map<String, Object>> getReadingMeetingCountByStudentBySubject (Authentication authentication){
+            List<Object[]> readingMeetingsCountByStudent = meetingRepository.getReadingMeetingsByStudentBySubject();
+            return getMeetingCountByStudentAndSubject(readingMeetingsCountByStudent, authentication);
         }
-        return result;
-    }
-
-    @Override
-    public List<Map<String, Object>> getReadingMeetingCountByStudentBySubject(Authentication authentication) {
-        List<Object[]> readingMeetingsCountByStudent = meetingRepository.getReadingMeetingsByStudentBySubject();
-        List<Map<String, Object>> result = new ArrayList<>();
-        String email = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        long classroomId = user.getSelectedClassroomId();
-        List<Student> students = studentService.getAllStudentsByClassroomId(classroomId);        // Create a map of student names to meeting counts
-        Map<String, Long> studentReadingMeetingCounts = new HashMap<>();
-        for (Object[] meetingCount : readingMeetingsCountByStudent) {
-            String studentName = meetingCount[0] + " " + meetingCount[1];
-            Long count = (Long) meetingCount[2];
-            studentReadingMeetingCounts.put(studentName, count);
+        // Get the writing meetings count by student and subject for the bar chart
+        @Override
+        public List<Map<String, Object>> getWritingMeetingCountByStudentBySubject (Authentication authentication){
+            List<Object[]> writingMeetingCountByStudent = meetingRepository.getWritingMeetingsByStudentBySubject();
+            return getMeetingCountByStudentAndSubject(writingMeetingCountByStudent, authentication);
         }
-        // Add a map to the result for each student
-        for (Student student : students) {
-            String studentName = student.getFirstName() + " " + student.getLastName();
-            Long count = studentReadingMeetingCounts.getOrDefault(studentName, 0L);
-            Map<String, Object> map = new HashMap<>();
-            map.put(studentName, count);
-            result.add(map);
+        // Helper method to get the meetings count by student and subject
+        private List<Map<String, Object>> getMeetingCountByStudentAndSubject (List < Object[]>
+        meetingCountByStudent, Authentication authentication){
+            long classroomId = userService.getUserSelectedClassroomId(authentication);
+            List<Student> students = studentService.getAllStudentsByClassroomId(classroomId);
+            // Create a map of student names to meeting counts
+            Map<String, Long> studentMeetingCounts = new HashMap<>();
+            for (Object[] meetingCount : meetingCountByStudent) {
+                String studentName = meetingCount[0] + " " + meetingCount[1];
+                Long count = (Long) meetingCount[2];
+                studentMeetingCounts.put(studentName, count);
+            }
+
+            List<Map<String, Object>> result = new ArrayList<>();
+            // Add a map to the result for each student
+            for (Student student : students) {
+                String studentName = student.getFirstName() + " " + student.getLastName();
+                Long count = studentMeetingCounts.getOrDefault(studentName, 0L);
+                Map<String, Object> map = new HashMap<>();
+                map.put(studentName, count);
+                result.add(map);
+            }
+            return result;
         }
-        return result;
-    }
 
-    @Override
-    public List<Map<String, Object>> getWritingMeetingCountByStudentBySubject(Authentication authentication) {
-        List<Object[]> meetingCountByStudent = meetingRepository.getWritingMeetingsByStudentBySubject();
-        List<Map<String, Object>> result = new ArrayList<>();
-        String email = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        long classroomId = user.getSelectedClassroomId();
-        List<Student> students = studentService.getAllStudentsByClassroomId(classroomId);
-        // Create a map of student names to meeting counts
-        Map<String, Long> studentMeetingCounts = new HashMap<>();
-        for (Object[] meetingCount : meetingCountByStudent) {
-            String studentName = meetingCount[0] + " " + meetingCount[1];
-            Long count = (Long) meetingCount[2];
-            studentMeetingCounts.put(studentName, count);
+        // get the average subject level progress for all students in the logged-in user's classroom
+        @Override
+        public List<Map<String, Object>> getAverageSubjectLevelProgress (Authentication authentication){
+            long classroomId = userService.getUserSelectedClassroomId(authentication);
+            List<Object[]> averageSubjectLevelProgressFromMeetings = meetingRepository.getAverageSubjectLevelProgressFromMeetings(classroomId);
+            List<Object[]> averageSubjectLevelProgressFromReadingLevels = meetingRepository.getAverageSubjectLevelProgressFromReadingLevels(classroomId);
+
+            return getAverageSubjectLevelProgress(averageSubjectLevelProgressFromMeetings, averageSubjectLevelProgressFromReadingLevels);
         }
-        // Add a map to the result for each student
-        for (Student student : students) {
-            String studentName = student.getFirstName() + " " + student.getLastName();
-            Long count = studentMeetingCounts.getOrDefault(studentName, 0L);
-            Map<String, Object> map = new HashMap<>();
-            map.put(studentName, count);
-            result.add(map);
+        // get the average subject level progress for 1 student
+        @Override
+        public List<Map<String, Object>> getStudentAverageSubjectLevelProgress ( long studentId){
+            List<Object[]> averageSubjectLevelProgressFromMeetings = meetingRepository.getStudentAverageSubjectLevelProgressFromMeetings(studentId);
+            List<Object[]> averageSubjectLevelProgressFromReadingLevels = meetingRepository.getStudentAverageSubjectLevelProgressFromReadingLevels(studentId);
+
+            return getAverageSubjectLevelProgress(averageSubjectLevelProgressFromMeetings, averageSubjectLevelProgressFromReadingLevels);
         }
-        return result;
-    }
+        // Helper method to get the average subject level progress
+        private List<Map<String, Object>> getAverageSubjectLevelProgress (List < Object[]>
+        averageSubjectLevelProgressFromMeetings, List < Object[]>averageSubjectLevelProgressFromReadingLevels){
+            Map<Date, List<Double>> averageByDate = new HashMap<>();
+            // Merge the two lists and group by date
+            Stream.concat(averageSubjectLevelProgressFromMeetings.stream(), averageSubjectLevelProgressFromReadingLevels.stream())
+                    .filter(Objects::nonNull)
+                    .filter(arr -> arr[0] != null && arr[1] != null)
+                    .forEach(arr -> averageByDate.computeIfAbsent((Date) arr[0], k -> new ArrayList<>()).add((Double) arr[1]));
 
-    // get the average subject level progress for the logged in user
-    @Override
-    public List<Map<String, Object>> getAverageSubjectLevelProgress(Authentication authentication) {
-        String email = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        long classroomId = user.getSelectedClassroomId();
-        List<Object[]> averageSubjectLevelProgress = meetingRepository.getAverageSubjectLevelProgress(classroomId);
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (Object[] progress : averageSubjectLevelProgress) {
-            Date date = (Date) progress[0];
-            Double avgSubjectLevel = (Double) progress[1];
-            Map<String, Object> map = new HashMap<>();
-            map.put("date", date);
-            map.put("avgSubjectLevel", avgSubjectLevel);
-            result.add(map);
+            List<Map<String, Object>> result;
+            // Convert to list of maps sorted by date
+            result = averageByDate.entrySet().stream()
+                    .map(entry -> {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("date", entry.getKey());
+                        map.put("avgSubjectLevel", entry.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0.0));
+                        return map;
+                    })
+                    .sorted(Comparator.comparing(map -> (Date) map.get("date")))
+                    .collect(Collectors.toList());
+            return result;
         }
-        return result;
-    }
 
-    // get the average subject level progress for 1 student
-    @Override
-    public List<Map<String, Object>> getStudentAverageSubjectLevelProgress(long studentId) {
-        List<Object[]> averageSubjectLevelProgress = meetingRepository.getStudentAverageSubjectLevelProgress(studentId);
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (Object[] progress : averageSubjectLevelProgress) {
-            Date date = (Date) progress[0];
-            Double avgSubjectLevel = (Double) progress[1];
-            Map<String, Object> map = new HashMap<>();
-            map.put("date", date);
-            map.put("avgSubjectLevel", avgSubjectLevel);
-            result.add(map);
+        // get all the meetings number for the logged-in user
+        @Override
+        public int getAllMeetingsCountByUser (Authentication authentication){
+            User user = userService.getUser(authentication);
+            List<Classroom> classrooms = user.getClassrooms();
+            return meetingRepository.getMeetingCount(classrooms);
         }
-        return result;
-    }
 
-    // get all the meetings number for the logged in user
-    @Override
-    public int getAllMeetingsCountByUser(Authentication authentication) {
-        String email = studentService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        List<Classroom> classrooms = user.getClassrooms();
-        return meetingRepository.getMeetingCount(classrooms);
-    }
-
-    // get the meetings for the selected classroom
-    @Override
-    public int getMeetingsByClassroom(long classroomId) {
-        int meetingCount = meetingRepository.getMeetingCountByClassroomId(classroomId);
-        return meetingCount;
-    }
-
-
-    // get the average reading level for all meetings for the logged in user
-    @Override
-    public Float getAverageReadingLevelBySelectedClassroomId(long classroomId) {
-        Float averageReadingLevel = meetingRepository.getAverageReadingLevelByClassroomId(classroomId);
-        if (averageReadingLevel == null) {
-            // handle the situation where no data was returned
-            return (float) 0; // return a default value
+        // get the meetings for the selected classroom
+        @Override
+        public int getMeetingsByClassroom ( long classroomId){
+            return meetingRepository.getMeetingCountByClassroomId(classroomId);
         }
-        return averageReadingLevel;
-    }
 
-}
+        // get the average reading level for all meetings for the logged-in user
+        @Override
+        public Float getAverageReadingLevelBySelectedClassroomId ( long classroomId){
+            Float averageReadingLevel = meetingRepository.getAverageReadingLevelByClassroomId(classroomId);
+            if (averageReadingLevel == null) {
+                // handle the situation where no data was returned
+                return (float) 0; // return a default value
+            }
+            return averageReadingLevel;
+        }
+
+    }

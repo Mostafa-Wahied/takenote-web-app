@@ -3,12 +3,8 @@ package com.mostafawahied.takenotewebapp.controller;
 import com.google.gson.Gson;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
-import com.mostafawahied.takenotewebapp.service.ClassroomService;
-import com.mostafawahied.takenotewebapp.service.MeetingService;
+import com.mostafawahied.takenotewebapp.service.*;
 import com.mostafawahied.takenotewebapp.model.Student;
-import com.mostafawahied.takenotewebapp.service.StudentService;
-import com.mostafawahied.takenotewebapp.service.FileImportService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,22 +13,27 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class StudentController {
-    @Autowired
-    private ClassroomService classroomService;
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private MeetingService meetingService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private FileImportService fileImportService;
+    private final ClassroomService classroomService;
+    private final StudentService studentService;
+    private final MeetingService meetingService;
+    private final UserRepository userRepository;
+    private final FileImportService fileImportService;
+    private final ReadingLevelService readingLevelService;
 
+    public StudentController(ClassroomService classroomService, StudentService studentService, MeetingService meetingService, UserRepository userRepository, FileImportService fileImportService, ReadingLevelService readingLevelService) {
+        this.classroomService = classroomService;
+        this.studentService = studentService;
+        this.meetingService = meetingService;
+        this.userRepository = userRepository;
+        this.fileImportService = fileImportService;
+        this.readingLevelService = readingLevelService;
+    }
 
 
     @GetMapping("/notebook/students")
@@ -50,6 +51,7 @@ public class StudentController {
         model.addAttribute("studentId", id);
         model.addAttribute("meetings", student.getMeetings());
         model.addAttribute("meetingCount", student.getMeetings().size());
+        model.addAttribute("currentReadingLevel", student.getCurrentReadingLevel());
         return "student";
     }
 
@@ -167,8 +169,6 @@ public class StudentController {
     }
 
 
-
-
     // Reading Subject Levels progress Line Chart Card
     @ResponseBody
     @GetMapping("/notebook/student/{id}/averageReadingSubjectLevel")
@@ -190,7 +190,28 @@ public class StudentController {
         } else {
             students = studentService.getStudentsWithLastAllMeetingByClassroom(authentication);
         }
+
+        Map<Long, Character> readingLevels = new HashMap<>();
+        for (Student student : students) {
+            Character latestReadingLevel = readingLevelService.getLatestReadingLevel(student);
+            if (latestReadingLevel != null) {
+                readingLevels.put(student.getId(), latestReadingLevel);
+            }
+        }
+
+        model.addAttribute("alphabetList", readingLevelService.alphabetList());
+        model.addAttribute("readingLevels", readingLevels);
         model.addAttribute("students", students);
+    }
+
+    @PostMapping("/updateReadingLevel")
+    @ResponseBody
+    public Map<String, Object> updateReadingLevel(@RequestParam("studentId") long studentId,
+                                                  @RequestParam("newLevel") Character newLevel) {
+        readingLevelService.updateReadingLevel(studentId, newLevel);
+        Map<String, Object> response = new HashMap<>();
+        response.put("newReadingLevel", newLevel);
+        return response;
     }
 
 }

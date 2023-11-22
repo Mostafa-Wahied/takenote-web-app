@@ -1,5 +1,6 @@
 package com.mostafawahied.takenotewebapp.service;
 
+import com.mostafawahied.takenotewebapp.config.CustomOAuth2User;
 import com.mostafawahied.takenotewebapp.dto.UserRegistrationDto;
 import com.mostafawahied.takenotewebapp.exception.DuplicateEmailException;
 import com.mostafawahied.takenotewebapp.exception.DuplicateUsernameException;
@@ -9,6 +10,7 @@ import com.mostafawahied.takenotewebapp.model.Role;
 import com.mostafawahied.takenotewebapp.model.User;
 import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,6 +52,11 @@ public class UserServiceImpl implements UserService {
         );
         user.setAuthProvider(AuthenticationProvider.LOCAL);
         return userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 
     @Override
@@ -124,6 +131,33 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
     // end of forgot password
+
+    // a helper method to obtain the email address of the logged in user depending on the user is logged in using google or not
+    private String getUserEmailFromAuthentication(Authentication authentication) {
+        // Obtain the principal object associated with the authenticated user
+        Object principal = authentication.getPrincipal();
+        String email = null;
+        if (principal instanceof CustomOAuth2User customOAuth2User) {
+            // Cast the principal object to CustomOAuth2User and obtain the email address
+            email = customOAuth2User.getEmail();
+        } else if (principal instanceof UserDetails userDetails) {
+            // Cast the principal object to UserDetails and obtain the email address
+            email = userDetails.getUsername();
+        }
+        return email;
+    }
+
+    // Get user
+    @Override
+    public User getUser(Authentication authentication) {
+        String email = getUserEmailFromAuthentication(authentication);
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public long getUserSelectedClassroomId(Authentication authentication) {
+        return getUser(authentication).getSelectedClassroomId();
+    }
 
 
 }

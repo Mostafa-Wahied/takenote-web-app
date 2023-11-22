@@ -6,8 +6,6 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 
 public interface StudentService {
-    // a helper method to obtain the email address of the logged in user depending on the user is logged in using google or not
-    String getUserEmailFromAuthentication(Authentication authentication);
 
     List<Student> getAllStudents(Authentication authentication);
 

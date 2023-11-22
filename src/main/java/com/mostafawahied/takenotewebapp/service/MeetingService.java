@@ -51,7 +51,6 @@ public interface MeetingService {
 
     // get the average reading level for all meetings for the logged in user
     Float getAverageReadingLevelBySelectedClassroomId(long classroomId);
-
 }
 
 

@@ -19,38 +19,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
+    private final ClassroomRepository classroomRepository;
+    private final UserService userService;
 
     @Autowired
-    private ClassroomRepository classroomRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    // a helper method to obtain the email address of the logged in user depending on the user is logged in using google or not
-    @Override
-    public String getUserEmailFromAuthentication(Authentication authentication) {
-        // Obtain the principal object associated with the authenticated user
-        Object principal = authentication.getPrincipal();
-        String email = null;
-        if (principal instanceof CustomOAuth2User customOAuth2User) {
-            // Cast the principal object to CustomOAuth2User and obtain the email address
-            email = customOAuth2User.getEmail();
-        } else if (principal instanceof UserDetails) {
-            // Cast the principal object to UserDetails and obtain the email address
-            UserDetails userDetails = (UserDetails) principal;
-            email = userDetails.getUsername();
-        }
-        return email;
+    public StudentServiceImpl(StudentRepository studentRepository, ClassroomRepository classroomRepository, UserService userService) {
+        this.studentRepository = studentRepository;
+        this.classroomRepository = classroomRepository;
+        this.userService = userService;
     }
 
     @Override
     public List<Student> getAllStudents(Authentication authentication) {
         // Obtain the email address of the user from the CustomOAuth2User object
-        String email = getUserEmailFromAuthentication(authentication);
-        // Find the user by email
-        User user = userRepository.findUserByEmail(email);
+        User user = userService.getUser(authentication);
         if (user != null) {
             List<Classroom> classrooms = classroomRepository.findByUser(user);
             return classrooms.stream()
@@ -64,9 +47,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void saveStudent(Student student, Long classroomId, Authentication authentication) {
         // Obtain the email address of the user from the CustomOAuth2User object
-        String email = getUserEmailFromAuthentication(authentication);
-        // Find the user by email
-        User user = userRepository.findUserByEmail(email);
+        User user = userService.getUser(authentication);
         if (classroomId != null) {
             Classroom classroom = classroomRepository.findById(classroomId)
                     .orElseThrow(() -> new ResourceNotFoundException("Classroom not found with id: " + classroomId));
@@ -155,9 +136,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getStudentsWithLastAllMeetingByClassroom(Authentication authentication) {
-        String email = getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        Long selectedClassroomId = user.getSelectedClassroomId();
+        long selectedClassroomId = userService.getUserSelectedClassroomId(authentication);
         Classroom classroom = classroomRepository.findById(selectedClassroomId).orElse(null);
         if (classroom != null) {
             List<Student> studentsList = classroom.getStudents();
@@ -178,9 +157,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getStudentsWithLastWritingMeetingByClassroom(Authentication authentication) {
-        String email = getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        Long selectedClassroomId = user.getSelectedClassroomId();
+        long selectedClassroomId = userService.getUserSelectedClassroomId(authentication);
         Classroom classroom = classroomRepository.findById(selectedClassroomId).orElse(null);
         if (classroom != null) {
             List<Student> studentsList = classroom.getStudents();
@@ -206,9 +183,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getStudentsWithLastReadingMeetingByClassroom(Authentication authentication) {
-        String email = getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        Long selectedClassroomId = user.getSelectedClassroomId();
+        long selectedClassroomId = userService.getUserSelectedClassroomId(authentication);
         Classroom classroom = classroomRepository.findById(selectedClassroomId).orElse(null);
         if (classroom != null) {
             List<Student> studentsList = classroom.getStudents();
@@ -234,9 +209,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getAllStudentsBySelectedClassroom(Authentication authentication) {
-        String email = getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(email);
-        Long selectedClassroomId = user.getSelectedClassroomId();
+        long selectedClassroomId = userService.getUserSelectedClassroomId(authentication);
         Classroom classroom = classroomRepository.findById(selectedClassroomId).orElse(null);
         if (classroom != null) {
             return classroom.getStudents();

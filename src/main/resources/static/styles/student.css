@@ -34,7 +34,7 @@ body > main > div > section > div.row {
     font-size: 0.6rem;
 }
 
-#average-subject-level {
+#current-subject-level #average-subject-level {
     font-size: 32px;
 }
 

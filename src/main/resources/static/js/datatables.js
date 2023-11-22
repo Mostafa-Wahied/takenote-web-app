@@ -2,7 +2,54 @@ console.log("datatables.js loaded...")
 
 // using jQuery DataTables
 $(document).ready(function () {
-    $('#students-table').DataTable({});
+    $('#students-table').DataTable();
+    const tbody = $('#students-table tbody');
+
+
+    tbody.on('click', 'td.editable', function () {
+        const currentLevel = $(this).find('span.reading-level-text').text();
+        const dropdown = $(this).find('select');
+        dropdown.val(currentLevel);
+        $(this).find('span').hide();
+        dropdown.show();
+    });
+
+    tbody.on('change', 'select', function () {
+        const newLevel = $(this).val();
+        const studentId = $(this).closest('td').attr('data-studentid');
+        console.log('newLevel', newLevel);
+        console.log('studentId', studentId);
+        // $(this).siblings('span').text(newLevel).show();
+
+        $(this).hide();
+        const td = $(this).closest('td');
+        td.find('span.reading-level-text').text(newLevel).show();
+        td.find('a.reading-level-edit-button span').show();
+        // td.find('a.reading-level-edit-button').show();
+        updateReadingLevel(studentId, newLevel);
+    });
+
+    function updateReadingLevel(studentId, newLevel) {
+        console.log('updateReadingLevel() called');
+        // Get the CSRF token
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        // AJAX call to update the reading level
+        $.ajax({
+            url: '/updateReadingLevel',
+            type: 'post',
+            data: {studentId: studentId, newLevel: newLevel},
+            beforeSend: function (xhr) {
+                // Include the CSRF token in the header
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (data) {
+            // $('td[data-studentid="' + studentId + '"] span.reading-level-text').text(newLevel).show();
+            console.log("Reading level updated successfully");
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("Error updating reading level: " + textStatus + ", " + errorThrown);
+        });
+    }
 });
 $(document).ready(function () {
     $('#students-reading-table').DataTable({

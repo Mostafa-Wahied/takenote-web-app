@@ -11,27 +11,29 @@ function drawAverageSubjectLevelProgressLineChart() {
     fetch(`/notebook/student/${studentId}/averageReadingSubjectLevel`)
         .then(response => response.json())
         .then(data => {
-            // Get the current average subject level value from the data
-            let studentAverageSubjectLevel = 0;
+            // Get the current subject level value from the data
+            let studentCurrentSubjectLevel = 0;
             if (data.length === 0) {
-                studentAverageSubjectLevel = 0;
+                studentCurrentSubjectLevel = 0;
             } else {
-                studentAverageSubjectLevel = data[data.length - 1].avgSubjectLevel;
+                studentCurrentSubjectLevel = data[data.length - 1].avgSubjectLevel;
             }
 
-            let letter = String.fromCharCode('A'.charCodeAt(0) + studentAverageSubjectLevel - 1);
-            console.log("studentAverageSubjectLevel: ", studentAverageSubjectLevel);
+            let letter = String.fromCharCode('A'.charCodeAt(0) + studentCurrentSubjectLevel - 1);
+            console.log("studentCurrentSubjectLevel: ", studentCurrentSubjectLevel);
             // Select the <p> element by its id
             let averageSubjectLevelElement = document.querySelector('#average-subject-level');
-            if (studentAverageSubjectLevel == null || studentAverageSubjectLevel === undefined || studentAverageSubjectLevel === 0) {
-                // Set default value if studentAverageSubjectLevel is null or undefined or 0
+            if (studentCurrentSubjectLevel == null || studentCurrentSubjectLevel === undefined || studentCurrentSubjectLevel === 0) {
+                // Set default value if studentCurrentSubjectLevel is null or undefined or 0
                 averageSubjectLevelElement.textContent = "0";
             } else {
                 // Convert the average subject level to a letter
-                let letter = String.fromCharCode('A'.charCodeAt(0) + studentAverageSubjectLevel - 1);
-                console.log("studentAverageSubjectLevel: ", studentAverageSubjectLevel);
+                let letter = String.fromCharCode('A'.charCodeAt(0) + studentCurrentSubjectLevel - 1);
+                console.log("studentCurrentSubjectLevel: ", studentCurrentSubjectLevel);
                 // Update the content of the <p> element with the current average subject level value
-                averageSubjectLevelElement.textContent = letter;
+                if (averageSubjectLevelElement !== null) {
+                    averageSubjectLevelElement.textContent = letter;
+                }
             }
             // end of getting current average subject level value
             console.log("student_average_reading_subject_level: ", data);
@@ -122,3 +124,7 @@ function drawAverageSubjectLevelProgressLineChart() {
             });
         });
 }
+
+
+
+

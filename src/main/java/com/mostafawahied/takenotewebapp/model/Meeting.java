@@ -31,10 +31,13 @@ public class Meeting {
     @ManyToOne
     private Student student;
 
-    public Meeting(long meetingNumber, String subject, Character subjectLevel) {
+    public Meeting(long meetingNumber
+            , String subject
+//            , Character subjectLevel
+    ) {
         this.meetingNumber = meetingNumber;
         this.subject = subject;
-        this.subjectLevel = subjectLevel;
+//        this.subjectLevel = subjectLevel;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class Meeting {
                 ", date=" + date +
                 ", subject='" + subject + '\'' +
                 ", type='" + type + '\'' +
-                ", subjectLevel=" + subjectLevel +
+//                ", subjectLevel=" + subjectLevel +
                 ", strength='" + strength + '\'' +
                 ", teachingPoint='" + teachingPoint + '\'' +
                 ", nextStep='" + nextStep + '\'' +

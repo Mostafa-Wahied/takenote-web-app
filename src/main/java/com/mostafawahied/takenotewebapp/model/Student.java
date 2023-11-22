@@ -34,6 +34,13 @@ public class Student {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("updateDate DESC")
+    private List<ReadingLevel> readingLevels = new ArrayList<>();
+
+    @Column(name = "current_reading_level")
+    private Character currentReadingLevel;
+
     public Student(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -6,6 +6,8 @@ import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import com.mostafawahied.takenotewebapp.service.ClassroomService;
 import com.mostafawahied.takenotewebapp.service.StudentService;
 import com.mostafawahied.takenotewebapp.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,20 +21,34 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 @ControllerAdvice
 public class MyControllerAdvice {
+    private final UserRepository userRepository;
+    private final ClassroomService classroomService;
+    private final UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(MyControllerAdvice.class);
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ClassroomService classroomService;
-    @Autowired
-    private StudentService studentService;
+    public MyControllerAdvice(UserRepository userRepository, ClassroomService classroomService, UserService userService) {
+        this.userRepository = userRepository;
+        this.classroomService = classroomService;
+        this.userService = userService;
+    }
 
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<Object> handleException(Exception ex) {
-        return new ResponseEntity<>("Error occurred: " + ex.getMessage() + "<br>" + ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        String stackTrace = sw.toString();
+        logger.error("Error occurred", ex); // This logs the full stack trace
+
+        return new ResponseEntity<>("Error occurred: " + ex.getMessage() + "<br>" + stackTrace, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
@@ -78,8 +94,7 @@ public class MyControllerAdvice {
     public void addClassroomDropdownMenuAttributes(Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
-            String userEmail = studentService.getUserEmailFromAuthentication(authentication);
-            User user = userRepository.findUserByEmail(userEmail);
+            User user = userService.getUser(authentication);
             long selectedClassroomId = user.getSelectedClassroomId();
             model.addAttribute("selectedClassroomId", selectedClassroomId);
             if (selectedClassroomId != 0 && classroomService.getAllClassrooms(authentication).size() > 0) {

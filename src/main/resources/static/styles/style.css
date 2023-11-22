@@ -31,7 +31,7 @@ body {
 
 .students-symbol:hover {
     color: black;
-    font-size: 1.35rem;
+    /*font-size: 1.35rem;*/
     font-variation-settings: 'wght' 300,
     'FILL' 0;
 }
