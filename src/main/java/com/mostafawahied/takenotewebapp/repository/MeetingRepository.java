@@ -2,6 +2,7 @@ package com.mostafawahied.takenotewebapp.repository;
 
 import com.mostafawahied.takenotewebapp.model.Classroom;
 import com.mostafawahied.takenotewebapp.model.Meeting;
+import com.mostafawahied.takenotewebapp.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,8 +12,6 @@ import java.util.List;
 
 //        ------------------- experimental - trying to get unique latest meetings ---------------------------
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {
-    //    Using custom query to get meetings
-    @Query("SELECT m FROM Meeting m JOIN FETCH m.student")
     List<Meeting> findAll();
 
     // get meetings of the students with the given ids
@@ -23,7 +22,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     List<Object[]> getWritingMeetingsByStudentBySubject();
 
     @Query("select s.firstName, s.lastName, count(*) as meeting_count from Meeting m join Student s on m.student.id = s.id where m.subject = 'Reading' group by m.student.id")
-    List<Object[]> getReadingMeetingsByStudentBySubject();
+    List<Object[]> getReadingMeetingsCountByStudentBySubject();
 
     // get meetings of the students for a given user
 //    @Query("SELECT m.date, AVG(CAST(ASCII(m.subjectLevel) - ASCII('A') + 1 AS float)) FROM Meeting m where m.subject = 'Reading' and m.student.classroom in :classrooms GROUP BY m.date ORDER BY m.date")
@@ -72,4 +71,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 //    // get the average reading level for the meeting of the selected classroom id
 //    @Query("select AVG(CAST(ASCII(rl.level) - ASCII('A') + 1 AS double)) from ReadingLevel rl where rl.student.classroom.id = :classroomId")
 //    Float getAverageReadingLevelByClassroomId(@Param("classroomId") long classroomId);
+
+    // get the meetings for a list of students using jpa repository
+    List<Meeting> findMeetingsByStudentIn(List<Student> students);
 }

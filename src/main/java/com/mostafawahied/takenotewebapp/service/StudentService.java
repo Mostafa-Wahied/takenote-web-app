@@ -31,4 +31,6 @@ public interface StudentService {
     List<Student> getAllStudentsBySelectedClassroom(Authentication authentication);
 
     List<Student> getAllStudentsByClassroomId(Long classroomId);
+
+    List<Student> getStudentsByIds(String[] ids);
 }

@@ -1,32 +1,25 @@
 package com.mostafawahied.takenotewebapp.controller;
 
-import com.mostafawahied.takenotewebapp.model.User;
-import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
-import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 
 @Controller
 public class MeetingController {
-
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private MeetingService meetingService;
-    @Autowired
-    private UserRepository userRepository;
-
+    private final StudentService studentService;
+    private final MeetingService meetingService;
+    public MeetingController(StudentService studentService, MeetingService meetingService) {
+        this.studentService = studentService;
+        this.meetingService = meetingService;
+    }
 
     // View 1:1 reading form
     @GetMapping("/notetaker/reading/1on1")
@@ -44,16 +37,15 @@ public class MeetingController {
                                          @RequestParam(name = "strengthValue") String strength,
                                          @RequestParam(name = "teachingPointValue") String teachingPoint,
                                          @RequestParam(name = "nextStepValue") String nextStep, Model model) {
-        meetingService.saveReading1on1Meeting(meeting, id, readingLevel, strength, teachingPoint, nextStep, model);
+        Meeting createdMeeting = meetingService.saveReading1on1Meeting(meeting, id, readingLevel, strength, teachingPoint, nextStep);
+        model.addAttribute("meeting", createdMeeting);
         return "redirect:/notebook/students";
     }
 
     // View 1:1 writing form
     @GetMapping("/notetaker/writing/1on1")
     public String show1on1WritingForm(Model model, Authentication authentication) {
-        // get all students
         model.addAttribute("listStudents", studentService.getAllStudentsBySelectedClassroom(authentication));
-        model.addAttribute("meetings", meetingService.getAllMeetings());
         return "1on1_writing_form";
     }
 
@@ -64,7 +56,8 @@ public class MeetingController {
                                          @RequestParam(name = "strengthValue") String strength,
                                          @RequestParam(name = "teachingPointValue") String teachingPoint,
                                          @RequestParam(name = "nextStepValue") String nextStep, Model model) {
-        meetingService.saveWriting1on1Meeting(meeting, id, strength, teachingPoint, nextStep, model);
+        Meeting CreatedMeeting = meetingService.saveWriting1on1Meeting(meeting, id, strength, teachingPoint, nextStep);
+        model.addAttribute("meeting", CreatedMeeting);
         return "redirect:/notebook/students";
     }
 
@@ -73,7 +66,6 @@ public class MeetingController {
     public String showGuidedReadingForm(Model model, Authentication authentication) {
         // get all students
         model.addAttribute("listStudents", studentService.getAllStudentsBySelectedClassroom(authentication));
-        model.addAttribute("meetings", meetingService.getAllMeetings());
         return "guided_reading_form";
     }
 
@@ -84,7 +76,9 @@ public class MeetingController {
                                                    @RequestParam(name = "readingLevelValue") Character readingLevel,
                                                    @RequestParam(name = "teachingPointValue") String teachingPoint,
                                                    Model model) {
-        meetingService.saveMultipleGuidedReadingMeetings(ids, date, readingLevel, teachingPoint, model);
+        List<Meeting> createdMeetings = meetingService.saveMultipleGuidedReadingMeetings(ids, date, readingLevel, teachingPoint, model);
+        List<Student> students = studentService.getStudentsByIds(ids);
+        addAttributesToModel(ids, students, createdMeetings, model);
         return "follow_up_form";
     }
 
@@ -93,7 +87,6 @@ public class MeetingController {
     public String showStrategyGroupReadingForm(Model model, Authentication authentication) {
         // get all students
         model.addAttribute("listStudents", studentService.getAllStudentsBySelectedClassroom(authentication));
-        model.addAttribute("meetings", meetingService.getAllMeetings());
         return "strategy_group_reading_form";
     }
 
@@ -103,7 +96,9 @@ public class MeetingController {
                                                      @RequestParam(name = "date") Date date,
                                                      @RequestParam(name = "teachingPointValue") String teachingPoint,
                                                      Model model) {
-        meetingService.saveMultipleStrategyReadingMeetings(ids, date, teachingPoint, model);
+        List<Meeting> createdMeetings = meetingService.saveMultipleStrategyReadingMeetings(ids, date, teachingPoint, model);
+        List<Student> students = studentService.getStudentsByIds(ids);
+        addAttributesToModel(ids, students, createdMeetings, model);
         return "follow_up_form";
     }
 
@@ -112,17 +107,18 @@ public class MeetingController {
     public String showStrategyGroupWritingForm(Model model, Authentication authentication) {
         // get all students
         model.addAttribute("listStudents", studentService.getAllStudentsBySelectedClassroom(authentication));
-        model.addAttribute("meetings", meetingService.getAllMeetings());
         return "strategy_group_writing_form";
     }
 
     // Save strategy group writing conference
     @PostMapping("/saveStrategyGroupWritingMeeting")
-    public String saveStrategyGroupWritingMeeting(@RequestParam(name = "id") String[] ids,
-                                                  @RequestParam(name = "date") Date date,
-                                                  @RequestParam(name = "teachingPointValue") String teachingPoint,
-                                                  Model model) {
-        meetingService.saveMultipleStrategyWritingMeetings(ids, date, teachingPoint, model);
+    public String saveMultipleStrategyGroupWritingMeeting(@RequestParam(name = "id") String[] ids,
+                                                          @RequestParam(name = "date") Date date,
+                                                          @RequestParam(name = "teachingPointValue") String teachingPoint,
+                                                          Model model) {
+        List<Meeting> createdMeetings = meetingService.saveMultipleStrategyWritingMeetings(ids, date, teachingPoint, model);
+        List<Student> students = studentService.getStudentsByIds(ids);
+        addAttributesToModel(ids, students, createdMeetings, model);
         return "follow_up_form";
     }
 
@@ -132,7 +128,13 @@ public class MeetingController {
                                                    @RequestParam(name = "strengthValues") List<String> strengthList,
                                                    @RequestParam(name = "nextStepValues") List<String> nextStepsList) {
         meetingService.saveFollowUpMeetings(ids, strengthList, nextStepsList, model);
-//        model.addAttribute(meetingService.getMeetingById(Long.parseLong(ids[0])));
         return "redirect:/notebook/students";
+    }
+
+    // Helper method to add attributes to the model
+    private void addAttributesToModel(String[] ids, List<Student> students, List<Meeting> createdMeetings, Model model) {
+        model.addAttribute("id", ids);
+        model.addAttribute("students", students);
+        model.addAttribute("meetings", createdMeetings);
     }
 }

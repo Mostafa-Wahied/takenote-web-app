@@ -65,5 +65,15 @@ public class ReadingLevelServiceImpl implements ReadingLevelService {
                 .toList();
     }
 
+    @Override
+    public void updateReadingLevelForMeeting(Student student, Character readingLevel, Date meetingDate) {
+        student.setCurrentReadingLevel(readingLevel);
+        ReadingLevel readingLevel1 = new ReadingLevel();
+        readingLevel1.setLevel(readingLevel);
+        readingLevel1.setStudent(student);
+        readingLevel1.setUpdateDate(meetingDate);
+        readingLevelRepository.save(readingLevel1);
+    }
+
 
 }

@@ -228,4 +228,10 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+    @Override
+    public List<Student> getStudentsByIds(String[] ids) {
+        List<Long> idsList = Arrays.stream(ids).map(Long::parseLong).collect(Collectors.toList());
+        return studentRepository.findStudentsByIdIsIn(idsList);
+    }
+
 }

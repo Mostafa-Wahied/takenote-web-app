@@ -1,6 +1,7 @@
 package com.mostafawahied.takenotewebapp.service;
 
 import com.mostafawahied.takenotewebapp.model.Meeting;
+import com.mostafawahied.takenotewebapp.model.Student;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 
@@ -15,15 +16,15 @@ public interface MeetingService {
 
     Meeting getMeetingById(long id);
 
-    void saveReading1on1Meeting(Meeting meeting, String id, Character readingLevel, String strength, String teachingPoint, String nextStep, Model model);
+    Meeting saveReading1on1Meeting(Meeting meeting, String id, Character readingLevel, String strength, String teachingPoint, String nextStep);
 
-    void saveWriting1on1Meeting(Meeting meeting, String id, String strength, String teachingPoint, String nextStep, Model model);
+    Meeting saveWriting1on1Meeting(Meeting meeting, String id, String strength, String teachingPoint, String nextStep);
 
-    void saveMultipleGuidedReadingMeetings(String[] ids, Date date, Character readingLevel, String teachingPoint, Model model);
+    List<Meeting> saveMultipleGuidedReadingMeetings(String[] ids, Date date, Character readingLevel, String teachingPoint, Model model);
 
-    void saveMultipleStrategyReadingMeetings(String[] ids, Date date,  String teachingPoint, Model model);
+    List<Meeting> saveMultipleStrategyReadingMeetings(String[] ids, Date date,  String teachingPoint, Model model);
 
-    void saveMultipleStrategyWritingMeetings(String[] ids, Date date, String teachingPoint, Model model);
+    List<Meeting> saveMultipleStrategyWritingMeetings(String[] ids, Date date, String teachingPoint, Model model);
 
     void saveFollowUpMeetings(String[] ids, List<String> strengthList, List<String> nextStepsList, Model model);
 
@@ -51,6 +52,8 @@ public interface MeetingService {
 
     // get the average reading level for all meetings for the logged in user
     Float getAverageReadingLevelBySelectedClassroomId(long classroomId);
+
+    List<Meeting> getMeetingsForStudents(List<Student> students);
 }
 
 
