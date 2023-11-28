@@ -25,7 +25,6 @@ public class Student {
     @Column(name = "last_name")
     private String lastName;
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
-//  @ToString.Exclude
     private List<Meeting> meetings = new ArrayList<>();
     @ManyToOne(optional = false)
     @JoinColumn(name = "classroom_id", nullable = false)

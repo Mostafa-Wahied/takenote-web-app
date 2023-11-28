@@ -1,6 +1,5 @@
 package com.mostafawahied.takenotewebapp.service;
 
-import com.mostafawahied.takenotewebapp.config.CustomOAuth2User;
 import com.mostafawahied.takenotewebapp.exception.ResourceNotFoundException;
 import com.mostafawahied.takenotewebapp.model.Classroom;
 import com.mostafawahied.takenotewebapp.model.User;
@@ -8,10 +7,8 @@ import com.mostafawahied.takenotewebapp.repository.ClassroomRepository;
 import com.mostafawahied.takenotewebapp.repository.StudentRepository;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
-import com.mostafawahied.takenotewebapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -46,7 +43,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void saveStudent(Student student, Long classroomId, Authentication authentication) {
-        // Obtain the email address of the user from the CustomOAuth2User object
         User user = userService.getUser(authentication);
         if (classroomId != null) {
             Classroom classroom = classroomRepository.findById(classroomId)
@@ -55,6 +51,11 @@ public class StudentServiceImpl implements StudentService {
             student.setClassroom(classroom);
         }
         student.setUser(user);
+        this.studentRepository.save(student);
+    }
+
+    @Override
+    public void updateStudent(Student student) {
         this.studentRepository.save(student);
     }
 
@@ -234,4 +235,8 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findStudentsByIdIsIn(idsList);
     }
 
+    @Override
+    public List<Student> getAllStudentsForMigration() {
+        return studentRepository.findAll();
+    }
 }

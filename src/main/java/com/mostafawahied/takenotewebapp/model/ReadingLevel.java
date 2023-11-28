@@ -23,7 +23,7 @@ public class ReadingLevel {
     private Date updateDate;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
 

@@ -328,4 +328,9 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingRepository.findMeetingsByStudentIn(students);
     }
 
+    @Override
+    public List<Meeting> getMeetingsForStudent(long studentId) {
+        return meetingRepository.findMeetingsByStudentId(studentId);
+    }
+
 }

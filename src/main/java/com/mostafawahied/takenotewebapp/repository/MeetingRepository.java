@@ -74,4 +74,6 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 
     // get the meetings for a list of students using jpa repository
     List<Meeting> findMeetingsByStudentIn(List<Student> students);
+
+    List<Meeting> findMeetingsByStudentId(long studentId);
 }

@@ -54,6 +54,7 @@ public interface MeetingService {
     Float getAverageReadingLevelBySelectedClassroomId(long classroomId);
 
     List<Meeting> getMeetingsForStudents(List<Student> students);
+    List<Meeting> getMeetingsForStudent(long studentId);
 }
 
 
