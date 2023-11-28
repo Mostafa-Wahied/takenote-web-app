@@ -38,11 +38,11 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     List<Object[]> getStudentAverageSubjectLevelProgressFromMeetings(long studentId);
 
     // get the list of reading levels for a classroom from reading levels
-    @Query("SELECT rl.updateDate, AVG(CAST(ASCII(rl.level) - ASCII('A') + 1 AS double)) FROM ReadingLevel rl where rl.student.classroom.id = :classroomId GROUP BY rl.updateDate ORDER BY rl.updateDate")
+    @Query("SELECT rl.updateDate, AVG(CAST(ASCII(rl.level) - ASCII('A') + 1 AS float)) FROM ReadingLevel rl where rl.student.classroom.id = :classroomId GROUP BY rl.updateDate ORDER BY rl.updateDate")
     List<Object[]> getAverageSubjectLevelProgressFromReadingLevels(@Param("classroomId") long classroomId);
 
     // get the list of reading levels for a student from reading levels
-    @Query("SELECT rl.updateDate, AVG(CAST(ASCII(rl.level) - ASCII('A') + 1 AS double)) FROM ReadingLevel rl where rl.student.id = :studentId group by rl.updateDate ORDER BY rl.updateDate")
+    @Query("SELECT rl.updateDate, AVG(CAST(ASCII(rl.level) - ASCII('A') + 1 AS float)) FROM ReadingLevel rl where rl.student.id = :studentId group by rl.updateDate ORDER BY rl.updateDate")
     List<Object[]> getStudentAverageSubjectLevelProgressFromReadingLevels(long studentId);
 
     // get all meetings for the students of a given user

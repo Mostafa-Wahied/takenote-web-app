@@ -9,12 +9,8 @@ import java.util.Objects;
 
 @Getter
 @Setter
-//@ToString
-//@RequiredArgsConstructor
 @NoArgsConstructor
-//@AllArgsConstructor
 @Entity
-//@IdClass(MeetingId.class)
 @Table(name = "meetings")
 public class Meeting {
     @Id
@@ -31,13 +27,9 @@ public class Meeting {
     @ManyToOne
     private Student student;
 
-    public Meeting(long meetingNumber
-            , String subject
-//            , Character subjectLevel
-    ) {
-        this.meetingNumber = meetingNumber;
+    public Meeting(String type, String subject) {
+        this.type = type;
         this.subject = subject;
-//        this.subjectLevel = subjectLevel;
     }
 
     @Override
@@ -56,14 +48,14 @@ public class Meeting {
     }
 
 
-        @Override
+    @Override
     public String toString() {
         return "Meeting{" +
                 "meetingNumber=" + meetingNumber +
                 ", date=" + date +
                 ", subject='" + subject + '\'' +
                 ", type='" + type + '\'' +
-//                ", subjectLevel=" + subjectLevel +
+                ", subjectLevel=" + subjectLevel +
                 ", strength='" + strength + '\'' +
                 ", teachingPoint='" + teachingPoint + '\'' +
                 ", nextStep='" + nextStep + '\'' +
