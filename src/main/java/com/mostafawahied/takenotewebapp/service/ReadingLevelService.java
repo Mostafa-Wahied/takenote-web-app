@@ -11,6 +11,8 @@ public interface ReadingLevelService {
     void saveReadingLevel(ReadingLevel readingLevel);
     void updateReadingLevel(long studentId, Character newLevel);
     Character getLatestReadingLevel(Student student);
+    ReadingLevel getReadingLevelByStudentIdAndUpdateDate(long id, Date date);
     List<Character> alphabetList();
     void updateReadingLevelForMeeting(Student student, Character readingLevel, Date date);
+    void deleteReadingLevelByStudentIdAndDate(long id, Date date);
 }

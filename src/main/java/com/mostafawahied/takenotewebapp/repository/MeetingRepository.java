@@ -18,10 +18,10 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     @Query("SELECT m.type, COUNT(m) FROM Meeting m WHERE m.student.id IN :studentIds GROUP BY m.type")
     List<Object[]> getMeetingCountByType(@Param("studentIds") List<Long> studentIds);
 
-    @Query("select s.firstName, s.lastName, count(*) as meeting_count from Meeting m join Student s on m.student.id = s.id where m.subject = 'Writing' group by m.student.id")
+    @Query("select s.id, s.firstName, s.lastName, count(*) as meeting_count from Meeting m join Student s on m.student.id = s.id where m.subject = 'Writing' group by m.student.id")
     List<Object[]> getWritingMeetingsByStudentBySubject();
 
-    @Query("select s.firstName, s.lastName, count(*) as meeting_count from Meeting m join Student s on m.student.id = s.id where m.subject = 'Reading' group by m.student.id")
+    @Query("select s.id, s.firstName, s.lastName, count(*) as meeting_count from Meeting m join Student s on m.student.id = s.id where m.subject = 'Reading' group by m.student.id")
     List<Object[]> getReadingMeetingsCountByStudentBySubject();
 
     // get meetings of the students for a given user
@@ -76,4 +76,12 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     List<Meeting> findMeetingsByStudentIn(List<Student> students);
 
     List<Meeting> findMeetingsByStudentId(long studentId);
+
+    // get a list of meeting types
+    @Query("select distinct m.type from Meeting m")
+    List<String> getMeetingTypes();
+
+    // get a list of meeting types for a given subject
+    @Query("select distinct m.type from Meeting m where m.subject = :subject")
+    List<String> getMeetingTypesBySubject(String subject);
 }

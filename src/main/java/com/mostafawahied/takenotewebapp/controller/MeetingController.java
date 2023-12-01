@@ -3,6 +3,7 @@ package com.mostafawahied.takenotewebapp.controller;
 import com.mostafawahied.takenotewebapp.service.MeetingService;
 import com.mostafawahied.takenotewebapp.model.Meeting;
 import com.mostafawahied.takenotewebapp.model.Student;
+import com.mostafawahied.takenotewebapp.service.ReadingLevelService;
 import com.mostafawahied.takenotewebapp.service.StudentService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,12 @@ import java.util.List;
 public class MeetingController {
     private final StudentService studentService;
     private final MeetingService meetingService;
-    public MeetingController(StudentService studentService, MeetingService meetingService) {
+    private final ReadingLevelService readingLevelService;
+
+    public MeetingController(StudentService studentService, MeetingService meetingService, ReadingLevelService readingLevelService) {
         this.studentService = studentService;
         this.meetingService = meetingService;
+        this.readingLevelService = readingLevelService;
     }
 
     // View 1:1 reading form
@@ -136,5 +140,47 @@ public class MeetingController {
         model.addAttribute("id", ids);
         model.addAttribute("students", students);
         model.addAttribute("meetings", createdMeetings);
+    }
+
+    // edit meeting
+    @GetMapping("/edit_meeting/{meetingNumber}")
+    public String editMeeting(@PathVariable(value = "meetingNumber") long meetingNumber, Model model) throws Exception {
+        // get meeting from the service
+        Meeting meeting = meetingService.getMeetingById(meetingNumber);
+        // set meeting as a model attribute to pre-populate the form
+        model.addAttribute("meeting", meeting);
+        model.addAttribute("alphabetList", readingLevelService.alphabetList());
+        model.addAttribute("meetingTypeList", meetingService.getMeetingTypes());
+        model.addAttribute("meetingTypesBySubjectList", meetingService.getMeetingTypesBySubject(meeting.getSubject()));
+
+        return "edit_meeting";
+    }
+
+    // save meeting
+    @PostMapping("/save_meeting")
+    public String saveMeeting(@ModelAttribute("meeting") Meeting meeting) {
+        // save meeting to database
+        meetingService.saveMeeting(meeting);
+        return "redirect:/notebook/student/" + meeting.getStudent().getId();
+    }
+
+    // update meeting
+    @PostMapping("/update_meeting")
+    public String updateMeeting(@ModelAttribute("meeting") Meeting meeting) {
+        // save meeting to database
+        meetingService.updateMeeting(meeting);
+        return "redirect:/notebook/student/" + meeting.getStudent().getId();
+    }
+
+    // delete meeting
+    @PostMapping("/delete_meeting/{meetingNumber}")
+    public String deleteMeeting(@PathVariable(value = "meetingNumber") long meetingNumber,
+                                @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm) throws Exception {
+        long studentId = meetingService.getMeetingById(meetingNumber).getStudent().getId();
+        if (confirm) {
+            // call delete meeting method
+            this.meetingService.deleteMeetingById(meetingNumber);
+        }
+        return "redirect:/notebook/student/" + studentId;
     }
 }

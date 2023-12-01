@@ -1,8 +1,10 @@
 console.log("students.js loaded")
 
-// delete student confirmation function
-function confirmDeleteStudent(event) {
-    if (!confirm('Are you sure you want to delete this student?')) {
+// delete confirmation function
+// we use this function for both students and meetings
+// we pass the name of the entity as a parameter
+function confirmDelete(event, entityName) {
+    if (!confirm(`Are you sure you want to delete this ${entityName}?`)) {
         event.preventDefault();
     } else {
         document.querySelector('[name="confirm"]').value = 'true';

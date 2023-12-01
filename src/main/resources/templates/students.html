@@ -72,7 +72,7 @@
             <div class="row d-flex">
                 <div class="col">
                     <div class="container d-flex">
-                        <a th:href="@{/showNewStudentForm(classroomId=${classroomId})}" id="add-student-btn"
+                        <a th:href="@{/new_student_form(classroomId=${classroomId})}" id="add-student-btn"
                            class="btn btn-primary rounded-pill">Add / Import</a>
                     </div>
                 </div>
@@ -103,13 +103,16 @@
                                    th:text="${student.firstName + ' ' + student.lastName}"
                                    th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
                             </td>
-                            <!--                            <td th:text="${student.meetings[0].subject == 'Reading'} and ${!student.meetings.isEmpty()} ? ${student.meetings[0].subjectLevel} : ''"></td>-->
                             <td class="editable" th:data-studentid="${student.id}">
                                 <div class="d-flex justify-content-between">
 
+<!--                                    <span id="reading-level-text" class="reading-level-text px-2"-->
+<!--                                          th:text="${student.currentReadingLevel != null} ? ${student.currentReadingLevel}"></span>-->
+<!--                                    <a th:if="${student.currentReadingLevel != null}" class="ms-auto px-2 reading-level-edit-button" style="cursor: pointer;">-->
+                                    <!-- we have a map readingLevels with key student id and value reading level -->
                                     <span id="reading-level-text" class="reading-level-text px-2"
-                                          th:text="${student.currentReadingLevel != null} ? ${student.currentReadingLevel}"></span>
-                                    <a th:if="${student.currentReadingLevel != null}" class="ms-auto px-2 reading-level-edit-button" style="cursor: pointer;">
+                                          th:text="${readingLevels[student.id]}"></span>
+                                    <a th:if="${readingLevels[student.id] != null}" class="ms-auto px-2 reading-level-edit-button" style="cursor: pointer;">
                                         <span class="students-symbol material-symbols-outlined">edit_square</span>
                                     </a>
                                 </div>
@@ -124,14 +127,14 @@
                             <td th:text="${student.meetings[0].subject == 'Reading'} and ${!student.meetings.isEmpty()} ? ${student.meetings[0].date} : ''"></td>
                             <td th:text="${student.meetings[1].subject == 'Writing'} and ${!student.meetings.isEmpty()} ? ${student.meetings[1].date} : ''"></td>
                             <td>
-                                <div class="d-flex" style="position: relative; right: 1rem;">
-                                    <a th:href="@{/showUpdateForm/{id}(id=${student.id})}"
+                                <div class="d-flex">
+                                    <a th:href="@{/edit_student_form/{id}(id=${student.id})}"
                                        class="btn"
                                        style="border: none; background: transparent;"><span
                                             class="students-symbol material-symbols-outlined">edit_square</span>
                                     </a>
-                                    <form th:action="@{/deleteStudent/{id}(id=${student.id})}" method="post"
-                                          onsubmit="return confirmDeleteStudent(event)">
+                                    <form th:action="@{/delete_student/{id}(id=${student.id})}" method="post"
+                                          onsubmit="return confirmDelete(event, 'student')">
                                         <input type="hidden" name="confirm" value="true">
                                         <button type="submit" class="btn"
                                                 style="border: none; background: transparent;">

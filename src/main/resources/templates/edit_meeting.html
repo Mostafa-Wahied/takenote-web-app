@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <link rel="icon" type="image/x-icon" th:href="@{/image/favicon.ico}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap"
+          rel="stylesheet">
+    <!--animate.css cdn-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <!--  jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+    <script th:src="@{/js/script.js}" defer></script>
+    <script th:src="@{/js/students.js.js}" defer></script>
+    <title>TakeNote - Edit Meeting</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main>
+    <!-- NavBar -->
+    <div th:replace="~{fragments/navigation :: navigation}"></div>
+    <!-- End of Navbar -->
+    <!-- preloader -->
+    <div th:replace="~{fragments/preloader :: preloader}"></div>
+    <!-- End of preloader -->
+
+    <div class="animate__animated animate__fadeIn container">
+        <br>
+        <figure class="text-center mt-3">
+            <p th:text="${'Update Meeting for ' + meeting.student.firstName + ' ' + meeting.student.lastName}"
+                    class="display-6 text-center fs-3 text-secondary"
+               style="font-family: 'Montserrat', sans-serif">Update Meeting</p>
+        </figure>
+
+        <!--           Save success message-->
+        <div th:if="${param.success}">
+            <div class="alert alert-info text-center">Meeting updated successfully</div>
+        </div>
+        <!--                            end of success message-->
+
+        <div class="d-flex justify-content-center m-5 p-5">
+            <form action="#" th:action="@{/update_meeting}" th:object="${meeting}" method="POST"
+                  class="d-flex flex-column">
+                <!--      Add hidden form fields to handle update-->
+                <input type="hidden" th:field="*{meetingNumber}">
+                <input type="hidden" th:field="*{student}">
+                <input type="hidden" th:field="*{subject}">
+                <!--      End of hidden form fields-->
+
+                <div class="d-flex flex-row">
+                    <!-- Date input -->
+                    <div class="col-4 row form-group mb-4 px-2">
+                        <label class="control-label" for="date">Date
+                            <input class="form-control" id="date" name="date" placeholder="yyyy-mm-dd" type="text"
+                                   required
+                                   th:field="*{date}" autocomplete="off"/>
+                        </label>
+                    </div>
+
+                    <!-- Subject Level -->
+                    <div th:if="${meeting.subject.equals('Reading')}" id="subjectLevelDiv" class="col-4 row form-group mb-4 px-2" style="display: none;">
+                        <label for="subjectLevel">Subject Level
+                            <select id="subjectLevel" th:field="*{subjectLevel}"
+                                    class="edt-dropdown form-select form-select-s form-control"
+                                    aria-label="Small select example" style="">
+                                <option th:each="level : ${alphabetList}" th:value="${level}"
+                                        th:text="${level}"></option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <!-- Meeting Type -->
+                    <div class="col-4 row form-group mb-4 px-2">
+                        <label for="meetingType">Meeting Type
+                            <select id="meetingType" th:field="*{type}"
+                                    class="edt-dropdown form-select form-select-s mx-auto form-control mb-4"
+                                    aria-label="Small select example" style="">
+                                <option th:each="type : ${meetingTypesBySubjectList}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="d-flex flex-column justify-content-center">
+                    <!-- Strength -->
+                    <div class="form-group mb-4">
+                        <label for="strength">Strength
+                            <textarea th:field="*{strength}" class="form-control" id="strength" name="strength"
+                                      rows="3" cols="90"></textarea>
+                        </label>
+                    </div>
+
+                    <!-- Teaching Point -->
+                    <div class="form-group mb-4">
+                        <label for="teachingPoint">Teaching Point
+                            <textarea th:field="*{teachingPoint}" class="form-control" id="teachingPoint"
+                                      name="teachingPoint" rows="3" cols="90"></textarea>
+                        </label>
+                    </div>
+
+                    <!-- Next Step -->
+                    <div class="form-group mb-4">
+                        <label for="nextStep">Next Step
+                            <textarea th:field="*{nextStep}" class="form-control" id="nextStep" name="nextStep"
+                                      rows="3" cols="90"></textarea>
+                        </label>
+                    </div>
+                </div>
+
+                <br>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary rounded-pill mx-auto">Save</button>
+                </div>
+                <!-- Add hidden form field to store that the user came from the update page -->
+                <input type="hidden" name="update" value="true">
+            </form>
+        </div>
+
+        <hr class="mx-auto">
+        <!-- back to students btn -->
+        <div th:replace="~{fragments/back_to_student_btn :: back_to_students_btn}"></div>
+        <!-- End of back to students btn -->
+    </div>
+</main>
+
+<!--footer-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+<!--end of footer-->
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

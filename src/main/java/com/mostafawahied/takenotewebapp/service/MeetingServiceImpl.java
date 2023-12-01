@@ -4,6 +4,7 @@ import com.mostafawahied.takenotewebapp.model.*;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.sql.Date;
@@ -180,19 +181,16 @@ public class MeetingServiceImpl implements MeetingService {
     private Map<String, Map<String, Integer>> getMeetingCountByType(Authentication authentication, String subject) {
         Map<String, Map<String, Integer>> result = new HashMap<>();
         long classroomId = userService.getUserSelectedClassroomId(authentication);
-        List<Student> students = studentService.getAllStudentsByClassroomId(classroomId);
-        // Initialize the result map with all students
-        students.forEach(student -> {
-            String studentName = student.getFirstName() + " " + student.getLastName();
-            result.put(studentName, new HashMap<>());
-        });
+
         List<Meeting> meetings = meetingRepository.findMeetingsBySubjectAndClassroomId(subject, classroomId);
         for (Meeting meeting : meetings) {
-            String studentName = meeting.getStudent().getFirstName() + " " + meeting.getStudent().getLastName();
+            Student student = meeting.getStudent();
             String meetingType = meeting.getType();
-            result.computeIfAbsent(studentName, k -> new HashMap<>())
+
+            result.computeIfAbsent(student.getFirstName() + " " + student.getLastName(), k -> new HashMap<>())
                     .merge(meetingType, 1, Integer::sum);
         }
+
         return result;
     }
 
@@ -238,16 +236,19 @@ public class MeetingServiceImpl implements MeetingService {
         // Create a map of student names to meeting counts
         Map<String, Long> studentMeetingCounts = new HashMap<>();
         for (Object[] meetingCount : meetingCountByStudent) {
-            String studentName = meetingCount[0] + " " + meetingCount[1];
-            Long count = (Long) meetingCount[2];
-            studentMeetingCounts.put(studentName, count);
+            Long studentId = (Long) meetingCount[0];
+            String studentName = meetingCount[1] + " " + meetingCount[2];
+            String uniqueStudentKey = studentId + "-" + studentName;
+            Long count = (Long) meetingCount[3];
+            studentMeetingCounts.put(uniqueStudentKey, count);
         }
 
         List<Map<String, Object>> result = new ArrayList<>();
         // Add a map to the result for each student
         for (Student student : students) {
+            String uniqueStudentKey = student.getId() + "-" + student.getFirstName() + " " + student.getLastName();
             String studentName = student.getFirstName() + " " + student.getLastName();
-            Long count = studentMeetingCounts.getOrDefault(studentName, 0L);
+            Long count = studentMeetingCounts.getOrDefault(uniqueStudentKey, 0L);
             Map<String, Object> map = new HashMap<>();
             map.put(studentName, count);
             result.add(map);
@@ -275,8 +276,8 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     // Helper method to get the average subject level progress
-    private List<Map<String, Object>> getAverageSubjectLevelProgress(List<Object[]>
-                                                                             averageSubjectLevelProgressFromMeetings, List<Object[]> averageSubjectLevelProgressFromReadingLevels) {
+    private List<Map<String, Object>> getAverageSubjectLevelProgress(
+            List<Object[]> averageSubjectLevelProgressFromMeetings, List<Object[]> averageSubjectLevelProgressFromReadingLevels) {
         Map<Date, List<Double>> averageByDate = new HashMap<>();
         // Merge the two lists and group by date
         Stream.concat(averageSubjectLevelProgressFromMeetings.stream(), averageSubjectLevelProgressFromReadingLevels.stream())
@@ -333,4 +334,60 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingRepository.findMeetingsByStudentId(studentId);
     }
 
+    @Override
+    public List<String> getMeetingTypes() {
+        return meetingRepository.getMeetingTypes();
+    }
+
+    @Override
+    public List<String> getMeetingTypesBySubject(String subject) {
+        return meetingRepository.getMeetingTypesBySubject(subject);
+    }
+
+    @Override
+    @Transactional
+    public void deleteMeetingById(long meetingNumber) {
+        Meeting meeting = meetingRepository.findById(meetingNumber).orElseThrow(() -> new RuntimeException("Meeting not found for id: " + meetingNumber));
+        Student student = meeting.getStudent();
+        Character meetingSubjectLevel = meeting.getSubjectLevel();
+        Date meetingDate = meeting.getDate();
+        ReadingLevel latestReadingLevel = readingLevelService.getReadingLevelByStudentIdAndUpdateDate(student.getId(), meetingDate);
+
+        if (meeting.getSubject().equals("Reading") && latestReadingLevel != null && meetingSubjectLevel.equals(latestReadingLevel.getLevel()) && meetingDate.equals(latestReadingLevel.getUpdateDate())) {
+            readingLevelService.deleteReadingLevelByStudentIdAndDate(student.getId(), meetingDate);
+            Character newReadingLevel = readingLevelService.getLatestReadingLevel(student);
+            student.setCurrentReadingLevel(newReadingLevel);
+            studentService.updateStudent(student);
+        }
+        meetingRepository.deleteById(meetingNumber);
+    }
+
+    @Override
+    @Transactional
+    public void updateMeeting(Meeting meeting) {
+        Meeting existingMeeting = meetingRepository.findById(meeting.getMeetingNumber()).orElseThrow(() -> new RuntimeException("Meeting not found for id: " + meeting.getMeetingNumber()));
+
+        if (meeting.getSubject().equals("Reading")) {
+            ReadingLevel readingLevel = readingLevelService.getReadingLevelByStudentIdAndUpdateDate(existingMeeting.getStudent().getId(), existingMeeting.getDate());
+            if (readingLevel != null) {
+                if (meeting.getSubjectLevel() != null && !existingMeeting.getSubjectLevel().equals(meeting.getSubjectLevel())) {
+                    readingLevel.setLevel(meeting.getSubjectLevel());
+                }
+                if (!existingMeeting.getDate().equals(meeting.getDate())) {
+                    readingLevel.setUpdateDate(meeting.getDate());
+                }
+                readingLevelService.saveReadingLevel(readingLevel);
+            }
+        }
+        existingMeeting.setDate(meeting.getDate());
+        existingMeeting.setSubject(meeting.getSubject());
+        existingMeeting.setType(meeting.getType());
+        existingMeeting.setSubjectLevel(meeting.getSubjectLevel());
+        existingMeeting.setStrength(meeting.getStrength());
+        existingMeeting.setTeachingPoint(meeting.getTeachingPoint());
+        existingMeeting.setNextStep(meeting.getNextStep());
+        existingMeeting.setStudent(meeting.getStudent());
+
+        meetingRepository.save(existingMeeting);
+    }
 }

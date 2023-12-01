@@ -90,6 +90,9 @@ $(document).ready(function () {
 // update the active tab when the user clicks on a tab & redraw the charts
 function updateStudentActiveTab() {
     const activeButton = document.querySelector('#student-reading-table-pills-tab button.active');
+    if (!activeButton) {
+        return;
+    }
     activeButton.classList.toggle('btn-primary');
     activeButton.classList.remove('color-1');
 

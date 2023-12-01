@@ -55,6 +55,14 @@ public interface MeetingService {
 
     List<Meeting> getMeetingsForStudents(List<Student> students);
     List<Meeting> getMeetingsForStudent(long studentId);
+
+    List<String> getMeetingTypes();
+
+    List<String> getMeetingTypesBySubject(String subject);
+
+    void deleteMeetingById(long meetingNumber);
+
+    void updateMeeting(Meeting meeting);
 }
 
 

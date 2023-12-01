@@ -6,6 +6,7 @@ import com.mostafawahied.takenotewebapp.model.Student;
 import com.mostafawahied.takenotewebapp.repository.MeetingRepository;
 import com.mostafawahied.takenotewebapp.repository.ReadingLevelRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
@@ -59,6 +60,12 @@ public class ReadingLevelServiceImpl implements ReadingLevelService {
     }
 
     @Override
+    public ReadingLevel getReadingLevelByStudentIdAndUpdateDate(long id, Date date) {
+        return readingLevelRepository.findTopByStudentIdAndUpdateDate(id, date);
+    }
+
+    // Create a list of characters from A to Z
+    @Override
     public List<Character> alphabetList() {
         return IntStream.rangeClosed('A', 'Z')
                 .mapToObj(c -> (char) c)
@@ -68,11 +75,17 @@ public class ReadingLevelServiceImpl implements ReadingLevelService {
     @Override
     public void updateReadingLevelForMeeting(Student student, Character readingLevel, Date meetingDate) {
         student.setCurrentReadingLevel(readingLevel);
-        ReadingLevel readingLevel1 = new ReadingLevel();
-        readingLevel1.setLevel(readingLevel);
-        readingLevel1.setStudent(student);
-        readingLevel1.setUpdateDate(meetingDate);
-        readingLevelRepository.save(readingLevel1);
+        ReadingLevel readingLevelObject = new ReadingLevel();
+        readingLevelObject.setLevel(readingLevel);
+        readingLevelObject.setStudent(student);
+        readingLevelObject.setUpdateDate(meetingDate);
+        readingLevelRepository.save(readingLevelObject);
+    }
+
+    @Override
+    @Transactional
+    public void deleteReadingLevelByStudentIdAndDate(long id, Date date) {
+        readingLevelRepository.deleteReadingLevelByStudentIdAndUpdateDate(id, date);
     }
 
 

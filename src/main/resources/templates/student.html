@@ -35,6 +35,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
     <script th:src="@{/js/student.js}" defer></script>
+    <script th:src="@{/js/students.js}" defer></script>
     <script th:src="@{/js/datatables.js}" defer></script>
     <script th:src="@{/js/script.js}" defer></script>
     <title th:text="${student.firstName + ' ' + student.lastName}">TakeNote</title>
@@ -70,7 +71,7 @@
                             <div class="d-flex justify-content-center align-items-center flex-column"
                                  style="height: 100%;">
                                 <p class="reading-level-text mb-0">Current Reading Level</p>
-<!--                                <p id="average-subject-level"></p>-->
+                                <!--                                <p id="average-subject-level"></p>-->
                                 <p id="current-subject-level" th:text="${currentReadingLevel}"></p>
                             </div>
                         </div>
@@ -153,11 +154,26 @@
                                             <td th:text="${meeting.teachingPoint}"></td>
                                             <td th:text="${meeting.nextStep}"></td>
                                             <td style="white-space: nowrap; width: 3%">
-                                                <a th:href="@{/notetaker/reading}"
-                                                   class="btn d-flex justify-content-center"
-                                                   style="border: none; background: transparent;">
-                                                    <span class="students-symbol material-symbols-outlined">add</span>
-                                                </a>
+                                                <div class="d-flex">
+                                                    <a th:href="@{/edit_meeting/{meetingNumber}(meetingNumber=${meeting.meetingNumber})}"
+                                                       class="btn"
+                                                       style="border: none; background: transparent;"><span
+                                                            class="students-symbol material-symbols-outlined">edit_square</span>
+                                                    </a>
+                                                    <form th:action="@{/delete_meeting/{meetingNumber}(meetingNumber=${meeting.meetingNumber})}" method="post"
+                                                          onsubmit="return confirmDelete(event, 'meeting')">
+                                                        <input type="hidden" name="confirm" value="true">
+                                                        <button type="submit" class="btn"
+                                                                style="border: none; background: transparent;">
+                                                            <span class="students-symbol material-symbols-outlined">delete</span>
+                                                        </button>
+                                                    </form>
+                                                    <a th:href="@{/notetaker/reading}"
+                                                       class="btn d-flex justify-content-center"
+                                                       style="border: none; background: transparent;">
+                                                        <span class="students-symbol material-symbols-outlined">add</span>
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     </th:block>
@@ -203,11 +219,26 @@
                                             <td th:text="${meeting.teachingPoint}"></td>
                                             <td th:text="${meeting.nextStep}"></td>
                                             <td style="white-space: nowrap; width: 3%">
-                                                <a th:href="@{/notetaker/writing}"
-                                                   class="btn d-flex justify-content-center"
-                                                   style="border: none; background: transparent;">
-                                                    <span class="students-symbol material-symbols-outlined">add</span>
-                                                </a>
+                                                <div class="d-flex">
+                                                    <a th:href="@{/edit_meeting/{meetingNumber}(meetingNumber=${meeting.meetingNumber})}"
+                                                       class="btn"
+                                                       style="border: none; background: transparent;"><span
+                                                            class="students-symbol material-symbols-outlined">edit_square</span>
+                                                    </a>
+                                                    <form th:action="@{/delete_meeting/{meetingNumber}(meetingNumber=${meeting.meetingNumber})}" method="post"
+                                                          onsubmit="return confirmDelete(event, 'meeting')">
+                                                        <input type="hidden" name="confirm" value="true">
+                                                        <button type="submit" class="btn"
+                                                                style="border: none; background: transparent;">
+                                                            <span class="students-symbol material-symbols-outlined">delete</span>
+                                                        </button>
+                                                    </form>
+                                                    <a th:href="@{/notetaker/writing}"
+                                                       class="btn d-flex justify-content-center"
+                                                       style="border: none; background: transparent;">
+                                                        <span class="students-symbol material-symbols-outlined">add</span>
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     </th:block>

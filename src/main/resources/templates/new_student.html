@@ -53,7 +53,7 @@
             <!--                            end of success message-->
 
             <!--           Import success message-->
-            <div th:if="${param.importSuccess}">
+            <div th:if="${param.import_success}">
                 <div class="alert alert-info text-center">Your students have been imported</div>
             </div>
             <!--      end of import success message-->
@@ -72,7 +72,7 @@
 
             <div class="card p-3 my-3 text-center" style="width:60%; margin: auto">
                 <p class="text-center text-secondary">Add Student</p>
-                <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
+                <form action="#" th:action="@{/save_student}" th:object="${student}" method="POST">
                     <div class="container d-flex justify-content-center mb-2">
                     </div>
                     <input type="hidden" id="classroom-id" name="classroomId" value="">
@@ -91,6 +91,8 @@
                     <button th:if="${classroomIds.contains(selectedClassroomId)}"
                             type="submit" class="btn btn-primary rounded-pill">Save Student
                     </button>
+                    <!-- Add hidden form field to store that the user came from the new student page -->
+                    <input type="hidden" name="new" value="true">
                 </form>
             </div>
 
@@ -99,7 +101,7 @@
             <!--importing students from a csv or excel-->
             <div class="card p-3 my-3 text-center" style="width:60%; margin: auto">
                 <p class="text-center text-secondary">Import Students</p>
-                <form action="#" th:action="@{/importStudents}" method="POST" enctype="multipart/form-data">
+                <form action="#" th:action="@{/import_students}" method="POST" enctype="multipart/form-data">
                     <div th:if="${!classroomIds.contains(selectedClassroomId)}" class="mb-3 mx-auto" style="width: 40%">
                         <input class="form-control form-control-sm" id="formFileSmDisabled" type="file" name="file"
                                accept=".csv,.xlsx" disabled required>

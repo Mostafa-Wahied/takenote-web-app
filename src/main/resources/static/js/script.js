@@ -12,8 +12,9 @@ console.log("script.js file loaded");
 //     };
 //     date_input.datepicker(options);
 // })
-// current year
 
+
+// current year
 function displayCurrentYear() {
     console.log("displayCurrentYear() called");
     const year = new Date().getFullYear();
@@ -26,27 +27,24 @@ displayCurrentYear();
 
 function initializeDatePicker() {
     const date_input = $('input[name="date"]');
-    const container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-    const options = {
-        format: 'yyyy-mm-dd',
-        container: container,
-        todayHighlight: true,
-        autoclose: true,
-    };
-    date_input.datepicker(options);
+    if (date_input.length > 0) {  // Check if element exists
+        const container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        const options = {
+            format: 'yyyy-mm-dd',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        };
+        console.log("date_input initialized: ", date_input);
+        date_input.datepicker(options);
+    } else {
+        console.log("date_input not found");
+    }
 }
+
 initializeDatePicker();
 // end of Date Picker dropdown
 
-// // populating the reading level dropdown menu on forms
-// const alphabetDropdown = document.querySelector("#letter");
-// const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-// for (let letter of alphabet) {
-//     let optionHtmlElement = document.createElement("option");
-//     optionHtmlElement.value = letter;
-//     optionHtmlElement.textContent = letter;
-//     alphabetDropdown.append(optionHtmlElement);
-// }
 function populateReadingLevelDropdown() {
     const alphabetDropdown = document.querySelector("#letter");
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -54,32 +52,17 @@ function populateReadingLevelDropdown() {
         let optionHtmlElement = document.createElement("option");
         optionHtmlElement.value = letter;
         optionHtmlElement.textContent = letter;
-        alphabetDropdown.append(optionHtmlElement);
+        if (alphabetDropdown) {
+            alphabetDropdown.append(optionHtmlElement);
+        }
     }
 }
+
 populateReadingLevelDropdown();
 // end of populating the reading level dropdown menu on forms
 
-// // setting active state to navbar pages
-// // Get the container element
-// const btnContainer = document.getElementsByClassName("nav-item");
-// // Get all buttons with class="btn" inside the container
-// const btns = document.getElementsByClassName("nav-link");
-// // Loop through the buttons and add the active class to the current/clicked button
-// for (let i = 0; i < btns.length; i++) {
-//     btns[i].addEventListener("click", function () {
-//         const current = document.getElementsByClassName("active");
-//         // If there's no active class
-//         if (current.length > 0) {
-//             current[0].className = current[0].className.replace(" active", "");
-//         }
-//         // Add the active class to the current/clicked button
-//         this.className += " active";
-//     });
-// }
-
 // for selectpicker dropdown
-$('select').selectpicker();
+// $('select').selectpicker();
 
 
 // preloader
@@ -88,8 +71,39 @@ var loader = document.getElementById("preloader")
 window.addEventListener("load", function () {
     loader.style.display = "none";
 })
+// end of preloader
 
+// show/hide subject level dropdown on the add meeting form based on the selected meeting type
+document.addEventListener('DOMContentLoaded', function() {
+    const meetingTypeSelect = document.getElementById('meetingType');
+    const subjectLevelSelect = document.getElementById('subjectLevel');
+    const subjectLevelDiv = document.getElementById('subjectLevelDiv');
 
+    function toggleSubjectLevelVisibility() {
+        if (!meetingTypeSelect || !subjectLevelDiv) {
+            return;
+        }
+        const selectedType = meetingTypeSelect.value;
+        if (selectedType === 'Guided Reading' || selectedType === '1:1 - Reading') {
+            subjectLevelDiv.style.display = 'block';
+            subjectLevelSelect.disabled = false;
+        } else {
+            subjectLevelDiv.style.display = 'none';
+            subjectLevelSelect.disabled = true;
+            subjectLevelSelect.value = '';
+        }
+    }
+
+    // Initial check on page load
+    toggleSubjectLevelVisibility();
+
+    // Add change event listener
+    if (!meetingTypeSelect) {
+        return;
+    }
+    meetingTypeSelect.addEventListener('change', toggleSubjectLevelVisibility);
+});
+// end of show/hide subject level dropdown on the add meeting form based on the selected meeting type
 
 
 

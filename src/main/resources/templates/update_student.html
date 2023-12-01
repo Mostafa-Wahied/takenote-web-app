@@ -33,9 +33,19 @@
 
     <div class="animate__animated animate__fadeIn container">
         <br>
-        <p class="display-6 text-center">Update Student</p>
+        <figure class="text-center mt-3">
+            <p class="display-6 text-center fs-3 text-secondary"
+               style="font-family: 'Montserrat', sans-serif">Update Student</p>
+        </figure>
+
+        <!--           Save success message-->
+        <div th:if="${param.success}">
+            <div class="alert alert-info text-center">Student updated successfully</div>
+        </div>
+        <!--                            end of success message-->
+
         <div class="m-5 p-5 text-center">
-            <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
+            <form action="#" th:action="@{/save_student}" th:object="${student}" method="POST">
                 <!--      Add hidden form field to handle update-->
                 <input type="hidden" th:field="*{id}">
                 <label>
@@ -47,6 +57,8 @@
                 </label>
                 <br>
                 <button type="submit" class="btn btn-primary rounded-pill">Update Student</button>
+                <!-- Add hidden form field to store that the user came from the update page -->
+                <input type="hidden" name="update" value="true">
             </form>
 
             <hr class="mx-auto">

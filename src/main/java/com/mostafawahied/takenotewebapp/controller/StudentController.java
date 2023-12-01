@@ -22,15 +22,15 @@ public class StudentController {
     private final ClassroomService classroomService;
     private final StudentService studentService;
     private final MeetingService meetingService;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final FileImportService fileImportService;
     private final ReadingLevelService readingLevelService;
 
-    public StudentController(ClassroomService classroomService, StudentService studentService, MeetingService meetingService, UserRepository userRepository, FileImportService fileImportService, ReadingLevelService readingLevelService) {
+    public StudentController(ClassroomService classroomService, StudentService studentService, MeetingService meetingService, UserService userService, FileImportService fileImportService, ReadingLevelService readingLevelService) {
         this.classroomService = classroomService;
         this.studentService = studentService;
         this.meetingService = meetingService;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.fileImportService = fileImportService;
         this.readingLevelService = readingLevelService;
     }
@@ -51,7 +51,7 @@ public class StudentController {
         model.addAttribute("studentId", id);
         model.addAttribute("meetings", student.getMeetings());
         model.addAttribute("meetingCount", student.getMeetings().size());
-        model.addAttribute("currentReadingLevel", student.getCurrentReadingLevel());
+        model.addAttribute("currentReadingLevel", readingLevelService.getLatestReadingLevel(student));
         return "student";
     }
 
@@ -72,7 +72,7 @@ public class StudentController {
         return "notebook_writing";
     }
 
-    @GetMapping("/showNewStudentForm")
+    @GetMapping("/new_student_form")
     public String showNewStudentForm(@RequestParam(value = "classroomId", required = false) Long classroomId,
                                      Model model, Authentication authentication) throws Exception {
         Student student = new Student();
@@ -80,37 +80,43 @@ public class StudentController {
         model.addAttribute("classrooms", classroomService.getAllClassrooms(authentication));
         model.addAttribute("classroomId", classroomId);
         model.addAttribute("classroomIds", classroomService.getAllClassroomIds(authentication));
-        String userEmail = classroomService.getUserEmailFromAuthentication(authentication);
-        model.addAttribute("selectedClassroomId", userRepository.findUserByEmail(userEmail).getSelectedClassroomId());
+        model.addAttribute("selectedClassroomId", userService.getUser(authentication).getSelectedClassroomId());
         return "new_student";
     }
 
     // save student to database
-    @PostMapping("/saveStudent")
+    @PostMapping("/save_student")
     public String saveStudent(@ModelAttribute("student") Student student,
-                              Authentication authentication) throws Exception {
-        String userEmail = classroomService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(userEmail);
+                              Authentication authentication,
+                              @RequestParam(value = "update", required = false) boolean update,
+                              @RequestParam(value = "new", required = false) boolean newStudent) throws Exception {
+        User user = userService.getUser(authentication);
         Long classroomId = user.getSelectedClassroomId();
         studentService.saveStudent(student, classroomId, authentication);
-        return "redirect:/showNewStudentForm?success";
+
+        if (newStudent) {
+            return "redirect:/new_student_form?success";
+        } else if (update) {
+            return "redirect:/edit_student_form/" + student.getId() + "?success";
+        } else {
+            return "redirect:/new_student_form?success";
+        }
     }
 
     // import students from a csv or excel file
-    @PostMapping("/importStudents")
+    @PostMapping("/import_students")
     public String importStudents(@RequestParam("file") MultipartFile file,
                                  @RequestParam(name = "hasHeader", defaultValue = "false") boolean hasHeader,
                                  RedirectAttributes redirectAttributes, Authentication authentication) throws Exception {
-        String userEmail = classroomService.getUserEmailFromAuthentication(authentication);
-        User user = userRepository.findUserByEmail(userEmail);
+        User user = userService.getUser(authentication);
         Long classroomId = user.getSelectedClassroomId();
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Please select a file to upload");
-            return "redirect:/showNewStudentForm?error";
+            return "redirect:/new_student_form?error";
         }
         if (!isFileFormatValid(file)) {
             redirectAttributes.addFlashAttribute("errorMessage", "Invalid file format. Please upload a CSV or Excel file.");
-            return "redirect:/showNewStudentForm?error";
+            return "redirect:/new_student_form?error";
         }
         try {
             List<Student> students = fileImportService.importStudents(file, hasHeader);
@@ -119,12 +125,12 @@ public class StudentController {
             }
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error importing students: " + e.getMessage());
-            return "redirect:/showNewStudentForm?error";
+            return "redirect:/new_student_form?error";
         }
-        return "redirect:/showNewStudentForm?importSuccess";
+        return "redirect:/new_student_form?import_success";
     }
 
-    //    helper method to validate the file format
+    // helper method to validate the file format
     private boolean isFileFormatValid(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         assert fileName != null;
@@ -133,16 +139,14 @@ public class StudentController {
     }
 
     //    update student info
-    @GetMapping("/showUpdateForm/{id}")
+    @GetMapping("/edit_student_form/{id}")
     public String showUpdateForm(@PathVariable(value = "id") long id, Model model) throws Exception {
-//        get employee from the service
         Student student = studentService.getStudentById(id);
-//        set student as a model attr to pre-populate the form
         model.addAttribute("student", student);
         return "update_student";
     }
 
-    @PostMapping("/deleteStudent/{id}")
+    @PostMapping("/delete_student/{id}")
     public String deleteStudent(
             @PathVariable(value = "id") long id,
             @RequestParam(name = "confirm", required = false, defaultValue = "false") boolean confirm) throws Exception {
@@ -152,22 +156,21 @@ public class StudentController {
         return "redirect:/notebook/students";
     }
 
-    //    view reading conference
+    // view notetaker reading page
     @GetMapping("/notetaker/reading")
     public String viewNotetakerReadingPage(Model model) throws Exception {
-        //        for navigation active state
+        // for navigation active state
         model.addAttribute("activePage", "notetakerReading");
         return "notetaker_reading";
     }
 
-    //    view writing conference
+    // view notetaker writing page
     @GetMapping("/notetaker/writing")
     public String viewNotetakerWritingPage(Model model) throws Exception {
         //        for navigation active state
         model.addAttribute("activePage", "notetakerWriting");
         return "notetaker_writing";
     }
-
 
     // Reading Subject Levels progress Line Chart Card
     @ResponseBody
@@ -204,6 +207,7 @@ public class StudentController {
         model.addAttribute("students", students);
     }
 
+    // update reading level on students page
     @PostMapping("/updateReadingLevel")
     @ResponseBody
     public Map<String, Object> updateReadingLevel(@RequestParam("studentId") long studentId,

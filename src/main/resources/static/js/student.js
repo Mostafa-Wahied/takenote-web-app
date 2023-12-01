@@ -25,7 +25,9 @@ function drawAverageSubjectLevelProgressLineChart() {
             let averageSubjectLevelElement = document.querySelector('#average-subject-level');
             if (studentCurrentSubjectLevel == null || studentCurrentSubjectLevel === undefined || studentCurrentSubjectLevel === 0) {
                 // Set default value if studentCurrentSubjectLevel is null or undefined or 0
-                averageSubjectLevelElement.textContent = "0";
+                if (averageSubjectLevelElement !== null) {
+                    averageSubjectLevelElement.textContent = "0";
+                }
             } else {
                 // Convert the average subject level to a letter
                 let letter = String.fromCharCode('A'.charCodeAt(0) + studentCurrentSubjectLevel - 1);
