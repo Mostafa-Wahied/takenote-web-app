@@ -36,7 +36,7 @@
 <head th:replace="fragments/head :: head(title='TakeNote', description='All your notes, all in one place. Elevate student learning with features to capture and analyze observational data in a snap.', url='https://takenote.tech/', cssFiles=@{'/styles/style.css'}, jsFiles=@{'/js/index.js'})"></head>
 
 
-<body class="d-flex flex-column h-100" style="overflow: hidden">
+<body class="d-flex flex-column h-100">
 
 <!-- NavBar -->
 <div th:replace="~{fragments/navigation :: navigation}"></div>
@@ -49,10 +49,10 @@
     <div class="main-container">
 
         <!-- Hero -->
-        <section class="row m-2 p-2 pt-3 mx-md-4 px-md-5">
-            <div class="row mx-auto justify-content-center my-auto mx-md-5 px-md-4">
+        <section class="hero-section row m-2 p-2 pt-3 mx-md-4 px-md-5">
+            <div class="row mx-auto justify-content-center my-auto mx-md-5 px-md-4 mt-md-5 pt-md-3">
 
-                <div class="animate__animated animate__fadeInLeft order-2 order-sm-1 col-12 col-md-5 mt-md-5 pt-md-2">
+                <div class="col-12 col-md-6 animate__animated animate__fadeInLeft order-2 order-sm-1 mt-md-5 pt-md-2">
                     <div class="container">
                         <p class="title-text">Notes at your fingertips</p>
                         <!-- </div> -->
@@ -71,14 +71,70 @@
                     </div>
                 </div>
 
-                <div class="animate__animated animate__fadeInRight order-1 order-sm-2 col-12 col-md-7 m-3 m-md-0">
-                    <div>
-                        <img id="home-img" th:src="@{/image/home.jpg}" alt="Homepage Picture" class="img-fluid" src="">
+                <div class="col-12 col-md-6 animate__animated animate__fadeInRight order-1 order-sm-2 m-md-0 m-3 mt-md-4">
+                    <div id="mockup-image-wrapper">
+                        <!--                        <img id="home-img" th:src="@{/image/home.jpg}" alt="Homepage Picture" class="img-fluid" src="">-->
+                        <img id="mockup-image" src="/image/Screenshots/dashboard-mockup.png" alt="Homepage Picture"
+                             class="img-fluid">
                     </div>
                 </div>
 
             </div>
+
         </section>
+
+        <section class="features-row text-center my-3 py-3">
+            <div class="container-fluid my-3 py-5">
+                <!-- First row of features -->
+                <div class="row mb-5 pb-2">
+                    <div class="col-md-4 px-5">
+                        <span class="feature-google-icon material-symbols-rounded mb-2">event_note</span>
+                        <h6 class="feature-title mb-2">Streamlined Meeting Management</h6>
+                        <p class="feature-desc px-5 mb-2">Efficiently plan, analyze, and manage meeting details,
+                            including teaching points and next steps, with intuitive tools.</p>
+                    </div>
+                    <div class="col-md-4 px-5">
+                        <span class="feature-google-icon material-symbols-rounded mb-2">class</span>
+                        <h6 class="feature-title mb-2">Classroom Overview</h6>
+                        <p class="feature-desc px-5 mb-2">Get a holistic view of your classroom. Track student progress,
+                            class activities, and easily add or import new students.</p>
+                    </div>
+                    <div class="col-md-4 px-5">
+                        <span class="feature-google-icon material-symbols-rounded mb-2">trending_up</span>
+                        <h6 class="feature-title mb-2">Student Insights</h6>
+                        <p class="feature-desc px-5 mb-2">Track and analyze individual student progress, focusing on
+                            individual strengths and areas for improvement.</p>
+                    </div>
+                </div>
+
+                <!-- Second row of features -->
+                <div class="row mb-5">
+                    <div class="col-md-4 px-5">
+                        <span class="feature-google-icon material-symbols-rounded mb-2">book</span>
+                        <h6 class="feature-title mb-2">Notetaker & Notebook</h6>
+                        <p class="feature-desc px-5 mb-2">Harness the power of our two key tools, Notetaker for detailed
+                            meeting recordings and Notebook for organized data review and presentation.</p>
+                    </div>
+                    <div class="col-md-4 px-5">
+                        <span class="feature-google-icon material-symbols-rounded mb-2">dashboard</span>
+                        <h6 class="feature-title mb-2">Dashboard Analytics</h6>
+                        <p class="feature-desc px-5 mb-2">Utilize an intuitive dashboard featuring easy-to-read charts
+                            and
+                            graphs showcasing reading levels and key metrics for data-driven teaching.</p>
+                    </div>
+                    <div class="col-md-4 px-5">
+                        <span class="feature-google-icon material-symbols-rounded mb-2">analytics</span>
+                        <h6 class="feature-title mb-2">Data-Driven Decision Making</h6>
+                        <p class="feature-desc px-5 mb-2">Make informed teaching decisions using insights from recorded
+                            teaching points, student strengths, and next steps, fostering targeted and effective
+                            instructional strategies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
         <!-- End of Hero -->
     </div>
 
@@ -88,7 +144,8 @@
             <div class="modal-content bg-light rounded-4">
                 <div class="modal-header text-center border-bottom-0">
                     <h1 class="modal-title fs-5 w-100 text-center fw-bold" id="exampleModalLabel">Get Started!</h1>
-                    <button type="button" class="close-btn color-2 ps-2" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close-btn color-orange-lighter ps-2" data-bs-dismiss="modal"
+                            aria-label="Close">
                         <span class="material-symbols-outlined rounded-pill p-1">close</span>
                     </button>
                 </div>
@@ -115,7 +172,7 @@
                                                 <span class="col-10 col-md-7 col-lg-9 d-flex justify-content-start">Reading</span>
                                             </div>
                                             <div class="col-2 col-md-3 d-flex justify-content-end align-items-center">
-                                                <span class="about-symbol material-symbols-outlined color-1">navigate_next</span>
+                                                <span class="about-symbol material-symbols-outlined color-orange-darker">navigate_next</span>
                                             </div>
                                         </div>
                                     </a>
@@ -127,7 +184,7 @@
                                                 <span class="col-10 col-md-7 col-lg-9 d-flex justify-content-start">Writing</span>
                                             </div>
                                             <div class="col-2 col-md-3 d-flex justify-content-end align-items-center">
-                                                <span class="about-symbol material-symbols-outlined color-1">navigate_next</span>
+                                                <span class="about-symbol material-symbols-outlined color-orange-darker">navigate_next</span>
                                             </div>
                                         </div>
                                     </a>
@@ -157,7 +214,7 @@
                                                 <span class="col-10 col-md-7 col-lg-9 d-flex justify-content-start">Reading</span>
                                             </div>
                                             <div class="col-2 col-md-3 d-flex justify-content-end align-items-center">
-                                                <span class="about-symbol material-symbols-outlined color-1">navigate_next</span>
+                                                <span class="about-symbol material-symbols-outlined color-orange-darker">navigate_next</span>
                                             </div>
                                         </div>
                                     </a>
@@ -169,7 +226,7 @@
                                                 <span class="col-10 col-md-7 col-lg-9 d-flex justify-content-start">Writing</span>
                                             </div>
                                             <div class="col-2 col-md-3 d-flex justify-content-end align-items-center">
-                                                <span class="about-symbol material-symbols-outlined color-1">navigate_next</span>
+                                                <span class="about-symbol material-symbols-outlined color-orange-darker">navigate_next</span>
                                             </div>
                                         </div>
                                     </a>
@@ -181,7 +238,7 @@
                                             <span class="col-10 col-md-7 col-lg-9 d-flex justify-content-start">My Students</span>
                                         </div>
                                         <div class="col-2 col-md-3 d-flex justify-content-end align-items-center">
-                                            <span class="about-symbol material-symbols-outlined color-1">navigate_next</span>
+                                            <span class="about-symbol material-symbols-outlined color-orange-darker">navigate_next</span>
                                         </div>
                                     </div>
                                 </a>

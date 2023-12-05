@@ -99,7 +99,7 @@
                         <!--                        <tr th:each="meeting, iterStat : ${student.meetings}">-->
                         <tr>
                             <td style="white-space: nowrap; width: 3%">
-                                <a id="student-btn" class="btn btn-light color-2"
+                                <a id="student-btn" class="btn btn-light color-orange-lighter"
                                    th:text="${student.firstName + ' ' + student.lastName}"
                                    th:href="@{/notebook/student/{id} (id=${student.id})}"></a>
                             </td>

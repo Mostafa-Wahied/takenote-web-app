@@ -335,26 +335,26 @@ function drawAverageSubjectLevelProgressLineChart() {
 function updateTypeActiveTab() {
     const activeButton = document.querySelector('#meetings-type-bar-pills-tab button.active');
     activeButton.classList.toggle('btn-primary');
-    activeButton.classList.remove('color-1');
+    activeButton.classList.remove('color-orange-1');
 
     const tabsButton = document.querySelectorAll('#meetings-type-bar-pills-tab button');
     tabsButton.forEach(function (tab) {
-        // Add the color-1 class to all inactive tabs
+        // Add the color-orange-1 class to all inactive tabs
         if (!tab.classList.contains('active')) {
-            tab.classList.add('color-1');
+            tab.classList.add('color-orange-1');
         }
 
         tab.addEventListener('shown.bs.tab', function () {
             // Remove the btn-primary class from all tabs
             tabsButton.forEach(function (tab) {
                 tab.classList.remove('btn-primary');
-                tab.classList.add('color-1');
+                tab.classList.add('color-orange-1');
             });
 
-            // Add the btn-primary class to the active tab and remove the color-1 class
+            // Add the btn-primary class to the active tab and remove the color-orange-1 class
             const activeTab = document.querySelector('#meetings-type-bar-pills-tab button.active');
             activeTab.classList.add('btn-primary');
-            activeTab.classList.remove('color-1');
+            activeTab.classList.remove('color-orange-1');
 
             // Redraw the writing bar chart here
             drawReadingMeetingCountByTypeBarChart();
@@ -372,26 +372,26 @@ updateTypeActiveTab();
 function updateSubjectActiveTab() {
     const activeButton = document.querySelector('#meetings-subject-bar-pills-tab button.active');
     activeButton.classList.toggle('btn-primary');
-    activeButton.classList.remove('color-1');
+    activeButton.classList.remove('color-orange-1');
 
     const tabsButton = document.querySelectorAll('#meetings-subject-bar-pills-tab button');
     tabsButton.forEach(function (tab) {
-        // Add the color-1 class to all inactive tabs
+        // Add the color-orange-1 class to all inactive tabs
         if (!tab.classList.contains('active')) {
-            tab.classList.add('color-1');
+            tab.classList.add('color-orange-1');
         }
 
         tab.addEventListener('shown.bs.tab', function () {
             // Remove the btn-primary class from all tabs
             tabsButton.forEach(function (tab) {
                 tab.classList.remove('btn-primary');
-                tab.classList.add('color-1');
+                tab.classList.add('color-orange-1');
             });
 
-            // Add the btn-primary class to the active tab and remove the color-1 class
+            // Add the btn-primary class to the active tab and remove the color-orange-1 class
             const activeTab = document.querySelector('#meetings-subject-bar-pills-tab button.active');
             activeTab.classList.add('btn-primary');
-            activeTab.classList.remove('color-1');
+            activeTab.classList.remove('color-orange-1');
 
             // Redraw the writing bar chart here
             drawReadingMeetingCountBySubjectBarChart();

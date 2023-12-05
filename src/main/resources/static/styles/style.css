@@ -1,3 +1,15 @@
+root {
+    --darker-orange: #fc5a41;
+    --lighter-orange: #fd6048;
+    --darkest-orange: #ff2200;
+    --teal: #6ba7ba;
+    --dark-teal: #406672;
+    --mustard: #B7AC44;
+    --custom-grey: #f7f6f6;
+    --dark-grey: #e9e9e9;
+    --green: #1ba959;
+}
+
 body {
     font-family: 'Roboto', sans-serif !important;
 }
@@ -12,18 +24,18 @@ body {
 
 .label {
     font-variation-settings: 'FILL' 1;
-    color: #6ba7ba;
+    color: var(--teal);
     font-size: 1.6rem;
     font-weight: lighter;
 }
 
 .about-symbol {
-    color: #1ba959;
+    color: var(--green);
     font-size: 1.5vw;
 }
 
 .students-symbol {
-    color: #fd6048;
+    color: var(--lighter-orange);
     font-size: 1.35rem;
     font-variation-settings: 'wght' 300,
     'FILL' 0;
@@ -49,14 +61,14 @@ body {
 
 #logout-btn:hover {
     color: white !important;
-    background-color: #fa3e21 !important;
+    background-color: var(--darkest-orange) !important;
     transition: 0.3s ease-in-out !important;
     transform: scale(1.04);
 }
 
 .modal-btn:hover {
-    background-color: #fc5a41 !important;
-    border: 1px solid #fc5a41 !important;
+    background-color: var(--darker-orange) !important;
+    border: 1px solid var(--darker-orange) !important;
     color: white !important;
 }
 
@@ -65,29 +77,29 @@ body {
 }
 
 .close-btn {
-    color: #fa3e21 !important;
+    color: var(--darkest-orange) !important;
     border: none !important;
     background-color: white !important;
 }
 
 .close-btn .material-symbols-outlined {
-    color: #fa3e21 !important;
+    color: var(--darkest-orange) !important;
     font-size: 1.2rem;
 }
 
 .close-btn .material-symbols-outlined:hover {
     color: white !important;
-    background-color: #fc5a41 !important;
+    background-color: var(--darker-orange) !important;
     font-size: 1.2rem;
 }
 
 .btn-primary {
-    background-color: #fc5a41 !important;
+    background-color: var(--darker-orange) !important;
     border: none !important;
 }
 
 .btn-primary:hover {
-    background-color: #fa3e21 !important;
+    background-color: var(--darkest-orange) !important;
     transition: 0.3s ease-in-out !important;
     transform: scale(1.04);
 
@@ -95,13 +107,13 @@ body {
 
 #back-to-students-btn {
     background-color: white !important;
-    border: 1px solid #fc5a41 !important;
-    color: #fc5a41 !important;
+    border: 1px solid var(--darker-orange) !important;
+    color: var(--darker-orange) !important;
 }
 
 #student-btn:hover {
-    background-color: #fc5a41 !important;
-    border: 1px solid #fc5a41 !important;
+    background-color: var(--darker-orange) !important;
+    border: 1px solid var(--darker-orange) !important;
     color: white !important;
 }
 
@@ -130,12 +142,12 @@ body {
 
 .take-span {
     font-size: 1rem;
-    color: #406672a9;
+    color: var(--dark-teal) a9;
 }
 
 .note-span {
     font-size: 1rem;
-    color: #6ba7baad;
+    color: var(--teal);
 }
 
 /* Color of the links BEFORE scroll */
@@ -147,7 +159,7 @@ body {
 
 .navbar-nav li a {
     font-family: 'Montserrat', sans-serif;
-    color: #6ba7baad;
+    color: var(--teal);
     /*font-size: medium;*/
     font-weight: 500;
 }
@@ -178,9 +190,13 @@ body {
 
 /* End of navbar */
 
-#home-img {
-    margin-top: -20px;
-    height: auto;
+/*#home-img {*/
+/*    margin-top: -20px;*/
+/*    height: auto;*/
+/*}*/
+
+.hero-section {
+    height: 80vh;
 }
 
 .title-text {
@@ -202,17 +218,52 @@ hr {
     margin-top: 3%;
 }
 
+/*add shadow */
+#mockup-image {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.features-row {
+    background-color: #f7f6f6;
+}
+
+.feature-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 120%;
+}
+
+.feature-desc {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    line-height: 120%;
+}
+
+.feature-google-icon {
+    font-variation-settings: 'wght' 500,
+    'FILL' 1;
+    font-size: 1.8rem !important;
+    color: var(--lighter-orange);
+    /* White circle */
+    background-color: white;
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+
+/* end of landing page */
+
 .about-takenote-title {
-    color: #fd6048;
+    color: var(--lighter-orange);
 }
 
 .about-takenote-titles {
-    color: #fd6048;
+    color: var(--lighter-orange);
     text-decoration: none;
 }
 
 .about-takenote-titles:hover {
-    color: #ff2200;
+    color: var(--darkest-orange);
     /*text-decoration: underline;*/
 }
 
@@ -276,7 +327,7 @@ td {
 }
 
 svg.tea {
-    --secondary: #fd6048;
+    --secondary: var(--lighter-orange);
 }
 
 svg.tea #teabag {
@@ -458,67 +509,67 @@ svg.tea #steamR {
 
 
 /*custom colors*/
-.color-1 {
-    color: #fc5a41 !important;
+.color-orange-darker {
+    color: var(--darker-orange) !important;
 }
 
-.color-2 {
-    color: #fd6048 !important;
+.color-orange-lighter {
+    color: var(--lighter-orange) !important;
 }
 
-.color-3 {
-    color: #6ba7ba !important;
+.color-teal {
+    color: var(--teal) !important;
 }
 
-.color-4 {
-    color: #B7AC44 !important;
+.color-mustard {
+    color: var(--mustard) !important;
 }
 
-.bg-color-1 {
-    background-color: #fc5a41 !important;
+.bg-color-orange-darker {
+    background-color: var(--darker-orange) !important;
 }
 
-.bg-color-2 {
-    background-color: #fd6048 !important;
+.bg-color-orange-lighter {
+    background-color: var(--lighter-orange) !important;
 }
 
-.bg-color-3 {
-    background-color: #6ba7ba !important;
+.bg-color-teal {
+    background-color: var(--teal) !important;
 }
 
-.bg-color-4 {
-    background-color: #B7AC44 !important;
+.bg-color-mustard {
+    background-color: var(--mustard) !important;
 }
 
-.bg-gradient-1 {
-    background: linear-gradient(135deg, #406672 0%, #6ba7ba 100%);
+.bg-gradient-teal-dark-light {
+    background: linear-gradient(135deg, var(--dark-teal) 0%, var(--teal) 100%);
 }
 
 .bg-color-white {
     background-color: white !important;
 }
 
-.bg-gradient-2 {
-    background: linear-gradient(135deg, #6ba7ba 0%, #406672 100%);
+.bg-gradient-teal-light-dark {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--dark-teal) 100%);
 }
 
-.bg-color-1-hover:hover {
-    background-color: #ff2200 !important;
+.bg-color-orange-darker-hover:hover {
+    background-color: var(--darkest-orange) !important;
     color: white !important;
 }
 
-.bg-color-2-hover:hover {
-    background-color: #fd6048 !important;
+.bg-color-orange-lighter-hover:hover {
+    background-color: var(--lighter-orange) !important;
     color: white !important;
 }
 
-.bg-color-3-hover:hover {
-    background-color: #6ba7ba !important;
+.bg-color-teal-hover:hover {
+    background-color: var(--teal) !important;
     color: white !important;
 }
 
-.bg-color-4-hover:hover {
-    background-color: #B7AC44 !important;
+.bg-color-mustard-hover:hover {
+    background-color: var(--mustard) !important;
     color: white !important;
 }
 
@@ -527,13 +578,13 @@ svg.tea #steamR {
     color: black !important;
 }
 
-.bg-gradient-1-hover:hover {
-    background: linear-gradient(135deg, #ff2200 0%, #fd6048 100%);
+.bg-gradient-orange-dark-light-hover:hover {
+    background: linear-gradient(135deg, var(--darkest-orange) 0%, var(--lighter-orange) 100%);
     color: white !important;
 }
 
-.bg-gradient-2-hover:hover {
-    background: linear-gradient(135deg, #406672 0%, #6ba7ba 100%);
+.bg-gradient-teal-dark-light-hover:hover {
+    background: linear-gradient(135deg, var(--dark-teal) 0%, var(--teal) 100%);
     color: white !important;
 }
 
@@ -557,7 +608,7 @@ tbody tr:last-child :last-child {
 
 /*table select element for classrooms*/
 #classroom-select:focus {
-    border-color: #fd6048;
+    border-color: var(--lighter-orange);
     box-shadow: 0 0 0 0.2rem rgba(253, 96, 72, 0.25);
 
 }
@@ -577,5 +628,5 @@ tbody tr:last-child :last-child {
 }
 
 .logout-button:hover {
-    color: #fd6048 !important;
+    color: var(--lighter-orange) !important;
 }
