@@ -11,6 +11,22 @@ function displayCurrentYear() {
 // Call the function to display the current year
 displayCurrentYear();
 
+// toggle scroll indicator
+function toggleScrollIndicator() {
+    window.addEventListener('scroll', function() {
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (window.pageYOffset > 100) { // Adjust '100' to your preference
+            scrollIndicator.style.display = 'none';
+        } else {
+            scrollIndicator.style.display = 'block';
+        }
+    });
+}
+
+// Call the function when the page loads
+toggleScrollIndicator();
+// end of toggle scroll indicator
+
 // // get references to the modal buttons
 // function addClickListenersToModalButtons() {
 //     const noteTakerBtn = document.getElementById("noteTakerBtn");

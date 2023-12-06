@@ -1,4 +1,4 @@
-root {
+:root {
     --darker-orange: #fc5a41;
     --lighter-orange: #fd6048;
     --darkest-orange: #ff2200;
@@ -180,6 +180,10 @@ body {
     transition: 0.1s ease-in-out;
 }
 
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
 .nav-item a.active {
     /*font-size: medium;*/
     font-weight: 500;
@@ -190,13 +194,8 @@ body {
 
 /* End of navbar */
 
-/*#home-img {*/
-/*    margin-top: -20px;*/
-/*    height: auto;*/
-/*}*/
-
 .hero-section {
-    height: 80vh;
+    height: 90vh;
 }
 
 .title-text {
@@ -206,25 +205,62 @@ body {
     line-height: 120%;
 }
 
-hr {
+#hero-hr {
     width: 20vw;
-    border: 3px solid black;
-    height: 4px;
+    border: none;
+    height: 1px;
+    background-color: black;
     margin-top: 6% !important;
 }
+
 
 .desc-text {
     font-family: 'Montserrat', sans-serif;
     margin-top: 3%;
 }
 
-/*add shadow */
 #mockup-image {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));
 }
 
+/* scroll indicator */
+.scroll-container {
+    position: relative;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 24px;
+    color: var(--dark-teal);
+}
+
+.scroll-indicator span {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+/* end of scroll indicator */
+/* end of hero section */
+
+/* features */
 .features-row {
-    background-color: #f7f6f6;
+    /*background-color: #f7f6f6;*/
+    background-color: #f8f9fa;
 }
 
 .feature-title {
@@ -249,6 +285,33 @@ hr {
     background-color: white;
     border-radius: 50%;
     padding: 0.5rem;
+}
+
+/* end of features */
+
+/* craft section */
+#sketch-section {
+    position: relative;
+    z-index: 1;
+}
+
+#sketch-image {
+    position: relative;
+    width: 70%;
+    top: 2rem;
+}
+
+.main-container {
+    position: relative;
+}
+
+#craft-hr {
+    position: absolute;
+    bottom: 120px;
+    width: 100%;
+    border: none;
+    height: 3px;
+    background-color: black;
 }
 
 /* end of landing page */
@@ -280,7 +343,8 @@ hr {
 }
 
 .footer {
-    /*background-color: #f5f5f5;*/
+    position: relative;
+    z-index: 2;
     width: 100% !important; /* add this rule */
     display: block;
 }
@@ -505,7 +569,45 @@ svg.tea #steamR {
     .students-symbol {
         font-size: 1.4rem;
     }
+
+    #sketch-image {
+        top: 10px;
+    }
 }
+/* end of small screens only */
+/*medium screens only*/
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    /*.btn-general {*/
+    /*    width: 100% !important;*/
+    /*    min-height: 35px !important;*/
+    /*    min-width: 80%;*/
+    /*    line-height: 35px !important;*/
+    /*    display: block;*/
+    /*    padding: 0;*/
+    /*    font-size: 4vw !important;*/
+    /*    text-align: center;*/
+    /*    margin-top: 5%;*/
+    /*    cursor: pointer;*/
+    /*    transition: 0.2s ease-in-out;*/
+    /*}*/
+
+    /*.card {*/
+    /*    min-width: 80% !important;*/
+    /*}*/
+
+    /*.material-symbols-outlined {*/
+    /*    !*font*!*/
+    /*}*/
+
+    /*.students-symbol {*/
+    /*    font-size: 1.4rem;*/
+    /*}*/
+
+    #sketch-image {
+        top: 15px;
+    }
+}
+/* end of medium screens only */
 
 
 /*custom colors*/

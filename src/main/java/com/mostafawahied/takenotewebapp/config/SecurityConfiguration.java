@@ -62,6 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/",
                         "/about",
                         "/privacy-policy",
+                        "/contact",
                         "/sitemap.xml",
                         "/js/**",
                         "/styles/**",

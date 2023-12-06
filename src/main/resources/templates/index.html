@@ -49,15 +49,13 @@
     <div class="main-container">
 
         <!-- Hero -->
-        <section class="hero-section row m-2 p-2 pt-3 mx-md-4 px-md-5">
+        <section id="hero-section" class="hero-section row m-2 p-2 pt-3 mx-md-4 px-md-5">
             <div class="row mx-auto justify-content-center my-auto mx-md-5 px-md-4 mt-md-5 pt-md-3">
 
                 <div class="col-12 col-md-6 animate__animated animate__fadeInLeft order-2 order-sm-1 mt-md-5 pt-md-2">
                     <div class="container">
                         <p class="title-text">Notes at your fingertips</p>
-                        <!-- </div> -->
-                        <hr>
-                        <!-- <div> -->
+                        <hr id="hero-hr" class="mt-0">
                         <p class="desc-text">All your notes, all in one place. Elevate student
                             learning
                             with features to capture and analyze observational data in a snap.</p>
@@ -72,18 +70,24 @@
                 </div>
 
                 <div class="col-12 col-md-6 animate__animated animate__fadeInRight order-1 order-sm-2 m-md-0 m-3 mt-md-4">
-                    <div id="mockup-image-wrapper">
+                    <div>
                         <!--                        <img id="home-img" th:src="@{/image/home.jpg}" alt="Homepage Picture" class="img-fluid" src="">-->
-                        <img id="mockup-image" src="/image/Screenshots/dashboard-mockup.png" alt="Homepage Picture"
+                        <img id="mockup-image" src="/image/Screenshots/dashboard-mockup2.png" alt="Homepage Picture"
                              class="img-fluid">
                     </div>
                 </div>
 
             </div>
-
+            <div class="scroll-container">
+                <div class="scroll-indicator">
+                    <span class="material-symbols-rounded">expand_more</span>
+                </div>
+            </div>
         </section>
+        <!-- End of Hero -->
 
-        <section class="features-row text-center my-3 py-3">
+        <!-- Features -->
+        <section id="features-row" class="features-row text-center my-3 py-3">
             <div class="container-fluid my-3 py-5">
                 <!-- First row of features -->
                 <div class="row mb-5 pb-2">
@@ -132,10 +136,39 @@
                 </div>
             </div>
         </section>
+        <!-- End of Features -->
+        <!-- Education success -->
+        <section id="sketch-section" class="sketch-section mb-">
+            <div class="container px-md-5 pt-5">
 
+                <div class="container px-md-5">
+                    <div class="container text-center px-5">
+                        <div class="craft-title text-center mb-3" style="font-size: 1.5rem; font-weight: 700; color: #1a1a1a">
+                            Strategic Teaching Hub
+                        </div>
+                        <p class="craft-desc" style="font-size: 1.1rem; color: #1a1a1a">
+                            Empower your curriculum with our strategic planning tools.<br>Chart courses, evaluate progress,
+                            and adapt to each learner's journey with agility.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-md-2 text-center mx-auto pt-4">
+                    <a href="#"
+                       class="btn btn-primary rounded-pill btn-lg text-center mx-auto" id=""
+                       data-bs-toggle="modal" data-bs-target="#myModal">
+                        Get Started
+                    </a>
+                </div>
 
+                <div class="text-center">
+                        <img id="sketch-image" src="/image/home.jpg" alt="Illustration Picture"
+                             class="img-fluid">
+                </div>
+            </div>
+        </section>
+<!--        <hr id="craft-hr">-->
+        <!-- End of Education success -->
 
-        <!-- End of Hero -->
     </div>
 
     <!-- modal dialog -->
