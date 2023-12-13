@@ -335,26 +335,26 @@ function drawAverageSubjectLevelProgressLineChart() {
 function updateTypeActiveTab() {
     const activeButton = document.querySelector('#meetings-type-bar-pills-tab button.active');
     activeButton.classList.toggle('btn-primary');
-    activeButton.classList.remove('color-orange-1');
+    activeButton.classList.remove('color-orange-darker');
 
     const tabsButton = document.querySelectorAll('#meetings-type-bar-pills-tab button');
     tabsButton.forEach(function (tab) {
         // Add the color-orange-1 class to all inactive tabs
         if (!tab.classList.contains('active')) {
-            tab.classList.add('color-orange-1');
+            tab.classList.add('color-orange-darker');
         }
 
         tab.addEventListener('shown.bs.tab', function () {
             // Remove the btn-primary class from all tabs
             tabsButton.forEach(function (tab) {
                 tab.classList.remove('btn-primary');
-                tab.classList.add('color-orange-1');
+                tab.classList.add('color-orange-darker');
             });
 
             // Add the btn-primary class to the active tab and remove the color-orange-1 class
             const activeTab = document.querySelector('#meetings-type-bar-pills-tab button.active');
             activeTab.classList.add('btn-primary');
-            activeTab.classList.remove('color-orange-1');
+            activeTab.classList.remove('color-orange-darker');
 
             // Redraw the writing bar chart here
             drawReadingMeetingCountByTypeBarChart();
@@ -378,20 +378,20 @@ function updateSubjectActiveTab() {
     tabsButton.forEach(function (tab) {
         // Add the color-orange-1 class to all inactive tabs
         if (!tab.classList.contains('active')) {
-            tab.classList.add('color-orange-1');
+            tab.classList.add('color-orange-darker');
         }
 
         tab.addEventListener('shown.bs.tab', function () {
             // Remove the btn-primary class from all tabs
             tabsButton.forEach(function (tab) {
                 tab.classList.remove('btn-primary');
-                tab.classList.add('color-orange-1');
+                tab.classList.add('color-orange-darker');
             });
 
             // Add the btn-primary class to the active tab and remove the color-orange-1 class
             const activeTab = document.querySelector('#meetings-subject-bar-pills-tab button.active');
             activeTab.classList.add('btn-primary');
-            activeTab.classList.remove('color-orange-1');
+            activeTab.classList.remove('color-orange-darker');
 
             // Redraw the writing bar chart here
             drawReadingMeetingCountBySubjectBarChart();
