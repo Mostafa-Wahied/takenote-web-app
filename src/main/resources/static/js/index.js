@@ -13,7 +13,7 @@ displayCurrentYear();
 
 // toggle scroll indicator
 function toggleScrollIndicator() {
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         const scrollIndicator = document.querySelector('.scroll-indicator');
         if (window.pageYOffset > 100) { // Adjust '100' to your preference
             scrollIndicator.style.display = 'none';
@@ -27,22 +27,57 @@ function toggleScrollIndicator() {
 toggleScrollIndicator();
 // end of toggle scroll indicator
 
-// // get references to the modal buttons
-// function addClickListenersToModalButtons() {
-//     const noteTakerBtn = document.getElementById("noteTakerBtn");
-//     const noteBookBtn = document.getElementById("noteBookBtn");
-//     console.log(noteTakerBtn);
-//     console.log(noteBookBtn);
-//
-//     // noteTakerBtn.addEventListener("click", () => {
-//     //     window.location.href = "/noteTaker"; // replace with the actual URL of the NoteTaker page
-//     // });
-//     //
-//     // noteBookBtn.addEventListener("click", () => {
-//     //     window.location.href = "/noteBook"; // replace with the actual URL of the NoteBook page
-//     // });
-// }
-// document.addEventListener("DOMContentLoaded", () => {
-//     addClickListenersToModalButtons();
-// });
-// // end of get references to the modal buttons
+// check if modal has been shown
+// check if modal has been shown
+document.addEventListener("DOMContentLoaded", function () {
+    fetch(`${window.location.origin}/whats-new/content`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const storedVersion = localStorage.getItem('whatsNewVersion');
+            if (storedVersion !== data.currentVersion) {
+                const modalBody = document.getElementById('whatsNewModal').querySelector('.modal-body');
+                let content = ``;
+                data.updates.forEach(update => {
+                    content += `<p class="fw-bold mb-0">${update.version}</p>
+                                <p>${update.date}</p>
+                                <ul>`;
+                    update.details.forEach(change => {
+                        content += `<li>${change}</li>`;
+                    });
+                    content += `</ul>`;
+                });
+                modalBody.innerHTML = content;
+                const whatsNewModal = new bootstrap.Modal(document.getElementById('whatsNewModal'), {});
+                whatsNewModal.show();
+
+                // Update the local storage with the new version when the modal is shown
+                document.getElementById('whatsNewModal').addEventListener('hidden.bs.modal', function () {
+                    localStorage.setItem('whatsNewVersion', data.currentVersion);
+                });
+            }
+        })
+        .catch(error => console.error('Error loading what\'s new content:', error));
+});
+// end of check if modal has been shown
+
+// end of check if modal has been shown
+
+// a method to remove the overlay when the modal is closed
+document.addEventListener("DOMContentLoaded", function () {
+        const whatsNewModal = document.getElementById('whatsNewModal');
+        if (whatsNewModal) {
+            whatsNewModal.addEventListener('hidden.bs.modal', function () {
+                const modalBackdrop = document.querySelector('.modal-backdrop');
+                if (modalBackdrop) {
+                    modalBackdrop.parentNode.removeChild(modalBackdrop);
+                }
+            });
+        }
+    }
+);
+// end of a method to remove the overlay when the modal is closed

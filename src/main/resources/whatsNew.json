@@ -1,0 +1,33 @@
+{
+  "currentVersion": "1.2.0",
+  "updates": [
+    {
+      "version": "1.2.0",
+      "date": "2023-12-15",
+
+      "details": [
+        "📅 Now you can edit meetings after they've been created.",
+        "📖 Add/edit reading levels for your students from the Students page.",
+        "🔍 You can now search, filter, and sort your students tables."
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "date": "2023-06-10",
+
+      "details": [
+        "🏫 Classrooms for better organization of your students.",
+        "📊 New interactive dashboard for easier data analysis.",
+        "📥 Import students from Excel or CSV files.",
+        "🔑 Login with Google for faster access to your account."
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2022-10-01",
+      "details": [
+        "🎉 Initial release of <strong>TakeNote</strong>!"
+      ]
+    }
+  ]
+}

@@ -1,8 +1,13 @@
 package com.mostafawahied.takenotewebapp.controller;
 
+import com.mostafawahied.takenotewebapp.util.Utility;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.io.IOException;
 
 @Controller
 public class MainController {
@@ -32,5 +37,14 @@ public class MainController {
 //        for navigation active state
         model.addAttribute("activePage", "privacy-policy");
         return "privacy-policy";
+    }
+
+    @GetMapping("/whats-new/content")
+    public ResponseEntity<String> getWhatsNewContent() {
+        try {
+            return ResponseEntity.ok(Utility.getWhatsNewContent());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error loading content");
+        }
     }
 }
