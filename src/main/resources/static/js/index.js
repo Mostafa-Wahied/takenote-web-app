@@ -52,11 +52,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     content += `</ul>`;
                 });
                 modalBody.innerHTML = content;
+                const whatsNewModalElement = document.getElementById('whatsNewModal');
+
                 const whatsNewModal = new bootstrap.Modal(document.getElementById('whatsNewModal'), {});
                 whatsNewModal.show();
 
-                // Update the local storage with the new version when the modal is shown
-                document.getElementById('whatsNewModal').addEventListener('hidden.bs.modal', function () {
+                whatsNewModalElement.addEventListener('hidden.bs.modal', function () {
+                    const modalBackdrop = document.querySelector('.modal-backdrop');
+                    if (modalBackdrop) {
+                        modalBackdrop.parentNode.removeChild(modalBackdrop);
+                    }
                     localStorage.setItem('whatsNewVersion', data.currentVersion);
                 });
             }
@@ -68,16 +73,16 @@ document.addEventListener("DOMContentLoaded", function () {
 // end of check if modal has been shown
 
 // a method to remove the overlay when the modal is closed
-document.addEventListener("DOMContentLoaded", function () {
-        const whatsNewModal = document.getElementById('whatsNewModal');
-        if (whatsNewModal) {
-            whatsNewModal.addEventListener('hidden.bs.modal', function () {
-                const modalBackdrop = document.querySelector('.modal-backdrop');
-                if (modalBackdrop) {
-                    modalBackdrop.parentNode.removeChild(modalBackdrop);
-                }
-            });
-        }
-    }
-);
+// document.addEventListener("DOMContentLoaded", function () {
+//         const whatsNewModal = document.getElementById('whatsNewModal');
+//         if (whatsNewModal) {
+//             whatsNewModal.addEventListener('hidden.bs.modal', function () {
+//                 const modalBackdrop = document.querySelector('.modal-backdrop');
+//                 if (modalBackdrop) {
+//                     modalBackdrop.parentNode.removeChild(modalBackdrop);
+//                 }
+//             });
+//         }
+//     }
+// );
 // end of a method to remove the overlay when the modal is closed
