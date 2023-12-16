@@ -1,9 +1,12 @@
 package com.mostafawahied.takenotewebapp.util;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StreamUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -14,7 +17,9 @@ public class Utility {
     }
 
     public static String getWhatsNewContent() throws IOException {
-        Path path = new ClassPathResource("whatsNew.json").getFile().toPath();
-        return new String(Files.readAllBytes(path));
+        ClassPathResource resource = new ClassPathResource("whatsNew.json");
+        try (InputStream inputStream = resource.getInputStream()) {
+            return StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+        }
     }
 }
