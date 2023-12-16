@@ -51,11 +51,13 @@ public class MainController {
 //        }
 //    }
 
-    // refactoring getWhatsNewContent() to add debug logging the text "Error loading content" is shown when we go to /whats-new/content
+    // refactoring getWhatsNewContent() to make it more readable and replace the return with more readable code and add debug logging the text "Error loading content" is shown when we go to /whats-new/content
     @GetMapping("/whats-new/content")
     public ResponseEntity<String> getWhatsNewContent() {
         try {
-            return ResponseEntity.ok(Utility.getWhatsNewContent());
+            String content = Utility.getWhatsNewContent();
+            logger.debug("Content loaded successfully");
+            return ResponseEntity.ok(content);
         } catch (IOException e) {
             logger.error("Error loading content", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error loading content");
