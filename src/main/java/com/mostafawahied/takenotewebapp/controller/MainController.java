@@ -42,16 +42,6 @@ public class MainController {
         return "privacy-policy";
     }
 
-//    @GetMapping("/whats-new/content")
-//    public ResponseEntity<String> getWhatsNewContent() {
-//        try {
-//            return ResponseEntity.ok(Utility.getWhatsNewContent());
-//        } catch (IOException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error loading content");
-//        }
-//    }
-
-    // refactoring getWhatsNewContent() to make it more readable and replace the return with more readable code and add debug logging the text "Error loading content" is shown when we go to /whats-new/content
     @GetMapping("/whats-new/content")
     public ResponseEntity<String> getWhatsNewContent() {
         try {
