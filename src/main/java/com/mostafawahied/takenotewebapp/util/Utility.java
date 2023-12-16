@@ -13,8 +13,16 @@ public class Utility {
         return siteURL.replace(request.getServletPath(), "");
     }
 
+//    public static String getWhatsNewContent() throws IOException {
+//        Path path = new ClassPathResource("whatsNew.json").getFile().toPath();
+//        return new String(Files.readAllBytes(path));
+//    }
+
+    // refactor getwhatsnewcontent with more debuggability and print statements because the deployed version is not working and i need logs to debug
     public static String getWhatsNewContent() throws IOException {
         Path path = new ClassPathResource("whatsNew.json").getFile().toPath();
-        return new String(Files.readAllBytes(path));
+        String content = new String(Files.readAllBytes(path));
+        System.out.println("content: " + content);
+        return content;
     }
 }
