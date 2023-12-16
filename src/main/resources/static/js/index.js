@@ -30,6 +30,7 @@ toggleScrollIndicator();
 // check if modal has been shown
 // check if modal has been shown
 document.addEventListener("DOMContentLoaded", function () {
+    console.log("window.location.origin: " + window.location.origin);
     fetch(`${window.location.origin}/whats-new/content`)
         .then(response => {
             if (!response.ok) {
