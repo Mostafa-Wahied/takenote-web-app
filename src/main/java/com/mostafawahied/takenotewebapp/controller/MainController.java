@@ -1,6 +1,8 @@
 package com.mostafawahied.takenotewebapp.controller;
 
 import com.mostafawahied.takenotewebapp.util.Utility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import java.io.IOException;
 
 @Controller
 public class MainController {
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     //    viewHomePage
     @GetMapping("/")
     public String homePage(Model model) throws Exception {
@@ -39,11 +42,22 @@ public class MainController {
         return "privacy-policy";
     }
 
+//    @GetMapping("/whats-new/content")
+//    public ResponseEntity<String> getWhatsNewContent() {
+//        try {
+//            return ResponseEntity.ok(Utility.getWhatsNewContent());
+//        } catch (IOException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error loading content");
+//        }
+//    }
+
+    // refactoring getWhatsNewContent() to add debug logging the text "Error loading content" is shown when we go to /whats-new/content
     @GetMapping("/whats-new/content")
     public ResponseEntity<String> getWhatsNewContent() {
         try {
             return ResponseEntity.ok(Utility.getWhatsNewContent());
         } catch (IOException e) {
+            logger.error("Error loading content", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error loading content");
         }
     }
